@@ -192,81 +192,97 @@ import Layout from "../layouts/Layout.astro";
 
 <script>
   // 今日の日付をデフォルトに設定
-  document.getElementById("readDate").valueAsDate = new Date();
+  const readDateEl = document.getElementById("readDate") as HTMLInputElement;
+  if (readDateEl) readDateEl.valueAsDate = new Date();
 
   // フォーム送信処理
-  document.getElementById("paperForm").addEventListener("submit", function (e) {
-    e.preventDefault();
+  document
+    .getElementById("paperForm")
+    ?.addEventListener("submit", function (e: Event) {
+      e.preventDefault();
 
-    const formData = new FormData(e.target);
-    const paperData = {};
+      const formData = new FormData(e.target as HTMLFormElement);
+      const paperData: any = {};
 
-    // フォームデータを取得
-    for (let [key, value] of formData.entries()) {
-      paperData[key] = value.trim();
-    }
+      // フォームデータを取得
+      for (let [key, value] of formData.entries()) {
+        if (typeof value === "string") {
+          paperData[key] = value.trim();
+        }
+      }
 
-    // 配列型のフィールドを処理
-    paperData.authors = paperData.authors
-      .split(",")
-      .map((s) => s.trim())
-      .filter((s) => s);
-    paperData.tags = paperData.tags
-      ? paperData.tags
-          .split(",")
-          .map((s) => s.trim())
-          .filter((s) => s)
-      : [];
-    paperData.keyFindings = paperData.keyFindings
-      .split("\n")
-      .map((s) => s.trim())
-      .filter((s) => s);
-    paperData.strengths = paperData.strengths
-      .split("\n")
-      .map((s) => s.trim())
-      .filter((s) => s);
-    paperData.weaknesses = paperData.weaknesses
-      ? paperData.weaknesses
-          .split("\n")
-          .map((s) => s.trim())
-          .filter((s) => s)
-      : [];
+      // 配列型のフィールドを処理
+      paperData.authors = paperData.authors
+        .split(",")
+        .map((s: string) => s.trim())
+        .filter((s: string) => s);
+      paperData.tags = paperData.tags
+        ? paperData.tags
+            .split(",")
+            .map((s: string) => s.trim())
+            .filter((s: string) => s)
+        : [];
+      paperData.keyFindings = paperData.keyFindings
+        .split("\n")
+        .map((s: string) => s.trim())
+        .filter((s: string) => s);
+      paperData.strengths = paperData.strengths
+        .split("\n")
+        .map((s: string) => s.trim())
+        .filter((s: string) => s);
+      paperData.weaknesses = paperData.weaknesses
+        ? paperData.weaknesses
+            .split("\n")
+            .map((s: string) => s.trim())
+            .filter((s: string) => s)
+        : [];
 
-    // 数値型の変換
-    paperData.year = parseInt(paperData.year);
-    paperData.rating = parseInt(paperData.rating);
+      // 数値型の変換
+      paperData.year = parseInt(paperData.year);
+      paperData.rating = parseInt(paperData.rating);
 
-    // IDを生成
-    paperData.id = Date.now().toString();
+      // IDを生成
+      paperData.id = Date.now().toString();
 
-    try {
-      // ローカルストレージに保存
-      const existingPapers = JSON.parse(localStorage.getItem("papers") || "[]");
-      existingPapers.unshift(paperData);
-      localStorage.setItem("papers", JSON.stringify(existingPapers));
+      try {
+        // ローカルストレージに保存
+        const existingPapers = JSON.parse(
+          localStorage.getItem("papers") || "[]"
+        );
+        existingPapers.unshift(paperData);
+        localStorage.setItem("papers", JSON.stringify(existingPapers));
 
-      // 成功メッセージを表示
-      document.querySelector(".add-paper").style.display = "none";
-      document.getElementById("successMessage").style.display = "flex";
-    } catch (error) {
-      console.error("保存エラー:", error);
-      alert("論文メモの保存に失敗しました。もう一度お試しください。");
-    }
-  });
+        // 成功メッセージを表示
+        const addPaperEl = document.querySelector(".add-paper") as HTMLElement;
+        const successEl = document.getElementById(
+          "successMessage"
+        ) as HTMLElement;
+        if (addPaperEl) addPaperEl.style.display = "none";
+        if (successEl) successEl.style.display = "flex";
+      } catch (error) {
+        console.error("保存エラー:", error);
+        alert("論文メモの保存に失敗しました。もう一度お試しください。");
+      }
+    });
 
   // 続けて追加ボタン
-  document.getElementById("addAnother").addEventListener("click", function () {
-    document.getElementById("successMessage").style.display = "none";
-    document.querySelector(".add-paper").style.display = "block";
-    document.getElementById("paperForm").reset();
-    document.getElementById("readDate").valueAsDate = new Date();
+  document.getElementById("addAnother")?.addEventListener("click", function () {
+    const successEl = document.getElementById("successMessage") as HTMLElement;
+    const addPaperEl = document.querySelector(".add-paper") as HTMLElement;
+    const formEl = document.getElementById("paperForm") as HTMLFormElement;
+    const readDateEl = document.getElementById("readDate") as HTMLInputElement;
+
+    if (successEl) successEl.style.display = "none";
+    if (addPaperEl) addPaperEl.style.display = "block";
+    if (formEl) formEl.reset();
+    if (readDateEl) readDateEl.valueAsDate = new Date();
     window.scrollTo(0, 0);
   });
 
   // フォームバリデーション
   const requiredFields = document.querySelectorAll("[required]");
   requiredFields.forEach((field) => {
-    field.addEventListener("blur", function () {
+    field.addEventListener("blur", function (this: HTMLInputElement) {
       if (!this.value.trim()) {
         this.classList.add("error");
       } else {
@@ -274,7 +290,7 @@ import Layout from "../layouts/Layout.astro";
       }
     });
 
-    field.addEventListener("input", function () {
+    field.addEventListener("input", function (this: HTMLInputElement) {
       if (this.value.trim()) {
         this.classList.remove("error");
       }

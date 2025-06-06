@@ -1,0 +1,93 @@
+<!DOCTYPE html><html lang="ja" data-astro-cid-sckkx6r4> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><meta name="generator" content="Astro v5.9.0"><title>Attention Is All You Need - 論文メモ</title><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200;300;400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet"><style>[data-astro-cid-sckkx6r4]{box-sizing:border-box}html{font-family:Plus Jakarta Sans,system-ui,sans-serif;background:#000;min-height:100vh;color:#fff;font-feature-settings:"kern" 1,"liga" 1;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;scroll-behavior:smooth}body{margin:0;line-height:1.6;overflow-x:hidden}::-webkit-scrollbar [data-astro-cid-sckkx6r4]{width:4px}::-webkit-scrollbar-track [data-astro-cid-sckkx6r4]{background:#000}::-webkit-scrollbar-thumb [data-astro-cid-sckkx6r4]{background:#fff;border-radius:2px}::-webkit-scrollbar-thumb:hover [data-astro-cid-sckkx6r4]{background:#ccc}.container[data-astro-cid-sckkx6r4]{max-width:1200px;margin:0 auto;padding:0 1rem}.header[data-astro-cid-sckkx6r4]{background:#000;border-bottom:1px solid #333333;position:sticky;top:0;z-index:10}.header[data-astro-cid-sckkx6r4] .container[data-astro-cid-sckkx6r4]{display:flex;justify-content:center;align-items:center;padding:1rem}.header[data-astro-cid-sckkx6r4] h1[data-astro-cid-sckkx6r4]{margin:0;font-size:1.25rem;font-weight:400;letter-spacing:0;font-family:Plus Jakarta Sans,sans-serif}.header[data-astro-cid-sckkx6r4] h1[data-astro-cid-sckkx6r4] a[data-astro-cid-sckkx6r4]{text-decoration:none;color:#fff;position:relative}.header[data-astro-cid-sckkx6r4] h1[data-astro-cid-sckkx6r4] a[data-astro-cid-sckkx6r4]:hover{color:#ccc}.main[data-astro-cid-sckkx6r4]{padding:2rem 0;min-height:calc(100vh - 60px)}@media (max-width: 768px){.header[data-astro-cid-sckkx6r4] .container[data-astro-cid-sckkx6r4]{padding:.75rem}.header[data-astro-cid-sckkx6r4] h1[data-astro-cid-sckkx6r4]{font-size:1.125rem}}
+</style>
+<link rel="stylesheet" href="/_astro/_id_.BKRDMhXR.css"></head> <body data-astro-cid-sckkx6r4> <header class="header" data-astro-cid-sckkx6r4> <div class="container" data-astro-cid-sckkx6r4> <h1 data-astro-cid-sckkx6r4><a href="/" data-astro-cid-sckkx6r4>神林 論文読み履歴</a></h1> </div> </header> <main class="main" data-astro-cid-sckkx6r4> <div class="container" data-astro-cid-sckkx6r4>  <div class="paper-detail" data-astro-cid-bnyvrtoq> <div class="navigation" data-astro-cid-bnyvrtoq> <a href="/papers" class="back-link" data-astro-cid-bnyvrtoq>← 論文一覧に戻る</a> </div> <article class="paper-card" data-astro-cid-saq65afh> <div class="paper-header" data-astro-cid-saq65afh> <h2 class="paper-title" data-astro-cid-saq65afh> Attention Is All You Need </h2> <div class="paper-meta" data-astro-cid-saq65afh> <span class="authors" data-astro-cid-saq65afh>Ashish Vaswani, Noam Shazeer, Niki Parmar, Jakob Uszkoreit</span> <span class="venue-year" data-astro-cid-saq65afh>NIPS 2017</span> <span class="read-date" data-astro-cid-saq65afh>読了: 2024/1/15</span> <span class="rating" data-astro-cid-saq65afh>⭐⭐⭐⭐⭐</span> </div> </div> <div class="paper-tags" data-astro-cid-saq65afh> <span class="tag" data-astro-cid-saq65afh>Transformer</span><span class="tag" data-astro-cid-saq65afh>Attention</span><span class="tag" data-astro-cid-saq65afh>NLP</span><span class="tag" data-astro-cid-saq65afh>Architecture</span> </div> <div class="paper-summary" data-astro-cid-saq65afh> <h3 data-astro-cid-saq65afh>概要</h3> <p data-astro-cid-saq65afh>Transformerアーキテクチャを提案した革命的な論文。RNNやCNNを使わずに、注意機構のみでsequence-to-sequenceモデルを構築。</p> </div> <div class="paper-details" data-astro-cid-saq65afh> <section class="paper-section" data-astro-cid-saq65afh> <h3 data-astro-cid-saq65afh>主な発見・結果</h3> <ul data-astro-cid-saq65afh> <li data-astro-cid-saq65afh>Self-attentionのみでsequence transductionが可能</li><li data-astro-cid-saq65afh>RNN/CNNより高速で並列化可能</li><li data-astro-cid-saq65afh>機械翻訳で最高性能を達成</li> </ul> </section> <section class="paper-section" data-astro-cid-saq65afh> <h3 data-astro-cid-saq65afh>手法・方法論</h3> <p data-astro-cid-saq65afh>Encoder-Decoderアーキテクチャにマルチヘッド注意機構を適用。位置エンコーディングでsequence情報を保持。</p> </section> <section class="paper-section" data-astro-cid-saq65afh> <h3 data-astro-cid-saq65afh>強み</h3> <ul data-astro-cid-saq65afh> <li data-astro-cid-saq65afh>並列化可能で高速</li><li data-astro-cid-saq65afh>長距離依存関係を効率的に捉える</li><li data-astro-cid-saq65afh>シンプルなアーキテクチャ</li> </ul> </section> <section class="paper-section" data-astro-cid-saq65afh> <h3 data-astro-cid-saq65afh>弱み・課題</h3> <ul data-astro-cid-saq65afh> <li data-astro-cid-saq65afh>計算量がsequence長の二乗に比例</li><li data-astro-cid-saq65afh>メモリ使用量が大きい</li> </ul> </section> <section class="paper-section" data-astro-cid-saq65afh> <h3 data-astro-cid-saq65afh>今後の研究方向</h3> <p data-astro-cid-saq65afh>より効率的な注意機構の開発、長いsequenceへの対応</p> </section> <section class="paper-section" data-astro-cid-saq65afh> <h3 data-astro-cid-saq65afh>個人的メモ</h3> <p data-astro-cid-saq65afh>現在のLLMの基礎となった重要な論文。実装も比較的シンプルで理解しやすい。</p> </section> <section class="paper-section" data-astro-cid-saq65afh> <h3 data-astro-cid-saq65afh>リンク</h3> <a href="https://arxiv.org/abs/1706.03762" target="_blank" rel="noopener noreferrer" class="paper-link" data-astro-cid-saq65afh>
+📄 論文を読む
+</a> </section> </div> </article>  <div class="actions" data-astro-cid-bnyvrtoq> <button id="editBtn" class="btn btn-primary" data-astro-cid-bnyvrtoq>編集</button> <button id="deleteBtn" class="btn btn-danger" data-astro-cid-bnyvrtoq>削除</button> <button id="shareBtn" class="btn btn-secondary" data-astro-cid-bnyvrtoq>共有</button> </div> </div>  <div id="editModal" class="modal" style="display: none;" data-astro-cid-bnyvrtoq> <div class="modal-content" data-astro-cid-bnyvrtoq> <div class="modal-header" data-astro-cid-bnyvrtoq> <h2 data-astro-cid-bnyvrtoq>論文メモを編集</h2> <button id="closeModal" class="close-btn" data-astro-cid-bnyvrtoq>&times;</button> </div> <div class="modal-body" data-astro-cid-bnyvrtoq> <p data-astro-cid-bnyvrtoq>編集機能は今後実装予定です。</p> <p data-astro-cid-bnyvrtoq>
+現在は<a href="/new-paper" data-astro-cid-bnyvrtoq>新規追加ページ</a>で論文を追加できます。
+</p> </div> </div> </div>  <div id="deleteModal" class="modal" style="display: none;" data-astro-cid-bnyvrtoq> <div class="modal-content" data-astro-cid-bnyvrtoq> <div class="modal-header" data-astro-cid-bnyvrtoq> <h2 data-astro-cid-bnyvrtoq>論文メモを削除</h2> <button id="closeDeleteModal" class="close-btn" data-astro-cid-bnyvrtoq>&times;</button> </div> <div class="modal-body" data-astro-cid-bnyvrtoq> <p data-astro-cid-bnyvrtoq>この論文メモを削除しますか？この操作は取り消せません。</p> <div class="modal-actions" data-astro-cid-bnyvrtoq> <button id="confirmDelete" class="btn btn-danger" data-astro-cid-bnyvrtoq>削除</button> <button id="cancelDelete" class="btn btn-secondary" data-astro-cid-bnyvrtoq>キャンセル</button> </div> </div> </div> </div>  </div> </main> </body></html> <script>(function(){const paperId = "1";
+
+  // モーダル要素の取得
+  const editModal = document.getElementById("editModal");
+  const deleteModal = document.getElementById("deleteModal");
+  const editBtn = document.getElementById("editBtn");
+  const deleteBtn = document.getElementById("deleteBtn");
+  const shareBtn = document.getElementById("shareBtn");
+
+  // モーダル開閉
+  const closeModal = document.getElementById("closeModal");
+  const closeDeleteModal = document.getElementById("closeDeleteModal");
+  const confirmDelete = document.getElementById("confirmDelete");
+  const cancelDelete = document.getElementById("cancelDelete");
+
+  // 編集ボタンクリック
+  editBtn.addEventListener("click", () => {
+    editModal.style.display = "flex";
+  });
+
+  // 削除ボタンクリック
+  deleteBtn.addEventListener("click", () => {
+    deleteModal.style.display = "flex";
+  });
+
+  // 共有ボタンクリック
+  shareBtn.addEventListener("click", async () => {
+    const url = window.location.href;
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: document.title,
+          url: url,
+        });
+      } catch (err) {
+        console.log("共有がキャンセルされました");
+      }
+    } else {
+      // Web Share APIが利用できない場合はURLをクリップボードにコピー
+      try {
+        await navigator.clipboard.writeText(url);
+        alert("URLをクリップボードにコピーしました");
+      } catch (err) {
+        console.log("クリップボードへのコピーに失敗しました");
+      }
+    }
+  });
+
+  // モーダルを閉じる
+  closeModal.addEventListener("click", () => {
+    editModal.style.display = "none";
+  });
+
+  closeDeleteModal.addEventListener("click", () => {
+    deleteModal.style.display = "none";
+  });
+
+  cancelDelete.addEventListener("click", () => {
+    deleteModal.style.display = "none";
+  });
+
+  // 削除確認
+  confirmDelete.addEventListener("click", () => {
+    // ローカルストレージから削除（実際の実装）
+    try {
+      const papers = JSON.parse(localStorage.getItem("papers") || "[]");
+      const filteredPapers = papers.filter((p) => p.id !== paperId);
+      localStorage.setItem("papers", JSON.stringify(filteredPapers));
+
+      alert("論文メモを削除しました");
+      window.location.href = "/papers";
+    } catch (err) {
+      console.error("削除に失敗しました:", err);
+      alert("削除に失敗しました");
+    }
+  });
+
+  // モーダル外をクリックで閉じる
+  window.addEventListener("click", (e) => {
+    if (e.target === editModal) {
+      editModal.style.display = "none";
+    }
+    if (e.target === deleteModal) {
+      deleteModal.style.display = "none";
+    }
+  });
+})();</script> 

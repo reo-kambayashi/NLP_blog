@@ -8,7 +8,8 @@ const papers = await getCollection("papers");
 
 // 日付でソート（新しい順）
 const sortedPapers = papers.sort(
-  (a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime()
+  (a: any, b: any) =>
+    new Date(b.data.date).getTime() - new Date(a.data.date).getTime()
 );
 
 const totalPapers = papers.length;
@@ -32,7 +33,7 @@ const totalPapers = papers.length;
         </div>
       ) : (
         <div class="papers-grid">
-          {sortedPapers.map((paper, index) => (
+          {sortedPapers.map((paper: any, index: number) => (
             <div style={`--card-index: ${index}`}>
               <PaperCardMD paper={paper} />
             </div>

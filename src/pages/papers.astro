@@ -1,17 +1,18 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import PaperCardMD from '../components/PaperCardMD.astro';
-import { getCollection } from 'astro:content';
+import Layout from "../layouts/Layout.astro";
+import PaperCardMD from "../components/PaperCardMD.astro";
+import { getCollection } from "astro:content";
 
 // Content Collectionsから論文を取得
-const papers = await getCollection('papers');
+const papers = await getCollection("papers");
 
 // 読了日でソート（新しい順）
-const sortedPapers = papers.sort((a, b) => 
-  new Date(b.data.readDate).getTime() - new Date(a.data.readDate).getTime()
+const sortedPapers = papers.sort(
+  (a: any, b: any) =>
+    new Date(b.data.readDate).getTime() - new Date(a.data.readDate).getTime()
 );
 
-const tags = [...new Set(papers.flatMap(p => p.data.tags))].sort();
+const tags = [...new Set(papers.flatMap((p: any) => p.data.tags))].sort();
 ---
 
 <Layout title="論文一覧 - 論文メモ">
@@ -22,18 +23,16 @@ const tags = [...new Set(papers.flatMap(p => p.data.tags))].sort();
 
   <div class="controls">
     <div class="search-filter">
-      <input 
-        type="text" 
-        id="searchInput" 
-        placeholder="タイトル、著者、概要で検索..." 
+      <input
+        type="text"
+        id="searchInput"
+        placeholder="タイトル、著者、概要で検索..."
         class="search-input"
       />
-      
+
       <select id="tagFilter" class="tag-filter">
         <option value="">すべてのタグ</option>
-        {tags.map(tag => (
-          <option value={tag}>{tag}</option>
-        ))}
+        {tags.map((tag: any) => <option value={tag}>{tag}</option>)}
       </select>
 
       <select id="ratingFilter" class="rating-filter">
@@ -67,9 +66,7 @@ const tags = [...new Set(papers.flatMap(p => p.data.tags))].sort();
   </div>
 
   <div id="papersContainer" class="papers-container">
-    {sortedPapers.map(paper => (
-      <PaperCardMD paper={paper} />
-    ))}
+    {sortedPapers.map((paper: any) => <PaperCardMD paper={paper} />)}
   </div>
 
   <div id="noResults" class="no-results" style="display: none;">
@@ -78,81 +75,83 @@ const tags = [...new Set(papers.flatMap(p => p.data.tags))].sort();
   </div>
 </Layout>
 
-<script>
-  // 論文データをクライアントサイドで利用するために埋め込み
-  const papers = [
-    {sortedPapers.map(paper => `{
-      id: "${paper.slug}",
-      title: "${paper.data.title.replace(/"/g, '\\"')}",
-      authors: ${JSON.stringify(paper.data.authors)},
-      venue: "${paper.data.venue}",
-      year: ${paper.data.year},
-      url: "${paper.data.url || ''}",
-      readDate: "${paper.data.readDate}",
-      rating: ${paper.data.rating},
-      tags: ${JSON.stringify(paper.data.tags)},
-      summary: "${paper.data.summary.replace(/"/g, '\\"')}",
-      keyFindings: ${JSON.stringify(paper.data.keyFindings)},
-      methodology: "${paper.data.methodology.replace(/"/g, '\\"')}",
-      strengths: ${JSON.stringify(paper.data.strengths)},
-      weaknesses: ${JSON.stringify(paper.data.weaknesses || [])},
-      futureWork: "${(paper.data.futureWork || '').replace(/"/g, '\\"')}",
-      personalNotes: "${(paper.data.personalNotes || '').replace(/"/g, '\\"')}"
-    }`).join(',\n    ')}
-  ];
+<script define:vars={{ papersData: sortedPapers.map((paper: any) => ({
+  id: paper.slug,
+  title: paper.data.title,
+  authors: paper.data.authors,
+  venue: paper.data.venue,
+  year: paper.data.year,
+  url: paper.data.url || "",
+  readDate: paper.data.readDate,
+  rating: paper.data.rating,
+  tags: paper.data.tags,
+  summary: paper.data.summary,
+  keyFindings: paper.data.keyFindings,
+  methodology: paper.data.methodology,
+  strengths: paper.data.strengths,
+  weaknesses: paper.data.weaknesses || [],
+  futureWork: paper.data.futureWork || "",
+  personalNotes: paper.data.personalNotes || "",
+})) }}>
+  // 論文データをクライアントサイドで利用
+  const papers = papersData;
 
   let filteredPapers = [...papers];
 
   // DOM要素の取得
-  const searchInput = document.getElementById('searchInput');
-  const tagFilter = document.getElementById('tagFilter');
-  const ratingFilter = document.getElementById('ratingFilter');
-  const sortSelect = document.getElementById('sortSelect');
-  const clearFilters = document.getElementById('clearFilters');
-  const papersContainer = document.getElementById('papersContainer');
-  const resultsCount = document.getElementById('resultsCount');
-  const noResults = document.getElementById('noResults');
+  const searchInput = document.getElementById("searchInput");
+  const tagFilter = document.getElementById("tagFilter");
+  const ratingFilter = document.getElementById("ratingFilter");
+  const sortSelect = document.getElementById("sortSelect");
+  const clearFiltersBtn = document.getElementById("clearFilters");
+  const papersContainer = document.getElementById("papersContainer");
+  const resultsCount = document.getElementById("resultsCount");
+  const noResults = document.getElementById("noResults");
 
   // 検索・フィルタリング関数
   function filterAndSort() {
-    const searchTerm = searchInput.value.toLowerCase();
-    const selectedTag = tagFilter.value;
-    const selectedRating = ratingFilter.value;
-    const sortBy = sortSelect.value;
+    const searchTerm = searchInput?.value.toLowerCase() || "";
+    const selectedTag = tagFilter?.value || "";
+    const selectedRating = ratingFilter?.value || "";
+    const sortBy = sortSelect?.value || "readDate-desc";
 
     // フィルタリング
-    filteredPapers = papers.filter(paper => {
-      const matchesSearch = !searchTerm || 
+    filteredPapers = papers.filter((paper) => {
+      const matchesSearch =
+        !searchTerm ||
         paper.title.toLowerCase().includes(searchTerm) ||
-        paper.authors.some(author => author.toLowerCase().includes(searchTerm)) ||
+        paper.authors.some((author) =>
+          author.toLowerCase().includes(searchTerm)
+        ) ||
         paper.summary.toLowerCase().includes(searchTerm);
-      
+
       const matchesTag = !selectedTag || paper.tags.includes(selectedTag);
-      
-      const matchesRating = !selectedRating || paper.rating >= parseInt(selectedRating);
+
+      const matchesRating =
+        !selectedRating || paper.rating >= parseInt(selectedRating);
 
       return matchesSearch && matchesTag && matchesRating;
     });
 
     // ソート
-    const [sortField, sortOrder] = sortBy.split('-');
+    const [sortField, sortOrder] = sortBy.split("-");
     filteredPapers.sort((a, b) => {
       let aVal, bVal;
-      
+
       switch (sortField) {
-        case 'readDate':
+        case "readDate":
           aVal = new Date(a.readDate);
           bVal = new Date(b.readDate);
           break;
-        case 'rating':
+        case "rating":
           aVal = a.rating;
           bVal = b.rating;
           break;
-        case 'year':
+        case "year":
           aVal = a.year;
           bVal = b.year;
           break;
-        case 'title':
+        case "title":
           aVal = a.title.toLowerCase();
           bVal = b.title.toLowerCase();
           break;
@@ -160,7 +159,7 @@ const tags = [...new Set(papers.flatMap(p => p.data.tags))].sort();
           return 0;
       }
 
-      if (sortOrder === 'desc') {
+      if (sortOrder === "desc") {
         return aVal > bVal ? -1 : aVal < bVal ? 1 : 0;
       } else {
         return aVal < bVal ? -1 : aVal > bVal ? 1 : 0;
@@ -172,15 +171,16 @@ const tags = [...new Set(papers.flatMap(p => p.data.tags))].sort();
 
   // 論文をレンダリング
   function renderPapers() {
-    resultsCount.textContent = filteredPapers.length;
-    
+    if (resultsCount)
+      resultsCount.textContent = filteredPapers.length.toString();
+
     if (filteredPapers.length === 0) {
-      papersContainer.style.display = 'none';
-      noResults.style.display = 'block';
+      if (papersContainer) papersContainer.style.display = "none";
+      if (noResults) noResults.style.display = "block";
     } else {
-      papersContainer.style.display = 'block';
-      noResults.style.display = 'none';
-      
+      if (papersContainer) papersContainer.style.display = "block";
+      if (noResults) noResults.style.display = "none";
+
       // ここでは簡単な実装として、ページリロードによる更新を想定
       // 実際のプロダクションでは、動的なDOM更新を実装する必要があります
     }
@@ -188,19 +188,19 @@ const tags = [...new Set(papers.flatMap(p => p.data.tags))].sort();
 
   // フィルタークリア
   function clearFilters() {
-    searchInput.value = '';
-    tagFilter.value = '';
-    ratingFilter.value = '';
-    sortSelect.value = 'readDate-desc';
+    if (searchInput) searchInput.value = "";
+    if (tagFilter) tagFilter.value = "";
+    if (ratingFilter) ratingFilter.value = "";
+    if (sortSelect) sortSelect.value = "readDate-desc";
     filterAndSort();
   }
 
   // イベントリスナーの設定
-  searchInput.addEventListener('input', filterAndSort);
-  tagFilter.addEventListener('change', filterAndSort);
-  ratingFilter.addEventListener('change', filterAndSort);
-  sortSelect.addEventListener('change', filterAndSort);
-  clearFilters.addEventListener('click', clearFilters);
+  searchInput?.addEventListener("input", filterAndSort);
+  tagFilter?.addEventListener("change", filterAndSort);
+  ratingFilter?.addEventListener("change", filterAndSort);
+  sortSelect?.addEventListener("change", filterAndSort);
+  clearFiltersBtn?.addEventListener("click", clearFilters);
 
   // 初期表示
   filterAndSort();

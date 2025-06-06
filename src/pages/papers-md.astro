@@ -8,11 +8,11 @@ const papers = await getCollection("papers");
 
 // 読了日でソート（新しい順）
 const sortedPapers = papers.sort(
-  (a, b) =>
+  (a: any, b: any) =>
     new Date(b.data.readDate).getTime() - new Date(a.data.readDate).getTime()
 );
 
-const tags = [...new Set(papers.flatMap((p) => p.data.tags))].sort();
+const tags = [...new Set(papers.flatMap((p: any) => p.data.tags))].sort();
 ---
 
 <Layout title="論文一覧 - 論文メモ">
@@ -28,7 +28,7 @@ const tags = [...new Set(papers.flatMap((p) => p.data.tags))].sort();
     </div>
     <div class="stat">
       <span class="stat-number"
-        >{sortedPapers.filter((p) => p.data.rating >= 4).length}</span
+        >{sortedPapers.filter((p: any) => p.data.rating >= 4).length}</span
       >
       <span class="stat-label">高評価論文</span>
     </div>
@@ -42,7 +42,7 @@ const tags = [...new Set(papers.flatMap((p) => p.data.tags))].sort();
     <h3>タグ一覧</h3>
     <div class="tags">
       {
-        tags.map((tag) => (
+        tags.map((tag: any) => (
           <span class="tag" data-tag={tag}>
             {tag}
           </span>
@@ -52,7 +52,7 @@ const tags = [...new Set(papers.flatMap((p) => p.data.tags))].sort();
   </div>
 
   <div class="papers-container">
-    {sortedPapers.map((paper) => <PaperCardMD paper={paper} />)}
+    {sortedPapers.map((paper: any) => <PaperCardMD paper={paper} />)}
   </div>
 
   {
@@ -82,7 +82,7 @@ const tags = [...new Set(papers.flatMap((p) => p.data.tags))].sort();
 
   tags.forEach((tag) => {
     tag.addEventListener("click", () => {
-      const tagName = tag.dataset.tag;
+      const tagName = (tag as HTMLElement).dataset.tag;
 
       if (selectedTag === tagName) {
         // 同じタグをクリックした場合は解除
@@ -93,7 +93,7 @@ const tags = [...new Set(papers.flatMap((p) => p.data.tags))].sort();
         // 新しいタグを選択
         tags.forEach((t) => t.classList.remove("active"));
         tag.classList.add("active");
-        selectedTag = tagName;
+        selectedTag = tagName || "";
         filterPapersByTag(tagName);
       }
     });
@@ -101,19 +101,19 @@ const tags = [...new Set(papers.flatMap((p) => p.data.tags))].sort();
 
   function showAllPapers() {
     papers.forEach((paper) => {
-      paper.style.display = "block";
+      (paper as HTMLElement).style.display = "block";
     });
   }
 
-  function filterPapersByTag(tagName) {
+  function filterPapersByTag(tagName: any) {
     papers.forEach((paper) => {
       const paperTags = Array.from(paper.querySelectorAll(".tag")).map(
         (t) => t.textContent
       );
       if (paperTags.includes(tagName)) {
-        paper.style.display = "block";
+        (paper as HTMLElement).style.display = "block";
       } else {
-        paper.style.display = "none";
+        (paper as HTMLElement).style.display = "none";
       }
     });
   }
