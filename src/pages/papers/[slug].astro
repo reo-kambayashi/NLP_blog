@@ -1,17 +1,17 @@
 ---
-import Layout from '../../layouts/Layout.astro';
-import { getCollection, type CollectionEntry } from 'astro:content';
+import Layout from "../../layouts/Layout.astro";
+import { getCollection, type CollectionEntry } from "astro:content";
 
 export async function getStaticPaths() {
-  const papers = await getCollection('papers');
-  return papers.map((paper: CollectionEntry<'papers'>) => ({
+  const papers = await getCollection("papers");
+  return papers.map((paper: CollectionEntry<"papers">) => ({
     params: { slug: paper.slug },
     props: { paper },
   }));
 }
 
 type Props = {
-  paper: CollectionEntry<'papers'>;
+  paper: CollectionEntry<"papers">;
 };
 
 const { paper } = Astro.props;
@@ -48,38 +48,38 @@ const { Content } = await paper.render();
 
 <script>
   // 共有ボタンクリック
-  const shareBtn = document.getElementById('shareBtn');
+  const shareBtn = document.getElementById("shareBtn");
   if (shareBtn) {
-    shareBtn.addEventListener('click', async () => {
+    shareBtn.addEventListener("click", async () => {
       const url = window.location.href;
       const title = document.title;
-      
+
       if (navigator.share) {
         try {
           await navigator.share({
             title: title,
-            url: url
+            url: url,
           });
         } catch (err) {
-          console.log('共有がキャンセルされました');
+          console.log("共有がキャンセルされました");
         }
       } else {
         // Web Share APIが利用できない場合はURLをクリップボードにコピー
         try {
           await navigator.clipboard.writeText(url);
-          alert('URLをクリップボードにコピーしました');
+          alert("URLをクリップボードにコピーしました");
         } catch (err) {
-          console.log('クリップボードへのコピーに失敗しました');
+          console.log("クリップボードへのコピーに失敗しました");
           // フォールバック: テキストエリアを使用してコピー
-          const textArea = document.createElement('textarea');
+          const textArea = document.createElement("textarea");
           textArea.value = url;
           document.body.appendChild(textArea);
           textArea.select();
           try {
-            document.execCommand('copy');
-            alert('URLをクリップボードにコピーしました');
+            document.execCommand("copy");
+            alert("URLをクリップボードにコピーしました");
           } catch (fallbackErr) {
-            prompt('URLをコピーしてください:', url);
+            prompt("URLをコピーしてください:", url);
           }
           document.body.removeChild(textArea);
         }
@@ -274,7 +274,8 @@ const { Content } = await paper.render();
     padding: 0.125rem 0.25rem;
     border-radius: 3px;
     font-size: 0.875rem;
-    font-family: 'SF Mono', Monaco, 'Inconsolata', 'Roboto Mono', 'Source Code Pro', monospace;
+    font-family: "SF Mono", Monaco, "Inconsolata", "Roboto Mono",
+      "Source Code Pro", monospace;
   }
 
   .paper-content :global(pre) {

@@ -1,14 +1,15 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import PaperCardMD from '../components/PaperCardMD.astro';
-import { getCollection } from 'astro:content';
+import Layout from "../layouts/Layout.astro";
+import PaperCardMD from "../components/PaperCardMD.astro";
+import { getCollection } from "astro:content";
 
 // Content Collectionsから論文を取得
-const papers = await getCollection('papers');
+const papers = await getCollection("papers");
 
 // 読了日でソート（新しい順）
-const sortedPapers = papers.sort((a, b) => 
-  new Date(b.data.readDate).getTime() - new Date(a.data.readDate).getTime()
+const sortedPapers = papers.sort(
+  (a, b) =>
+    new Date(b.data.readDate).getTime() - new Date(a.data.readDate).getTime()
 );
 
 const totalPapers = papers.length;
@@ -29,18 +30,23 @@ const totalPapers = papers.length;
   </div>
 
   <section class="papers-list">
-    {sortedPapers.length === 0 ? (
-      <div class="empty-state">
-        <p>まだ論文が追加されていません。</p>
-        <p>src/content/papers/ ディレクトリにMarkdownファイルを追加してください。</p>
-      </div>
-    ) : (
-      <div class="papers-grid">
-        {sortedPapers.map(paper => (
-          <PaperCardMD paper={paper} />
-        ))}
-      </div>
-    )}
+    {
+      sortedPapers.length === 0 ? (
+        <div class="empty-state">
+          <p>まだ論文が追加されていません。</p>
+          <p>
+            src/content/papers/
+            ディレクトリにMarkdownファイルを追加してください。
+          </p>
+        </div>
+      ) : (
+        <div class="papers-grid">
+          {sortedPapers.map((paper) => (
+            <PaperCardMD paper={paper} />
+          ))}
+        </div>
+      )
+    }
   </section>
 </Layout>
 

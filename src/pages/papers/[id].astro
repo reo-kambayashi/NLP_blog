@@ -1,0 +1,319 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import PaperCard from "../../components/PaperCard.astro";
+import { samplePapers } from "../../data/papers";
+
+export async function getStaticPaths() {
+  return samplePapers.map((paper) => ({
+    params: { id: paper.id },
+    props: { paper },
+  }));
+}
+
+const { paper } = Astro.props;
+---
+
+<Layout title={`${paper.title} - 論文メモ`}>
+  <div class="paper-detail">
+    <div class="navigation">
+      <a href="/papers" class="back-link">← 論文一覧に戻る</a>
+    </div>
+
+    <PaperCard paper={paper} showFullContent={true} />
+
+    <div class="actions">
+      <button id="editBtn" class="btn btn-primary">編集</button>
+      <button id="deleteBtn" class="btn btn-danger">削除</button>
+      <button id="shareBtn" class="btn btn-secondary">共有</button>
+    </div>
+  </div>
+
+  <!-- 編集モーダル（簡易版） -->
+  <div id="editModal" class="modal" style="display: none;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>論文メモを編集</h2>
+        <button id="closeModal" class="close-btn">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p>編集機能は今後実装予定です。</p>
+        <p>
+          現在は<a href="/new-paper">新規追加ページ</a>で論文を追加できます。
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 削除確認モーダル -->
+  <div id="deleteModal" class="modal" style="display: none;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>論文メモを削除</h2>
+        <button id="closeDeleteModal" class="close-btn">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p>この論文メモを削除しますか？この操作は取り消せません。</p>
+        <div class="modal-actions">
+          <button id="confirmDelete" class="btn btn-danger">削除</button>
+          <button id="cancelDelete" class="btn btn-secondary">キャンセル</button
+          >
+        </div>
+      </div>
+    </div>
+  </div>
+</Layout>
+
+<script define:vars={{ paperId: paper.id }}>
+  // モーダル要素の取得
+  const editModal = document.getElementById("editModal");
+  const deleteModal = document.getElementById("deleteModal");
+  const editBtn = document.getElementById("editBtn");
+  const deleteBtn = document.getElementById("deleteBtn");
+  const shareBtn = document.getElementById("shareBtn");
+
+  // モーダル開閉
+  const closeModal = document.getElementById("closeModal");
+  const closeDeleteModal = document.getElementById("closeDeleteModal");
+  const confirmDelete = document.getElementById("confirmDelete");
+  const cancelDelete = document.getElementById("cancelDelete");
+
+  // 編集ボタンクリック
+  editBtn.addEventListener("click", () => {
+    editModal.style.display = "flex";
+  });
+
+  // 削除ボタンクリック
+  deleteBtn.addEventListener("click", () => {
+    deleteModal.style.display = "flex";
+  });
+
+  // 共有ボタンクリック
+  shareBtn.addEventListener("click", async () => {
+    const url = window.location.href;
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: document.title,
+          url: url,
+        });
+      } catch (err) {
+        console.log("共有がキャンセルされました");
+      }
+    } else {
+      // Web Share APIが利用できない場合はURLをクリップボードにコピー
+      try {
+        await navigator.clipboard.writeText(url);
+        alert("URLをクリップボードにコピーしました");
+      } catch (err) {
+        console.log("クリップボードへのコピーに失敗しました");
+      }
+    }
+  });
+
+  // モーダルを閉じる
+  closeModal.addEventListener("click", () => {
+    editModal.style.display = "none";
+  });
+
+  closeDeleteModal.addEventListener("click", () => {
+    deleteModal.style.display = "none";
+  });
+
+  cancelDelete.addEventListener("click", () => {
+    deleteModal.style.display = "none";
+  });
+
+  // 削除確認
+  confirmDelete.addEventListener("click", () => {
+    // ローカルストレージから削除（実際の実装）
+    try {
+      const papers = JSON.parse(localStorage.getItem("papers") || "[]");
+      const filteredPapers = papers.filter((p) => p.id !== paperId);
+      localStorage.setItem("papers", JSON.stringify(filteredPapers));
+
+      alert("論文メモを削除しました");
+      window.location.href = "/papers";
+    } catch (err) {
+      console.error("削除に失敗しました:", err);
+      alert("削除に失敗しました");
+    }
+  });
+
+  // モーダル外をクリックで閉じる
+  window.addEventListener("click", (e) => {
+    if (e.target === editModal) {
+      editModal.style.display = "none";
+    }
+    if (e.target === deleteModal) {
+      deleteModal.style.display = "none";
+    }
+  });
+</script>
+
+<style>
+  .paper-detail {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .navigation {
+    margin-bottom: 1.5rem;
+  }
+
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #3b82f6;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s;
+  }
+
+  .back-link:hover {
+    color: #2563eb;
+  }
+
+  .actions {
+    margin-top: 2rem;
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-decoration: none;
+    display: inline-block;
+  }
+
+  .btn-primary {
+    background: #3b82f6;
+    color: white;
+  }
+
+  .btn-primary:hover {
+    background: #2563eb;
+    transform: translateY(-2px);
+  }
+
+  .btn-secondary {
+    background: #6b7280;
+    color: white;
+  }
+
+  .btn-secondary:hover {
+    background: #4b5563;
+    transform: translateY(-2px);
+  }
+
+  .btn-danger {
+    background: #ef4444;
+    color: white;
+  }
+
+  .btn-danger:hover {
+    background: #dc2626;
+    transform: translateY(-2px);
+  }
+
+  .modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .modal-content {
+    background: white;
+    border-radius: 12px;
+    max-width: 500px;
+    width: 90%;
+    max-height: 80%;
+    overflow-y: auto;
+  }
+
+  .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem;
+    border-bottom: 1px solid #e5e7eb;
+  }
+
+  .modal-header h2 {
+    margin: 0;
+    color: #1f2937;
+  }
+
+  .close-btn {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #6b7280;
+    padding: 0;
+    width: 2rem;
+    height: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .close-btn:hover {
+    color: #374151;
+  }
+
+  .modal-body {
+    padding: 1.5rem;
+  }
+
+  .modal-body p {
+    margin: 0 0 1rem 0;
+    color: #6b7280;
+    line-height: 1.6;
+  }
+
+  .modal-body a {
+    color: #3b82f6;
+    text-decoration: none;
+  }
+
+  .modal-body a:hover {
+    text-decoration: underline;
+  }
+
+  .modal-actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1.5rem;
+  }
+
+  @media (max-width: 768px) {
+    .actions {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .btn {
+      text-align: center;
+    }
+
+    .modal-content {
+      margin: 1rem;
+      width: calc(100% - 2rem);
+    }
+  }
+</style>

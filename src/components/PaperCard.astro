@@ -1,0 +1,279 @@
+---
+import type { Paper } from "../types/paper";
+
+export interface Props {
+  paper: Paper;
+  showFullContent?: boolean;
+}
+
+const { paper, showFullContent = false } = Astro.props;
+
+function formatDate(dateString: string): string {
+  return new Date(dateString).toLocaleDateString("ja-JP");
+}
+
+function renderRating(rating: number): string {
+  return "⭐".repeat(rating) + "☆".repeat(5 - rating);
+}
+---
+
+<article class="paper-card">
+  <div class="paper-header">
+    <h2 class="paper-title">
+      {
+        showFullContent ? (
+          paper.title
+        ) : (
+          <a href={`/papers/${paper.id}`}>{paper.title}</a>
+        )
+      }
+    </h2>
+    <div class="paper-meta">
+      <span class="authors">{paper.authors.join(", ")}</span>
+      <span class="venue-year">{paper.venue} {paper.year}</span>
+      <span class="read-date">読了: {formatDate(paper.readDate)}</span>
+      <span class="rating">{renderRating(paper.rating)}</span>
+    </div>
+  </div>
+
+  <div class="paper-tags">
+    {paper.tags.map((tag) => <span class="tag">{tag}</span>)}
+  </div>
+
+  <div class="paper-summary">
+    <h3>概要</h3>
+    <p>{paper.summary}</p>
+  </div>
+
+  {
+    showFullContent && (
+      <div class="paper-details">
+        <section class="paper-section">
+          <h3>主な発見・結果</h3>
+          <ul>
+            {paper.keyFindings.map((finding) => (
+              <li>{finding}</li>
+            ))}
+          </ul>
+        </section>
+
+        <section class="paper-section">
+          <h3>手法・方法論</h3>
+          <p>{paper.methodology}</p>
+        </section>
+
+        <section class="paper-section">
+          <h3>強み</h3>
+          <ul>
+            {paper.strengths.map((strength) => (
+              <li>{strength}</li>
+            ))}
+          </ul>
+        </section>
+
+        {paper.weaknesses.length > 0 && (
+          <section class="paper-section">
+            <h3>弱み・課題</h3>
+            <ul>
+              {paper.weaknesses.map((weakness) => (
+                <li>{weakness}</li>
+              ))}
+            </ul>
+          </section>
+        )}
+
+        {paper.futureWork && (
+          <section class="paper-section">
+            <h3>今後の研究方向</h3>
+            <p>{paper.futureWork}</p>
+          </section>
+        )}
+
+        {paper.personalNotes && (
+          <section class="paper-section">
+            <h3>個人的メモ</h3>
+            <p>{paper.personalNotes}</p>
+          </section>
+        )}
+
+        {paper.url && (
+          <section class="paper-section">
+            <h3>リンク</h3>
+            <a
+              href={paper.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="paper-link"
+            >
+              📄 論文を読む
+            </a>
+          </section>
+        )}
+      </div>
+    )
+  }
+</article>
+
+<style>
+  .paper-card {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e2e8f0;
+    margin-bottom: 1.5rem;
+    transition:
+      transform 0.2s,
+      box-shadow 0.2s;
+  }
+
+  .paper-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  }
+
+  .paper-header {
+    margin-bottom: 1rem;
+  }
+
+  .paper-title {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.25rem;
+    font-weight: 600;
+    line-height: 1.4;
+  }
+
+  .paper-title a {
+    text-decoration: none;
+    color: #1e293b;
+    transition: color 0.2s;
+  }
+
+  .paper-title a:hover {
+    color: #3b82f6;
+  }
+
+  .paper-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    font-size: 0.875rem;
+    color: #64748b;
+  }
+
+  .authors {
+    font-weight: 500;
+  }
+
+  .venue-year {
+    font-weight: 500;
+    color: #059669;
+  }
+
+  .read-date {
+    color: #7c3aed;
+  }
+
+  .rating {
+    font-size: 1rem;
+  }
+
+  .paper-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .tag {
+    background: #f1f5f9;
+    color: #475569;
+    padding: 0.25rem 0.75rem;
+    border-radius: 16px;
+    font-size: 0.75rem;
+    font-weight: 500;
+  }
+
+  .paper-summary h3 {
+    margin: 0 0 0.5rem 0;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #374151;
+  }
+
+  .paper-summary p {
+    margin: 0;
+    color: #6b7280;
+    line-height: 1.6;
+  }
+
+  .paper-details {
+    margin-top: 1.5rem;
+    border-top: 1px solid #e5e7eb;
+    padding-top: 1.5rem;
+  }
+
+  .paper-section {
+    margin-bottom: 1.5rem;
+  }
+
+  .paper-section:last-child {
+    margin-bottom: 0;
+  }
+
+  .paper-section h3 {
+    margin: 0 0 0.75rem 0;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #374151;
+  }
+
+  .paper-section p {
+    margin: 0;
+    color: #6b7280;
+    line-height: 1.6;
+  }
+
+  .paper-section ul {
+    margin: 0;
+    padding-left: 1.25rem;
+    color: #6b7280;
+  }
+
+  .paper-section li {
+    margin-bottom: 0.25rem;
+    line-height: 1.5;
+  }
+
+  .paper-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: #3b82f6;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: background-color 0.2s;
+  }
+
+  .paper-link:hover {
+    background: #2563eb;
+  }
+
+  @media (max-width: 768px) {
+    .paper-card {
+      padding: 1rem;
+    }
+
+    .paper-meta {
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+
+    .paper-title {
+      font-size: 1.125rem;
+    }
+  }
+</style>

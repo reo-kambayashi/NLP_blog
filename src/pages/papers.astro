@@ -1,0 +1,342 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PaperCardMD from '../components/PaperCardMD.astro';
+import { getCollection } from 'astro:content';
+
+// Content Collectionsから論文を取得
+const papers = await getCollection('papers');
+
+// 読了日でソート（新しい順）
+const sortedPapers = papers.sort((a, b) => 
+  new Date(b.data.readDate).getTime() - new Date(a.data.readDate).getTime()
+);
+
+const tags = [...new Set(papers.flatMap(p => p.data.tags))].sort();
+---
+
+<Layout title="論文一覧 - 論文メモ">
+  <div class="page-header">
+    <h1>📚 論文一覧</h1>
+    <p>読んだ論文の一覧です。タグやキーワードで絞り込むことができます。</p>
+  </div>
+
+  <div class="controls">
+    <div class="search-filter">
+      <input 
+        type="text" 
+        id="searchInput" 
+        placeholder="タイトル、著者、概要で検索..." 
+        class="search-input"
+      />
+      
+      <select id="tagFilter" class="tag-filter">
+        <option value="">すべてのタグ</option>
+        {tags.map(tag => (
+          <option value={tag}>{tag}</option>
+        ))}
+      </select>
+
+      <select id="ratingFilter" class="rating-filter">
+        <option value="">すべての評価</option>
+        <option value="5">⭐⭐⭐⭐⭐ (5)</option>
+        <option value="4">⭐⭐⭐⭐☆ (4以上)</option>
+        <option value="3">⭐⭐⭐☆☆ (3以上)</option>
+        <option value="2">⭐⭐☆☆☆ (2以上)</option>
+        <option value="1">⭐☆☆☆☆ (1以上)</option>
+      </select>
+
+      <button id="clearFilters" class="clear-btn">クリア</button>
+    </div>
+
+    <div class="sort-controls">
+      <label for="sortSelect">並び替え:</label>
+      <select id="sortSelect" class="sort-select">
+        <option value="readDate-desc">読了日（新しい順）</option>
+        <option value="readDate-asc">読了日（古い順）</option>
+        <option value="rating-desc">評価（高い順）</option>
+        <option value="rating-asc">評価（低い順）</option>
+        <option value="year-desc">発表年（新しい順）</option>
+        <option value="year-asc">発表年（古い順）</option>
+        <option value="title-asc">タイトル（A-Z）</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="results-info">
+    <span id="resultsCount">{sortedPapers.length}</span>件の論文が見つかりました
+  </div>
+
+  <div id="papersContainer" class="papers-container">
+    {sortedPapers.map(paper => (
+      <PaperCardMD paper={paper} />
+    ))}
+  </div>
+
+  <div id="noResults" class="no-results" style="display: none;">
+    <h3>検索結果が見つかりませんでした</h3>
+    <p>検索条件を変更してもう一度お試しください。</p>
+  </div>
+</Layout>
+
+<script>
+  // 論文データをクライアントサイドで利用するために埋め込み
+  const papers = [
+    {sortedPapers.map(paper => `{
+      id: "${paper.slug}",
+      title: "${paper.data.title.replace(/"/g, '\\"')}",
+      authors: ${JSON.stringify(paper.data.authors)},
+      venue: "${paper.data.venue}",
+      year: ${paper.data.year},
+      url: "${paper.data.url || ''}",
+      readDate: "${paper.data.readDate}",
+      rating: ${paper.data.rating},
+      tags: ${JSON.stringify(paper.data.tags)},
+      summary: "${paper.data.summary.replace(/"/g, '\\"')}",
+      keyFindings: ${JSON.stringify(paper.data.keyFindings)},
+      methodology: "${paper.data.methodology.replace(/"/g, '\\"')}",
+      strengths: ${JSON.stringify(paper.data.strengths)},
+      weaknesses: ${JSON.stringify(paper.data.weaknesses || [])},
+      futureWork: "${(paper.data.futureWork || '').replace(/"/g, '\\"')}",
+      personalNotes: "${(paper.data.personalNotes || '').replace(/"/g, '\\"')}"
+    }`).join(',\n    ')}
+  ];
+
+  let filteredPapers = [...papers];
+
+  // DOM要素の取得
+  const searchInput = document.getElementById('searchInput');
+  const tagFilter = document.getElementById('tagFilter');
+  const ratingFilter = document.getElementById('ratingFilter');
+  const sortSelect = document.getElementById('sortSelect');
+  const clearFilters = document.getElementById('clearFilters');
+  const papersContainer = document.getElementById('papersContainer');
+  const resultsCount = document.getElementById('resultsCount');
+  const noResults = document.getElementById('noResults');
+
+  // 検索・フィルタリング関数
+  function filterAndSort() {
+    const searchTerm = searchInput.value.toLowerCase();
+    const selectedTag = tagFilter.value;
+    const selectedRating = ratingFilter.value;
+    const sortBy = sortSelect.value;
+
+    // フィルタリング
+    filteredPapers = papers.filter(paper => {
+      const matchesSearch = !searchTerm || 
+        paper.title.toLowerCase().includes(searchTerm) ||
+        paper.authors.some(author => author.toLowerCase().includes(searchTerm)) ||
+        paper.summary.toLowerCase().includes(searchTerm);
+      
+      const matchesTag = !selectedTag || paper.tags.includes(selectedTag);
+      
+      const matchesRating = !selectedRating || paper.rating >= parseInt(selectedRating);
+
+      return matchesSearch && matchesTag && matchesRating;
+    });
+
+    // ソート
+    const [sortField, sortOrder] = sortBy.split('-');
+    filteredPapers.sort((a, b) => {
+      let aVal, bVal;
+      
+      switch (sortField) {
+        case 'readDate':
+          aVal = new Date(a.readDate);
+          bVal = new Date(b.readDate);
+          break;
+        case 'rating':
+          aVal = a.rating;
+          bVal = b.rating;
+          break;
+        case 'year':
+          aVal = a.year;
+          bVal = b.year;
+          break;
+        case 'title':
+          aVal = a.title.toLowerCase();
+          bVal = b.title.toLowerCase();
+          break;
+        default:
+          return 0;
+      }
+
+      if (sortOrder === 'desc') {
+        return aVal > bVal ? -1 : aVal < bVal ? 1 : 0;
+      } else {
+        return aVal < bVal ? -1 : aVal > bVal ? 1 : 0;
+      }
+    });
+
+    renderPapers();
+  }
+
+  // 論文をレンダリング
+  function renderPapers() {
+    resultsCount.textContent = filteredPapers.length;
+    
+    if (filteredPapers.length === 0) {
+      papersContainer.style.display = 'none';
+      noResults.style.display = 'block';
+    } else {
+      papersContainer.style.display = 'block';
+      noResults.style.display = 'none';
+      
+      // ここでは簡単な実装として、ページリロードによる更新を想定
+      // 実際のプロダクションでは、動的なDOM更新を実装する必要があります
+    }
+  }
+
+  // フィルタークリア
+  function clearFilters() {
+    searchInput.value = '';
+    tagFilter.value = '';
+    ratingFilter.value = '';
+    sortSelect.value = 'readDate-desc';
+    filterAndSort();
+  }
+
+  // イベントリスナーの設定
+  searchInput.addEventListener('input', filterAndSort);
+  tagFilter.addEventListener('change', filterAndSort);
+  ratingFilter.addEventListener('change', filterAndSort);
+  sortSelect.addEventListener('change', filterAndSort);
+  clearFilters.addEventListener('click', clearFilters);
+
+  // 初期表示
+  filterAndSort();
+</script>
+
+<style>
+  .page-header {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+
+  .page-header h1 {
+    font-size: 2.5rem;
+    margin: 0 0 0.5rem 0;
+    color: #1e293b;
+  }
+
+  .page-header p {
+    color: #64748b;
+    font-size: 1.125rem;
+    margin: 0;
+  }
+
+  .controls {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+    margin-bottom: 1.5rem;
+  }
+
+  .search-filter {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .search-input {
+    flex: 1;
+    min-width: 250px;
+    padding: 0.75rem;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    font-size: 1rem;
+  }
+
+  .search-input:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  }
+
+  .tag-filter,
+  .rating-filter,
+  .sort-select {
+    padding: 0.75rem;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    background: white;
+    font-size: 1rem;
+    min-width: 120px;
+  }
+
+  .clear-btn {
+    padding: 0.75rem 1rem;
+    background: #ef4444;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+
+  .clear-btn:hover {
+    background: #dc2626;
+  }
+
+  .sort-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .sort-controls label {
+    font-weight: 500;
+    color: #374151;
+  }
+
+  .results-info {
+    margin-bottom: 1rem;
+    color: #64748b;
+    font-weight: 500;
+  }
+
+  .papers-container {
+    display: grid;
+    gap: 1.5rem;
+  }
+
+  .no-results {
+    text-align: center;
+    padding: 3rem;
+    background: white;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+  }
+
+  .no-results h3 {
+    margin: 0 0 0.5rem 0;
+    color: #374151;
+  }
+
+  .no-results p {
+    margin: 0;
+    color: #64748b;
+  }
+
+  @media (max-width: 768px) {
+    .search-filter {
+      flex-direction: column;
+    }
+
+    .search-input {
+      min-width: unset;
+    }
+
+    .sort-controls {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.5rem;
+    }
+
+    .sort-select {
+      width: 100%;
+    }
+  }
+</style>
