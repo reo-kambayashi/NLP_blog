@@ -17,13 +17,15 @@ const totalPapers = papers.length;
 // 統計情報を計算
 const currentYear = new Date().getFullYear();
 const currentMonth = new Date().getMonth() + 1;
-const thisYearPapers = papers.filter(paper => 
-  new Date(paper.data.date).getFullYear() === currentYear
+const thisYearPapers = papers.filter(
+  (paper) => new Date(paper.data.date).getFullYear() === currentYear
 ).length;
-const thisMonthPapers = papers.filter(paper => {
+const thisMonthPapers = papers.filter((paper) => {
   const paperDate = new Date(paper.data.date);
-  return paperDate.getFullYear() === currentYear && 
-         paperDate.getMonth() + 1 === currentMonth;
+  return (
+    paperDate.getFullYear() === currentYear &&
+    paperDate.getMonth() + 1 === currentMonth
+  );
 }).length;
 ---
 
@@ -31,7 +33,7 @@ const thisMonthPapers = papers.filter(paper => {
   <div class="hero">
     <h1>Papers</h1>
     <p class="subtitle">{totalPapers} papers collected</p>
-    
+
     <!-- 統計情報 -->
     <div class="stats">
       <div class="stat-item">
@@ -48,10 +50,10 @@ const thisMonthPapers = papers.filter(paper => {
   <!-- 検索・フィルター -->
   <div class="controls">
     <div class="search-container">
-      <input 
-        type="text" 
-        id="search" 
-        placeholder="論文を検索..." 
+      <input
+        type="text"
+        id="search"
+        placeholder="論文を検索..."
         class="search-input"
       />
     </div>
@@ -76,8 +78,8 @@ const thisMonthPapers = papers.filter(paper => {
       ) : (
         <div class="papers-grid" id="papersGrid">
           {sortedPapers.map((paper: any, index: number) => (
-            <div 
-              class="paper-card-wrapper" 
+            <div
+              class="paper-card-wrapper"
               style={`--card-index: ${index}; animation-delay: ${index * 0.1}s`}
               data-title={paper.data.title.toLowerCase()}
               data-year={new Date(paper.data.date).getFullYear()}
@@ -92,57 +94,59 @@ const thisMonthPapers = papers.filter(paper => {
 
   <!-- JavaScriptを直接埋め込み -->
   <script is:inline>
-    document.addEventListener('DOMContentLoaded', () => {
+    document.addEventListener("DOMContentLoaded", () => {
       // 検索機能
-      const searchInput = document.getElementById('search');
-      const yearFilter = document.getElementById('yearFilter');
-      const papersGrid = document.getElementById('papersGrid');
-      const paperCards = document.querySelectorAll('.paper-card-wrapper');
+      const searchInput = document.getElementById("search");
+      const yearFilter = document.getElementById("yearFilter");
+      const papersGrid = document.getElementById("papersGrid");
+      const paperCards = document.querySelectorAll(".paper-card-wrapper");
 
       if (!searchInput || !yearFilter || !papersGrid) return;
 
       // 年フィルターの選択肢を動的に生成
-      const years = [...new Set(Array.from(paperCards).map(card => 
-        card.getAttribute('data-year')
-      ))].sort((a, b) => b - a);
-      
-      years.forEach(year => {
+      const years = [
+        ...new Set(
+          Array.from(paperCards).map((card) => card.getAttribute("data-year"))
+        ),
+      ].sort((a, b) => b - a);
+
+      years.forEach((year) => {
         if (year) {
-          const option = document.createElement('option');
+          const option = document.createElement("option");
           option.value = year;
-          option.textContent = year + '年';
+          option.textContent = year + "年";
           yearFilter.appendChild(option);
         }
       });
 
       function filterPapers() {
-        const searchTerm = (searchInput.value || '').toLowerCase();
+        const searchTerm = (searchInput.value || "").toLowerCase();
         const selectedYear = yearFilter.value;
 
-        paperCards.forEach(card => {
-          const title = card.getAttribute('data-title') || '';
-          const year = card.getAttribute('data-year') || '';
-          
+        paperCards.forEach((card) => {
+          const title = card.getAttribute("data-title") || "";
+          const year = card.getAttribute("data-year") || "";
+
           const matchesSearch = !searchTerm || title.includes(searchTerm);
           const matchesYear = !selectedYear || year === selectedYear;
-          
+
           const cardElement = card;
           if (matchesSearch && matchesYear) {
-            cardElement.style.display = 'block';
-            cardElement.style.animation = 'fadeInUp 0.3s ease forwards';
+            cardElement.style.display = "block";
+            cardElement.style.animation = "fadeInUp 0.3s ease forwards";
           } else {
-            cardElement.style.display = 'none';
+            cardElement.style.display = "none";
           }
         });
       }
 
-      searchInput.addEventListener('input', filterPapers);
-      yearFilter.addEventListener('change', filterPapers);
+      searchInput.addEventListener("input", filterPapers);
+      yearFilter.addEventListener("change", filterPapers);
 
       // ページロード時のアニメーション
       paperCards.forEach((card, index) => {
         setTimeout(() => {
-          card.classList.add('animate-in');
+          card.classList.add("animate-in");
         }, index * 100);
       });
 
