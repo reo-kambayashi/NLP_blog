@@ -75,24 +75,28 @@ const tags = [...new Set(papers.flatMap((p: any) => p.data.tags))].sort();
   </div>
 </Layout>
 
-<script define:vars={{ papersData: sortedPapers.map((paper: any) => ({
-  id: paper.slug,
-  title: paper.data.title,
-  authors: paper.data.authors,
-  venue: paper.data.venue,
-  year: paper.data.year,
-  url: paper.data.url || "",
-  readDate: paper.data.readDate,
-  rating: paper.data.rating,
-  tags: paper.data.tags,
-  summary: paper.data.summary,
-  keyFindings: paper.data.keyFindings,
-  methodology: paper.data.methodology,
-  strengths: paper.data.strengths,
-  weaknesses: paper.data.weaknesses || [],
-  futureWork: paper.data.futureWork || "",
-  personalNotes: paper.data.personalNotes || "",
-})) }}>
+<script
+  define:vars={{
+    papersData: sortedPapers.map((paper: any) => ({
+      id: paper.slug,
+      title: paper.data.title,
+      authors: paper.data.authors,
+      venue: paper.data.venue,
+      year: paper.data.year,
+      url: paper.data.url || "",
+      readDate: paper.data.readDate,
+      rating: paper.data.rating,
+      tags: paper.data.tags,
+      summary: paper.data.summary,
+      keyFindings: paper.data.keyFindings,
+      methodology: paper.data.methodology,
+      strengths: paper.data.strengths,
+      weaknesses: paper.data.weaknesses || [],
+      futureWork: paper.data.futureWork || "",
+      personalNotes: paper.data.personalNotes || "",
+    })),
+  }}
+>
   // 論文データをクライアントサイドで利用
   const papers = papersData;
 
