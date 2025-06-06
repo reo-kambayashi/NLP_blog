@@ -13,18 +13,60 @@ const sortedPapers = papers.sort(
 );
 
 const totalPapers = papers.length;
+
+// 統計情報を計算
+const currentYear = new Date().getFullYear();
+const currentMonth = new Date().getMonth() + 1;
+const thisYearPapers = papers.filter(paper => 
+  new Date(paper.data.date).getFullYear() === currentYear
+).length;
+const thisMonthPapers = papers.filter(paper => {
+  const paperDate = new Date(paper.data.date);
+  return paperDate.getFullYear() === currentYear && 
+         paperDate.getMonth() + 1 === currentMonth;
+}).length;
 ---
 
 <Layout title="論文メモ">
   <div class="hero">
     <h1>Papers</h1>
     <p class="subtitle">{totalPapers} papers collected</p>
+    
+    <!-- 統計情報 -->
+    <div class="stats">
+      <div class="stat-item">
+        <span class="stat-number">{thisYearPapers}</span>
+        <span class="stat-label">今年</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-number">{thisMonthPapers}</span>
+        <span class="stat-label">今月</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 検索・フィルター -->
+  <div class="controls">
+    <div class="search-container">
+      <input 
+        type="text" 
+        id="search" 
+        placeholder="論文を検索..." 
+        class="search-input"
+      />
+    </div>
+    <div class="filter-container">
+      <select id="yearFilter" class="filter-select">
+        <option value="">全ての年</option>
+      </select>
+    </div>
   </div>
 
   <section class="papers-list">
     {
       sortedPapers.length === 0 ? (
         <div class="empty-state">
+          <div class="empty-icon">📚</div>
           <p>まだ論文が追加されていません。</p>
           <p>
             src/content/papers/
@@ -32,9 +74,14 @@ const totalPapers = papers.length;
           </p>
         </div>
       ) : (
-        <div class="papers-grid">
+        <div class="papers-grid" id="papersGrid">
           {sortedPapers.map((paper: any, index: number) => (
-            <div style={`--card-index: ${index}`}>
+            <div 
+              class="paper-card-wrapper" 
+              style={`--card-index: ${index}; animation-delay: ${index * 0.1}s`}
+              data-title={paper.data.title.toLowerCase()}
+              data-year={new Date(paper.data.date).getFullYear()}
+            >
               <PaperCardMD paper={paper} />
             </div>
           ))}
@@ -42,6 +89,69 @@ const totalPapers = papers.length;
       )
     }
   </section>
+
+  <!-- JavaScriptを直接埋め込み -->
+  <script is:inline>
+    document.addEventListener('DOMContentLoaded', () => {
+      // 検索機能
+      const searchInput = document.getElementById('search');
+      const yearFilter = document.getElementById('yearFilter');
+      const papersGrid = document.getElementById('papersGrid');
+      const paperCards = document.querySelectorAll('.paper-card-wrapper');
+
+      if (!searchInput || !yearFilter || !papersGrid) return;
+
+      // 年フィルターの選択肢を動的に生成
+      const years = [...new Set(Array.from(paperCards).map(card => 
+        card.getAttribute('data-year')
+      ))].sort((a, b) => b - a);
+      
+      years.forEach(year => {
+        if (year) {
+          const option = document.createElement('option');
+          option.value = year;
+          option.textContent = year + '年';
+          yearFilter.appendChild(option);
+        }
+      });
+
+      function filterPapers() {
+        const searchTerm = (searchInput.value || '').toLowerCase();
+        const selectedYear = yearFilter.value;
+
+        paperCards.forEach(card => {
+          const title = card.getAttribute('data-title') || '';
+          const year = card.getAttribute('data-year') || '';
+          
+          const matchesSearch = !searchTerm || title.includes(searchTerm);
+          const matchesYear = !selectedYear || year === selectedYear;
+          
+          const cardElement = card;
+          if (matchesSearch && matchesYear) {
+            cardElement.style.display = 'block';
+            cardElement.style.animation = 'fadeInUp 0.3s ease forwards';
+          } else {
+            cardElement.style.display = 'none';
+          }
+        });
+      }
+
+      searchInput.addEventListener('input', filterPapers);
+      yearFilter.addEventListener('change', filterPapers);
+
+      // ページロード時のアニメーション
+      paperCards.forEach((card, index) => {
+        setTimeout(() => {
+          card.classList.add('animate-in');
+        }, index * 100);
+      });
+
+      // カード要素にスタガーアニメーション遅延を適用
+      paperCards.forEach((card, index) => {
+        card.style.animationDelay = `${index * 0.05}s`;
+      });
+    });
+  </script>
 </Layout>
 
 <style>
@@ -77,14 +187,131 @@ const totalPapers = papers.length;
     color: #999999;
     font-size: 0.9rem;
     font-weight: 400;
-    margin: 0;
+    margin: 0 0 1.5rem 0;
     letter-spacing: 0;
     font-family: "Plus Jakarta Sans", sans-serif;
   }
 
+  .stats {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin-top: 1.5rem;
+  }
+
+  .stat-item {
+    text-align: center;
+    position: relative;
+    padding: 1rem 1.5rem;
+    background: #111111;
+    border: 1px solid #333333;
+    border-radius: 0;
+    transition: all 0.3s ease;
+    min-width: 80px;
+  }
+
+  .stat-item:hover {
+    border-color: #4a9eff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(74, 158, 255, 0.1);
+  }
+
+  .stat-item::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, #4a9eff, #66b3ff);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s ease;
+  }
+
+  .stat-item:hover::before {
+    transform: scaleX(1);
+  }
+
+  .stat-number {
+    display: block;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #4a9eff;
+    font-family: "Plus Jakarta Sans", sans-serif;
+    margin-bottom: 0.25rem;
+  }
+
+  .stat-label {
+    display: block;
+    font-size: 0.8rem;
+    color: #999999;
+    font-weight: 400;
+    letter-spacing: 0.5px;
+  }
+
+  .controls {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+  }
+
+  .search-container,
+  .filter-container {
+    position: relative;
+  }
+
+  .search-input,
+  .filter-select {
+    background: #111111;
+    border: 1px solid #333333;
+    color: #ffffff;
+    padding: 0.75rem 1rem;
+    border-radius: 0;
+    font-family: "Plus Jakarta Sans", sans-serif;
+    font-size: 0.9rem;
+    transition: border-color 0.2s ease;
+    min-width: 200px;
+  }
+
+  .search-input:focus,
+  .filter-select:focus {
+    outline: none;
+    border-color: #4a9eff;
+  }
+
+  .search-input::placeholder {
+    color: #666666;
+  }
+
   .papers-grid {
     display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
     gap: 1.5rem;
+    margin-top: 1rem;
+  }
+
+  .paper-card-wrapper {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.3s ease;
+  }
+
+  .paper-card-wrapper.animate-in {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ローディング効果 */
+  .papers-grid:empty::after {
+    content: "読み込み中...";
+    display: block;
+    text-align: center;
+    color: #666666;
+    font-size: 0.9rem;
+    padding: 2rem;
   }
 
   .empty-state {
@@ -96,11 +323,28 @@ const totalPapers = papers.length;
     margin: 2rem 0;
   }
 
+  .empty-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+  }
+
   .empty-state p {
     color: #cccccc;
     font-size: 1rem;
     margin-bottom: 0.5rem;
     font-weight: 300;
+  }
+
+  /* アニメーション */
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 
   @media (max-width: 768px) {
@@ -114,6 +358,29 @@ const totalPapers = papers.length;
 
     .subtitle {
       font-size: 0.85rem;
+    }
+
+    .stats {
+      gap: 1rem;
+    }
+
+    .stat-number {
+      font-size: 1.25rem;
+    }
+
+    .controls {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .search-input,
+    .filter-select {
+      min-width: 280px;
+    }
+
+    .papers-grid {
+      grid-template-columns: 1fr;
+      gap: 1rem;
     }
   }
 </style>

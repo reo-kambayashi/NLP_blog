@@ -20,6 +20,13 @@ const { Content } = await paper.render();
 
 <Layout title={`${paper.data.title} - 論文メモ`}>
   <div class="paper-detail">
+    <!-- パンくずリスト -->
+    <nav class="breadcrumb">
+      <a href="/" class="breadcrumb-link">ホーム</a>
+      <span class="breadcrumb-separator">›</span>
+      <span class="breadcrumb-current">論文詳細</span>
+    </nav>
+
     <div class="navigation">
       <a href="/" class="back-link">← 論文一覧に戻る</a>
     </div>
@@ -43,9 +50,86 @@ const { Content } = await paper.render();
       <a href="/" class="btn btn-primary">一覧に戻る</a>
     </div>
   </div>
+
+  <!-- 目次とスクロール効果のためのJavaScript -->
+  <script is:inline>
+    document.addEventListener('DOMContentLoaded', () => {
+      // スムーズスクロール効果
+      const links = document.querySelectorAll('a[href^="#"]');
+      links.forEach(link => {
+        link.addEventListener('click', (e) => {
+          const href = link.getAttribute('href');
+          if (href && href !== '#') {
+            const target = document.querySelector(href);
+            if (target) {
+              e.preventDefault();
+              target.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+              });
+            }
+          }
+        });
+      });
+
+      // 読書進捗インジケーター
+      const progressBar = document.createElement('div');
+      progressBar.className = 'reading-progress';
+      document.body.appendChild(progressBar);
+
+      function updateProgress() {
+        const scrollTop = window.pageYOffset;
+        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+        const progress = (scrollTop / docHeight) * 100;
+        progressBar.style.width = progress + '%';
+      }
+
+      window.addEventListener('scroll', updateProgress);
+      updateProgress();
+    });
+  </script>
 </Layout>
 
 <style>
+  .breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+    font-size: 0.85rem;
+    color: #999999;
+  }
+
+  .breadcrumb-link {
+    color: #4a9eff;
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  .breadcrumb-link:hover {
+    color: #66b3ff;
+  }
+
+  .breadcrumb-separator {
+    color: #666666;
+  }
+
+  .breadcrumb-current {
+    color: #cccccc;
+  }
+
+  /* 読書進捗バー */
+  :global(.reading-progress) {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 0%;
+    height: 3px;
+    background: linear-gradient(90deg, #4a9eff, #66b3ff);
+    z-index: 1000;
+    transition: width 0.1s ease;
+  }
+
   .paper-detail {
     max-width: 750px;
     margin: 0 auto;
