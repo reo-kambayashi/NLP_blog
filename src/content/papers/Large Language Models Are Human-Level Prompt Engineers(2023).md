@@ -1,9 +1,7 @@
 ---
-title: "Large Language Models Are Human-Level Prompt Engineers(2023"
+title: "Large Language Models Are Human-Level Prompt Engineers(2023)"
 date: "2025-06-06"
 ---
-
-# Large Language Models Are Human-Level Prompt Engineers(2023)
 
 ## 著者
 [Yongchao Zhou](https://arxiv.org/search/cs?searchtype=author&query=Zhou,+Y), [Andrei Ioan Muresanu](https://arxiv.org/search/cs?searchtype=author&query=Muresanu,+A+I), [Ziwen Han](https://arxiv.org/search/cs?searchtype=author&query=Han,+Z), [Keiran Paster](https://arxiv.org/search/cs?searchtype=author&query=Paster,+K), [Silviu Pitis](https://arxiv.org/search/cs?searchtype=author&query=Pitis,+S), [Harris Chan](https://arxiv.org/search/cs?searchtype=author&query=Chan,+H), [Jimmy Ba](https://arxiv.org/search/cs?searchtype=author&query=Ba,+J)
