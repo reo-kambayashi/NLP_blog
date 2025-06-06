@@ -1,0 +1,127 @@
+---
+import type { CollectionEntry } from "astro:content";
+
+export interface Props {
+  paper: CollectionEntry<"papers">;
+}
+
+const { paper } = Astro.props;
+const { title, date } = paper.data;
+
+function formatDate(dateString: string): string {
+  return new Date(dateString).toLocaleDateString("ja-JP");
+}
+---
+
+<article class="paper-card">
+  <div class="paper-header">
+    <h2 class="paper-title">
+      <a href={`/papers/${paper.slug}`}>{title}</a>
+    </h2>
+    <div class="paper-meta">
+      <span class="read-date">読了: {formatDate(date)}</span>
+    </div>
+  </div>
+</article>
+
+<style>
+  .paper-card {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e2e8f0;
+    transition:
+      transform 0.2s,
+      box-shadow 0.2s;
+  }
+
+  .paper-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  }
+
+  .paper-header {
+    margin-bottom: 1rem;
+  }
+
+  .paper-title {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.25rem;
+    font-weight: 600;
+    line-height: 1.4;
+  }
+
+  .paper-title a {
+    text-decoration: none;
+    color: #1e293b;
+    transition: color 0.2s;
+  }
+
+  .paper-title a:hover {
+    color: #3b82f6;
+  }
+
+  .paper-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    font-size: 0.875rem;
+    color: #64748b;
+  }
+
+  .authors {
+    font-weight: 500;
+    color: #374151;
+  }
+
+  .venue-year {
+    font-weight: 500;
+    color: #059669;
+  }
+
+  .read-date {
+    color: #7c3aed;
+  }
+
+  .rating {
+    font-size: 1rem;
+  }
+
+  .paper-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .tag {
+    background: #dbeafe;
+    color: #1e40af;
+    padding: 0.25rem 0.75rem;
+    border-radius: 16px;
+    font-size: 0.75rem;
+    font-weight: 500;
+  }
+
+  .paper-summary p {
+    margin: 0;
+    color: #6b7280;
+    line-height: 1.6;
+  }
+
+  @media (max-width: 768px) {
+    .paper-card {
+      padding: 1rem;
+    }
+
+    .paper-meta {
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+
+    .paper-title {
+      font-size: 1.125rem;
+    }
+  }
+</style>

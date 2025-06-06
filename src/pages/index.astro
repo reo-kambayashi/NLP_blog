@@ -1,11 +1,140 @@
 ---
-import Welcome from '../components/Welcome.astro';
 import Layout from '../layouts/Layout.astro';
+import PaperCardMD from '../components/PaperCardMD.astro';
+import { getCollection } from 'astro:content';
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+// Content Collectionsから論文を取得
+const papers = await getCollection('papers');
+
+// 読了日でソート（新しい順）
+const sortedPapers = papers.sort((a, b) => 
+  new Date(b.data.readDate).getTime() - new Date(a.data.readDate).getTime()
+);
+
+const totalPapers = papers.length;
 ---
 
-<Layout>
-	<Welcome />
+<Layout title="論文メモ">
+  <div class="hero">
+    <h1>📚 論文メモ</h1>
+    <p class="hero-description">
+      Markdownファイルで管理する論文メモコレクション
+    </p>
+    <div class="stats">
+      <div class="stat">
+        <span class="stat-number">{totalPapers}</span>
+        <span class="stat-label">論文数</span>
+      </div>
+    </div>
+  </div>
+
+  <section class="papers-list">
+    {sortedPapers.length === 0 ? (
+      <div class="empty-state">
+        <p>まだ論文が追加されていません。</p>
+        <p>src/content/papers/ ディレクトリにMarkdownファイルを追加してください。</p>
+      </div>
+    ) : (
+      <div class="papers-grid">
+        {sortedPapers.map(paper => (
+          <PaperCardMD paper={paper} />
+        ))}
+      </div>
+    )}
+  </section>
 </Layout>
+
+<style>
+  .hero {
+    text-align: center;
+    padding: 3rem 0;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border-radius: 16px;
+    margin-bottom: 3rem;
+  }
+
+  .hero h1 {
+    font-size: 3rem;
+    margin: 0 0 1rem 0;
+    font-weight: 700;
+  }
+
+  .hero-description {
+    font-size: 1.25rem;
+    margin: 0 0 2rem 0;
+    opacity: 0.9;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .stats {
+    display: flex;
+    justify-content: center;
+    gap: 3rem;
+  }
+
+  .stat {
+    text-align: center;
+  }
+
+  .stat-number {
+    display: block;
+    font-size: 2.5rem;
+    font-weight: 700;
+    line-height: 1;
+  }
+
+  .stat-label {
+    font-size: 0.875rem;
+    opacity: 0.8;
+  }
+
+  .papers-list h2 {
+    font-size: 2rem;
+    margin: 0 0 1.5rem 0;
+    color: #1e293b;
+  }
+
+  .papers-grid {
+    display: grid;
+    gap: 1.5rem;
+  }
+
+  .empty-state {
+    text-align: center;
+    padding: 3rem;
+    background: white;
+    border-radius: 12px;
+    border: 2px dashed #e2e8f0;
+  }
+
+  .empty-state p {
+    color: #64748b;
+    font-size: 1.125rem;
+    margin-bottom: 1rem;
+  }
+
+  @media (max-width: 768px) {
+    .hero {
+      padding: 2rem 1rem;
+    }
+
+    .hero h1 {
+      font-size: 2rem;
+    }
+
+    .hero-description {
+      font-size: 1rem;
+    }
+
+    .stats {
+      gap: 2rem;
+    }
+
+    .stat-number {
+      font-size: 2rem;
+    }
+  }
+</style>
