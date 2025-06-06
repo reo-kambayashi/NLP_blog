@@ -47,9 +47,9 @@ const { Content } = await paper.render();
 
 <style>
   .paper-detail {
-    max-width: 800px;
+    max-width: 750px;
     margin: 0 auto;
-    padding: 0 1rem;
+    padding: 0 1.5rem;
   }
 
   .navigation {
@@ -75,9 +75,9 @@ const { Content } = await paper.render();
 
   .paper-article {
     background: #111111;
-    border-radius: 4px;
+    border-radius: 0;
     padding: 2rem;
-    box-shadow: 0 2px 8px rgba(255, 255, 255, 0.1);
+    box-shadow: none;
     margin-bottom: 2rem;
     border: 1px solid #333333;
   }
@@ -91,10 +91,10 @@ const { Content } = await paper.render();
   .paper-header h1 {
     color: #ffffff;
     margin: 0 0 1rem 0;
-    font-size: 2rem;
-    font-weight: 500;
-    line-height: 1.3;
-    letter-spacing: 0.01em;
+    font-size: 1.75rem;
+    font-weight: 400;
+    line-height: 1.2;
+    letter-spacing: 0;
     font-family: "Plus Jakarta Sans", sans-serif;
   }
 
@@ -154,79 +154,85 @@ const { Content } = await paper.render();
     line-height: 1.7;
     color: #ffffff;
     font-family: "Plus Jakarta Sans", sans-serif;
+    font-size: 1rem;
+    font-weight: 400;
   }
 
   /* Markdown コンテンツのスタイリング */
   .paper-content :global(h2) {
     color: #ffffff;
-    font-size: 1.5rem;
-    font-weight: 600;
+    font-size: 1.25rem;
+    font-weight: 500;
     margin: 2rem 0 1rem 0;
     border-bottom: 1px solid #333333;
     padding-bottom: 0.5rem;
-    letter-spacing: 0.01em;
+    letter-spacing: 0;
     font-family: "Plus Jakarta Sans", sans-serif;
   }
 
   .paper-content :global(h3) {
     color: #ffffff;
-    font-size: 1.25rem;
+    font-size: 1.125rem;
     font-weight: 500;
     margin: 1.5rem 0 0.75rem 0;
-    letter-spacing: 0.01em;
+    letter-spacing: 0;
     font-family: "Plus Jakarta Sans", sans-serif;
   }
 
   .paper-content :global(h4) {
     color: #cccccc;
-    font-size: 1.1rem;
+    font-size: 1rem;
     font-weight: 500;
-    margin: 1rem 0 0.5rem 0;
+    margin: 1.25rem 0 0.5rem 0;
     font-family: "Plus Jakarta Sans", sans-serif;
   }
 
   .paper-content :global(p) {
-    margin: 0 0 1rem 0;
+    margin: 0 0 1.25rem 0;
   }
 
   .paper-content :global(ul),
   .paper-content :global(ol) {
-    margin: 0 0 1rem 0;
+    margin: 0 0 1.25rem 0;
     padding-left: 1.5rem;
   }
 
   .paper-content :global(li) {
     margin: 0.25rem 0;
+    line-height: 1.5;
   }
 
   .paper-content :global(blockquote) {
-    border-left: 3px solid #ffffff;
+    border-left: 2px solid #666666;
     padding-left: 1rem;
     margin: 1.5rem 0;
     font-style: italic;
     color: #cccccc;
     background: #0a0a0a;
     padding: 1rem;
-    border-radius: 0 4px 4px 0;
+    border-radius: 0;
+    font-size: 0.95rem;
   }
 
   .paper-content :global(code) {
-    background: #222222;
+    background: #1a1a1a;
     color: #ffffff;
     padding: 0.125rem 0.25rem;
-    border-radius: 3px;
+    border-radius: 0;
     font-size: 0.875rem;
-    font-family: "JetBrains Mono", "SF Mono", Monaco, "Inconsolata", "Roboto Mono", "Source Code Pro", monospace;
+    font-family: "JetBrains Mono", "SF Mono", Monaco, "Inconsolata",
+      "Roboto Mono", "Source Code Pro", monospace;
     font-weight: 400;
+    border: 1px solid #333333;
   }
 
   .paper-content :global(pre) {
     background: #0a0a0a;
     color: #ffffff;
     padding: 1rem;
-    border-radius: 4px;
+    border-radius: 0;
     overflow-x: auto;
-    margin: 1rem 0;
+    margin: 1.25rem 0;
     border: 1px solid #333333;
     font-family: "JetBrains Mono", monospace;
     font-size: 0.875rem;
@@ -272,17 +278,17 @@ const { Content } = await paper.render();
   }
 
   .btn {
-    padding: 0.75rem 1.5rem;
+    padding: 0.5rem 1rem;
     border: none;
-    border-radius: 4px;
-    font-weight: 500;
+    border-radius: 0;
+    font-weight: 400;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: none;
     text-decoration: none;
     display: inline-block;
     text-align: center;
     font-family: "Plus Jakarta Sans", sans-serif;
-    letter-spacing: 0.01em;
+    letter-spacing: 0;
     font-size: 0.9rem;
   }
 
@@ -296,10 +302,13 @@ const { Content } = await paper.render();
     background: #000000;
     color: #ffffff;
     border-color: #ffffff;
-    transform: translateY(-1px);
   }
 
   @media (max-width: 768px) {
+    .paper-detail {
+      padding: 0 1rem;
+    }
+
     .paper-article {
       padding: 1.5rem;
     }
@@ -312,17 +321,23 @@ const { Content } = await paper.render();
       gap: 0.75rem;
     }
 
+    .paper-content {
+      font-size: 0.95rem;
+    }
+
     .actions {
       flex-direction: column;
       align-items: stretch;
     }
 
     .paper-content :global(h2) {
-      font-size: 1.25rem;
+      font-size: 1.125rem;
+      margin: 1.5rem 0 0.75rem 0;
     }
 
     .paper-content :global(h3) {
-      font-size: 1.125rem;
+      font-size: 1.0625rem;
+      margin: 1.25rem 0 0.5rem 0;
     }
   }
 </style>
