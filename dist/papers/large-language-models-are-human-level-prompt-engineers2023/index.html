@@ -1,0 +1,133 @@
+<!DOCTYPE html><html lang="ja" data-astro-cid-sckkx6r4> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><meta name="generator" content="Astro v5.9.0"><meta name="theme-color" content="#000000"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="論文メモ"><title>Large Language Models Are Human-Level Prompt Engineers(2023) - 論文メモ</title><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200;300;400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet"><link rel="stylesheet" href="/_astro/index.BIxmZDUn.css">
+<link rel="stylesheet" href="/_astro/_slug_.DHoW2UWA.css"></head> <body data-astro-cid-sckkx6r4> <header class="header" data-astro-cid-sckkx6r4> <div class="container" data-astro-cid-sckkx6r4> <h1 data-astro-cid-sckkx6r4><a href="/" data-astro-cid-sckkx6r4>神林 論文読み履歴</a></h1> <nav class="nav" data-astro-cid-sckkx6r4> <a href="/" class="nav-link" data-astro-cid-sckkx6r4>ホーム</a> </nav> </div> </header> <main class="main" data-astro-cid-sckkx6r4> <div class="container" data-astro-cid-sckkx6r4>  <div class="paper-detail" data-astro-cid-tvrprqhi> <!-- パンくずリスト --> <nav class="breadcrumb" data-astro-cid-tvrprqhi> <a href="/" class="breadcrumb-link" data-astro-cid-tvrprqhi>ホーム</a> <span class="breadcrumb-separator" data-astro-cid-tvrprqhi>›</span> <span class="breadcrumb-current" data-astro-cid-tvrprqhi>論文詳細</span> </nav> <div class="navigation" data-astro-cid-tvrprqhi> <a href="/" class="back-link" data-astro-cid-tvrprqhi>← 論文一覧に戻る</a> </div> <article class="paper-article" data-astro-cid-tvrprqhi> <header class="paper-header" data-astro-cid-tvrprqhi> <h1 data-astro-cid-tvrprqhi>Large Language Models Are Human-Level Prompt Engineers(2023)</h1> <div class="paper-meta" data-astro-cid-tvrprqhi> <div class="read-date" data-astro-cid-tvrprqhi>
+読了日: 2025/6/6 </div> </div> </header> <div class="paper-content" data-astro-cid-tvrprqhi> <h2 id="著者">著者</h2>
+<p><a href="https://arxiv.org/search/cs?searchtype=author&#x26;query=Zhou,+Y">Yongchao Zhou</a>, <a href="https://arxiv.org/search/cs?searchtype=author&#x26;query=Muresanu,+A+I">Andrei Ioan Muresanu</a>, <a href="https://arxiv.org/search/cs?searchtype=author&#x26;query=Han,+Z">Ziwen Han</a>, <a href="https://arxiv.org/search/cs?searchtype=author&#x26;query=Paster,+K">Keiran Paster</a>, <a href="https://arxiv.org/search/cs?searchtype=author&#x26;query=Pitis,+S">Silviu Pitis</a>, <a href="https://arxiv.org/search/cs?searchtype=author&#x26;query=Chan,+H">Harris Chan</a>, <a href="https://arxiv.org/search/cs?searchtype=author&#x26;query=Ba,+J">Jimmy Ba</a></p>
+<h2 id="arxivリンク">arXivリンク</h2>
+<p><a href="https://arxiv.org/abs/2211.01910">https://arxiv.org/abs/2211.01910</a></p>
+<h2 id="要約">要約</h2>
+<ul>
+<li>プロンプトエンジニアリングを自動化する「Automatic Prompt Engineer (APE)」を提案</li>
+<li>ざっくり<strong>LLMにLLMのプロンプトを考えさせる</strong>手法。</li>
+<li>APEは人間が時間をかけて考えたものと同等かそれ以上の性能を達成</li>
+<li>APEのステップ
+<ul>
+<li>LLMに「こういう入力をしたらこういう出力をする」という例を見せて、指示文の候補をいっぱい作らせる</li>
+<li>候補を試し、その結果をスコアリング</li>
+<li>最も高いスコアの指示を最良のプロンプトとする</li>
+</ul>
+</li>
+</ul>
+<h2 id="abstract">Abstract</h2>
+<ul>
+<li>LLMは汎用的でいいけど「人間が望むことをさせる」のって難しいよね
+<ul>
+<li>→プロンプト大事</li>
+</ul>
+</li>
+<li>幅広いプロンプトを試す必要があるけどどの指示がどのモデルでいいのかわからない</li>
+<li>LLMを自然言語でプログラムが指定されるブラックボックスなコンピュータとみなそう</li>
+</ul>
+<h3 id="提案手法ape">提案手法(APE)</h3>
+<p>ゼロショット学習において24件中24件のInstruction Inductionタスクと21件中17件のBig-Benchタスクで人間レベルの性能を達成</p>
+<h2 id="apeのアルゴリズムお気持ちベース">APEのアルゴリズム(お気持ちベース)</h2>
+<h3 id="提案評価とフィルタリング選択のサイクルを自動化">“提案→評価とフィルタリング→選択”のサイクルを自動化</h3>
+<h3 id="指示候補の提案">指示候補の提案</h3>
+<ul>
+<li>LLMにタスクの入出力例を見せ、タスクの遂行用指示文をいっぱい考えさせる。</li>
+<li>順方向生成
+<ul>
+<li>例を先に提示し、最後にこういう指示でしたと続ける</li>
+</ul>
+</li>
+<li>逆方向生成
+<ul>
+<li>&#x3C;ここに指示を挿入>的な感じで穴埋め問題にして、その後に例を提示</li>
+</ul>
+</li>
+</ul>
+<h3 id="評価フィルタリング">評価・フィルタリング</h3>
+<p>指示候補を使って、実際に別のLLMにタスクを解かせ、その性能をスコア付け</p>
+<h4 id="評価基準">評価基準</h4>
+<ul>
+<li><strong>実行精度 (Execution accuracy)</strong>: 指示通りにタスクを実行した結果が、想定される正解と一致したかどうかで評価</li>
+<li><strong>対数尤度 (Log probability)</strong>: どれだけ正解に近い答えを生成できそうかを確率で評価</li>
+</ul>
+<h4 id="フィルタリング">フィルタリング</h4>
+<ul>
+<li>少数の訓練データで候補を評価</li>
+<li>スコアが良かった上位数パーを残して破棄</li>
+<li>残ったものを別の訓練データで再評価</li>
+<li>これを繰り返して少数の交互に絞る</li>
+</ul>
+<h4 id="選択">選択</h4>
+<ul>
+<li>フィルタリングで残った候補から最も高いスコアのものを採用</li>
+</ul>
+<h2 id="apeを使った結果">APEを使った結果</h2>
+<ul>
+<li>ゼロショットで24個のInstruction Inductionタスク全てにおいて、人間が作成したプロンプトと同等かそれ以上の性能を達成</li>
+<li>フューショットで24タスク中21タスクで性能が向上するか、同等の結果</li>
+<li>高難易度タスク(BIG-Bench)でも17/21で同等かそれ以上</li>
+</ul>
+<h2 id="いい感じの発見">いい感じの発見</h2>
+<h3 id="zero-shot-chain-of-thought">Zero-shot Chain-of-Thought</h3>
+<ul>
+<li>“Let’s think step by step.”をAPEが改善
+<ul>
+<li>“Let’s work this out in a step by step way to be sure we have the right answer”のほうがいいらしい</li>
+</ul>
+</li>
+</ul>
+<h3 id="truthfulqa">TruthfulQA</h3>
+<ul>
+<li>APEがLLMの応答スタイルを制御して「真実性」と「情報提供性」のトレードオフを発見
+<ul>
+<li>真実性をあげるために嘘をつかせないプロンプト(you have no comment→回答を拒否する選択肢をあたえる)をAPEが見つけた</li>
+</ul>
+</li>
+</ul>
+<h2 id="結論">結論</h2>
+<p>人間による入力を最小限にしつつ、最適なプロンプトをみつける方法としてAPEは有用</p>
+<h2 id="感想">感想</h2>
+<ul>
+<li>プロンプト集みたいなのがよくネットに転がってるけどこういうのでちゃんと性能が確認されているのか気になった。</li>
+<li>人間が直感的にわかりやすいプロンプトと、LLMがいい性能を示すプロンプトがちょっとちがっておもろい</li>
+<li>モデル間でも最適なプロンプトがちがって、InstractGPTで最適なプロンプトをGPT-3で用いるとスコアが下がることがあるらしい←自分が使ってるモデルで最適なのを調べる必要あり</li>
+<li>↑モデルごと違うならそれこそ自動化とかしないと見つけるの大変そう</li>
+</ul> </div> </article> <div class="actions" data-astro-cid-tvrprqhi> <a href="/" class="btn btn-primary" data-astro-cid-tvrprqhi>一覧に戻る</a> </div> </div>  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      // スムーズスクロール効果
+      const links = document.querySelectorAll('a[href^="#"]');
+      links.forEach((link) => {
+        link.addEventListener("click", (e) => {
+          const href = link.getAttribute("href");
+          if (href && href !== "#") {
+            const target = document.querySelector(href);
+            if (target) {
+              e.preventDefault();
+              target.scrollIntoView({
+                behavior: "smooth",
+                block: "start",
+              });
+            }
+          }
+        });
+      });
+
+      // 読書進捗インジケーター
+      const progressBar = document.createElement("div");
+      progressBar.className = "reading-progress";
+      document.body.appendChild(progressBar);
+
+      function updateProgress() {
+        const scrollTop = window.pageYOffset;
+        const docHeight =
+          document.documentElement.scrollHeight - window.innerHeight;
+        const progress = (scrollTop / docHeight) * 100;
+        progressBar.style.width = progress + "%";
+      }
+
+      window.addEventListener("scroll", updateProgress);
+      updateProgress();
+    });
+  </script>  </div> </main> <footer class="footer" data-astro-cid-sckkx6r4> <div class="container" data-astro-cid-sckkx6r4> <p data-astro-cid-sckkx6r4>&copy; 2025 神林 論文読み履歴</p> </div> </footer> </body></html> 

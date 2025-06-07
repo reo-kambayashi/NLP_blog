@@ -1,0 +1,120 @@
+<!DOCTYPE html><html lang="ja" data-astro-cid-sckkx6r4> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><meta name="generator" content="Astro v5.9.0"><meta name="theme-color" content="#000000"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="論文メモ"><title>The Llama 3 Herd of Models(2024) - 論文メモ</title><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200;300;400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet"><link rel="stylesheet" href="/_astro/index.BIxmZDUn.css">
+<link rel="stylesheet" href="/_astro/_slug_.DHoW2UWA.css"></head> <body data-astro-cid-sckkx6r4> <header class="header" data-astro-cid-sckkx6r4> <div class="container" data-astro-cid-sckkx6r4> <h1 data-astro-cid-sckkx6r4><a href="/" data-astro-cid-sckkx6r4>神林 論文読み履歴</a></h1> <nav class="nav" data-astro-cid-sckkx6r4> <a href="/" class="nav-link" data-astro-cid-sckkx6r4>ホーム</a> </nav> </div> </header> <main class="main" data-astro-cid-sckkx6r4> <div class="container" data-astro-cid-sckkx6r4>  <div class="paper-detail" data-astro-cid-tvrprqhi> <!-- パンくずリスト --> <nav class="breadcrumb" data-astro-cid-tvrprqhi> <a href="/" class="breadcrumb-link" data-astro-cid-tvrprqhi>ホーム</a> <span class="breadcrumb-separator" data-astro-cid-tvrprqhi>›</span> <span class="breadcrumb-current" data-astro-cid-tvrprqhi>論文詳細</span> </nav> <div class="navigation" data-astro-cid-tvrprqhi> <a href="/" class="back-link" data-astro-cid-tvrprqhi>← 論文一覧に戻る</a> </div> <article class="paper-article" data-astro-cid-tvrprqhi> <header class="paper-header" data-astro-cid-tvrprqhi> <h1 data-astro-cid-tvrprqhi>The Llama 3 Herd of Models(2024)</h1> <div class="paper-meta" data-astro-cid-tvrprqhi> <div class="read-date" data-astro-cid-tvrprqhi>
+読了日: 2025/6/7 </div> </div> </header> <div class="paper-content" data-astro-cid-tvrprqhi> <h2 id="arxiv">arXiv</h2>
+<p><a href="https://arxiv.org/abs/2407.21783">https://arxiv.org/abs/2407.21783</a></p>
+<h2 id="要約">要約</h2>
+<ul>
+<li>Llama-3に関する研究開発</li>
+<li>15.6トークンで学習された8B,70B,405Bのdense Transformer</li>
+<li>128Kトークンのコンテクストウィンドウ</li>
+<li><strong>DPO！！！</strong></li>
+<li>4oとかClaude3.5とかに匹敵するレベル</li>
+<li>Llama-2 70BとLlama-3 8Bが同じぐらいの性能</li>
+</ul>
+<h2 id="学習方法">学習方法</h2>
+<ol>
+<li>教師なし学習により、大量のテキストコーパスから学習</li>
+<li>現在のモデルでプリファレンスデータ（出力を人手で比較評価したやつ）を作成し、報酬モデリングを実施</li>
+<li>現在のモデル＋報酬モデルSFT用のデータを作成し、ベースモデルをチューニング</li>
+<li>プリファレンスデータをLLMにマッチさせるようにDPOでベストモデルを更新</li>
+</ol>
+<h2 id="開発における3つの主要要素">開発における3つの主要要素</h2>
+<h3 id="データ">データ</h3>
+<ul>
+<li>事前、事後両方の学習でのデータの質と量が向上</li>
+<li>データミックスは、一般知識50％、数学的推論25％、コード17％、多言語トークン8％</li>
+<li>安全性のためのデータフィルタリング</li>
+</ul>
+<h3 id="スケール">スケール</h3>
+<ul>
+<li>Llama 2の最大verより約50倍の計算量でモデルを訓練</li>
+</ul>
+<h3 id="複雑性の管理">複雑性の管理</h3>
+<ul>
+<li>標準のdense Transformerのアーキテクチャを採用</li>
+<li>MoEは複雑だから避けて安定性重視
+<ul>
+<li>MoEってなんですかの人はこちら</li>
+<li><a href="https://www.ibm.com/jp-ja/think/topics/mixture-of-experts">https://www.ibm.com/jp-ja/think/topics/mixture-of-experts</a></li>
+</ul>
+</li>
+</ul>
+<h2 id="llama-2からの変更点">Llama 2からの変更点</h2>
+<h3 id="ppo--dpo">PPO → DPO</h3>
+<ul>
+<li>ここで出てきますねDPO</li>
+</ul>
+<h3 id="データ量">データ量</h3>
+<ul>
+<li>1.8兆tokens → 15兆tokens</li>
+</ul>
+<h3 id="モデルアーキテクチャの微変更">モデルアーキテクチャの微変更</h3>
+<ul>
+<li>Grouped Query Attention(GQA)の採用
+<ul>
+<li>GQAのGemini解説: <a href="https://g.co/gemini/share/5a3c1c47f73d">https://g.co/gemini/share/5a3c1c47f73d</a></li>
+<li>推論速度向上</li>
+<li>デコード中のキャッシュサイズ削減</li>
+</ul>
+</li>
+<li>トークンボキャブラリの拡張
+<ul>
+<li>tiktokenトークナイザの100K+非英語言語用の28Kトークン</li>
+<li>英語データの圧縮率が3.17文字/token から3.94文字/token に向上
+<ul>
+<li>同じ計算量でいっぱい読める</li>
+</ul>
+</li>
+<li>RoPEベースの周波数ハイパラが増加
+<ul>
+<li>RoPEは位置情報を位置の加算じゃなくて回転するやつ</li>
+<li>500,000に増加(何が嬉しいのかよくわからなかった)</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="感想">感想</h2>
+<ul>
+<li>もうDPOしか頭に入ってこなかった</li>
+<li>RoPEのところの話があんまり理解できなかった</li>
+<li>やっぱりLlamaは安全性にすごい気を使っていそう</li>
+</ul>
+<h2 id="著者多すぎ">著者(多すぎ)</h2>
+<p><a href="https://arxiv.org/search/cs?searchtype=author&#x26;query=Grattafiori,+A">Aaron Grattafiori</a>, <a href="https://arxiv.org/search/cs?searchtype=author&#x26;query=Dubey,+A">Abhimanyu Dubey</a>, <a href="https://arxiv.org/search/cs?searchtype=author&#x26;query=Jauhri,+A">Abhinav Jauhri</a>, <a href="https://arxiv.org/search/cs?searchtype=author&#x26;query=Pandey,+A">Abhinav Pandey</a>, <a href="https://arxiv.org/search/cs?searchtype=author&#x26;query=Kadian,+A">Abhishek Kadian</a>, <a href="https://arxiv.org/search/cs?searchtype=author&#x26;query=Al-Dahle,+A">Ahmad Al-Dahle</a>, <a href="https://arxiv.org/search/cs?searchtype=author&#x26;query=Letman,+A">Aiesha Letman</a>, <a href="https://arxiv.org/search/cs?searchtype=author&#x26;query=Mathur,+A">Akhil Mathur</a>, <a href="https://arxiv.org/search/cs?searchtype=author&#x26;query=Schelten,+A">Alan Schelten</a>, <a href="https://arxiv.org/search/cs?searchtype=author&#x26;query=Vaughan,+A">Alex Vaughan</a>, <a href="https://arxiv.org/search/cs?searchtype=author&#x26;query=Yang,+A">Amy Yang</a>, <a href="https://arxiv.org/search/cs?searchtype=author&#x26;query=Fan,+A">Angela Fan</a>, <a href="https://arxiv.org/search/cs?searchtype=author&#x26;query=Goyal,+A">Anirudh Goyal</a>, <a href="https://arxiv.org/search/cs?searchtype=author&#x26;query=Hartshorn,+A">Anthony Hartshorn</a>, <a href="https://arxiv.org/search/cs?searchtype=author&#x26;query=Yang,+A">Aobo Yang</a>, <a href="https://arxiv.org/search/cs?searchtype=author&#x26;query=Mitra,+A">Archi Mitra</a>, <a href="https://arxiv.org/search/cs?searchtype=author&#x26;query=Archie">Archie Sravankumar</a>, <a href="https://arxiv.org/search/cs?searchtype=author&#x26;query=Korenev,+A">Artem Korenev</a>, <a href="https://arxiv.org/search/cs?searchtype=author&#x26;query=Hinsvark,+A">Arthur Hinsvark</a>, <a href="https://arxiv.org/search/cs?searchtype=author&#x26;query=Rao,+A">Arun Rao</a>, <a href="https://arxiv.org/search/cs?searchtype=author&#x26;query=Zhang,+A">Aston Zhang</a>, <a href="https://arxiv.org/search/cs?searchtype=author&#x26;query=Rodriguez,+A">Aurelien Rodriguez</a>, <a href="https://arxiv.org/search/cs?searchtype=author&#x26;query=Gregerson,+A">Austen Gregerson</a>, <a href="https://arxiv.org/search/cs?searchtype=author&#x26;query=Spataru,+A">Ava Spataru</a>, <a href="https://arxiv.org/search/cs?searchtype=author&#x26;query=Roziere,+B">Baptiste Roziere</a>, <a href="https://arxiv.org/search/cs?searchtype=author&#x26;query=Biron,+B">Bethany Biron</a>, <a href="https://arxiv.org/search/cs?searchtype=author&#x26;query=Tang,+B">Binh Tang</a>, <a href="https://arxiv.org/search/cs?searchtype=author&#x26;query=Chern,+B">Bobbie Chern</a>, <a href="https://arxiv.org/search/cs?searchtype=author&#x26;query=Caucheteux,+C">Charlotte Caucheteux</a>, <a href="https://arxiv.org/search/cs?searchtype=author&#x26;query=Nayak,+C">Chaya Nayak</a>, <a href="https://arxiv.org/search/cs?searchtype=author&#x26;query=Bi,+C">Chloe Bi</a>, <a href="https://arxiv.org/search/cs?searchtype=author&#x26;query=Marra,+C">Chris Marra</a>, <a href="https://arxiv.org/search/cs?searchtype=author&#x26;query=McConnell,+C">Chris McConnell</a>, <a href="https://arxiv.org/search/cs?searchtype=author&#x26;query=Keller,+C">Christian Keller</a>, <a href="https://arxiv.org/search/cs?searchtype=author&#x26;query=Touret,+C">Christophe Touret</a>, <a href="https://arxiv.org/search/cs?searchtype=author&#x26;query=Wu,+C">Chunyang Wu</a>, <a href="https://arxiv.org/search/cs?searchtype=author&#x26;query=Wong,+C">Corinne Wong</a>, <a href="https://arxiv.org/search/cs?searchtype=author&#x26;query=Ferrer,+C+C">Cristian Canton Ferrer</a>, <a href="https://arxiv.org/search/cs?searchtype=author&#x26;query=Nikolaidis,+C">Cyrus Nikolaidis</a>, <a href="https://arxiv.org/search/cs?searchtype=author&#x26;query=Allonsius,+D">Damien Allonsius</a>, <a href="https://arxiv.org/search/cs?searchtype=author&#x26;query=Song,+D">Daniel Song</a>, <a href="https://arxiv.org/search/cs?searchtype=author&#x26;query=Pintz,+D">Danielle Pintz</a>, <a href="https://arxiv.org/search/cs?searchtype=author&#x26;query=Livshits,+D">Danny Livshits</a>, <a href="https://arxiv.org/search/cs?searchtype=author&#x26;query=Wyatt,+D">Danny Wyatt</a>, <a href="https://arxiv.org/search/cs?searchtype=author&#x26;query=Esiobu,+D">David Esiobu</a>, <a href="https://arxiv.org/search/cs?searchtype=author&#x26;query=Choudhary,+D">Dhruv Choudhary</a>, <a href="https://arxiv.org/search/cs?searchtype=author&#x26;query=Mahajan,+D">Dhruv Mahajan</a>, <a href="https://arxiv.org/search/cs?searchtype=author&#x26;query=Garcia-Olano,+D">Diego Garcia-Olano</a>, <a href="https://arxiv.org/search/cs?searchtype=author&#x26;query=Perino,+D">Diego Perino</a>, <a href="https://arxiv.org/search/cs?searchtype=author&#x26;query=Hupkes,+D">Dieuwke Hupkes</a>, <a href="https://arxiv.org/search/cs?searchtype=author&#x26;query=Lakomkin,+E">Egor Lakomkin</a>, <a href="https://arxiv.org/search/cs?searchtype=author&#x26;query=AlBadawy,+E">Ehab AlBadawy</a>, <a href="https://arxiv.org/search/cs?searchtype=author&#x26;query=Lobanova,+E">Elina Lobanova</a>, <a href="https://arxiv.org/search/cs?searchtype=author&#x26;query=Dinan,+E">Emily Dinan</a>, <a href="https://arxiv.org/search/cs?searchtype=author&#x26;query=Smith,+E+M">Eric Michael Smith</a>, <a href="https://arxiv.org/search/cs?searchtype=author&#x26;query=Radenovic,+F">Filip Radenovic</a>, <a href="https://arxiv.org/search/cs?searchtype=author&#x26;query=Guzm%C3%A1n,+F">Francisco Guzmán</a>, <a href="https://arxiv.org/search/cs?searchtype=author&#x26;query=Zhang,+F">Frank Zhang</a>, <a href="https://arxiv.org/search/cs?searchtype=author&#x26;query=Synnaeve,+G">Gabriel Synnaeve</a>, <a href="https://arxiv.org/search/cs?searchtype=author&#x26;query=Lee,+G">Gabrielle Lee</a>, <a href="https://arxiv.org/search/cs?searchtype=author&#x26;query=Anderson,+G+L">Georgia Lewis Anderson</a>, <a href="https://arxiv.org/search/cs?searchtype=author&#x26;query=Thattai,+G">Govind Thattai</a>, <a href="https://arxiv.org/search/cs?searchtype=author&#x26;query=Nail,+G">Graeme Nail</a>, <a href="https://arxiv.org/search/cs?searchtype=author&#x26;query=Mialon,+G">Gregoire Mialon</a>, <a href="https://arxiv.org/search/cs?searchtype=author&#x26;query=Pang,+G">Guan Pang</a>, <a href="https://arxiv.org/search/cs?searchtype=author&#x26;query=Cucurell,+G">Guillem Cucurell</a>, <a href="https://arxiv.org/search/cs?searchtype=author&#x26;query=Nguyen,+H">Hailey Nguyen</a>, <a href="https://arxiv.org/search/cs?searchtype=author&#x26;query=Korevaar,+H">Hannah Korevaar</a>, <a href="https://arxiv.org/search/cs?searchtype=author&#x26;query=Xu,+H">Hu Xu</a>, <a href="https://arxiv.org/search/cs?searchtype=author&#x26;query=Touvron,+H">Hugo Touvron</a>, <a href="https://arxiv.org/search/cs?searchtype=author&#x26;query=Zarov,+I">Iliyan Zarov</a>, <a href="https://arxiv.org/search/cs?searchtype=author&#x26;query=Ibarra,+I+A">Imanol Arrieta Ibarra</a>, <a href="https://arxiv.org/search/cs?searchtype=author&#x26;query=Kloumann,+I">Isabel Kloumann</a>, <a href="https://arxiv.org/search/cs?searchtype=author&#x26;query=Misra,+I">Ishan Misra</a>, <a href="https://arxiv.org/search/cs?searchtype=author&#x26;query=Evtimov,+I">Ivan Evtimov</a>, <a href="https://arxiv.org/search/cs?searchtype=author&#x26;query=Zhang,+J">Jack Zhang</a>, <a href="https://arxiv.org/search/cs?searchtype=author&#x26;query=Copet,+J">Jade Copet</a>, <a href="https://arxiv.org/search/cs?searchtype=author&#x26;query=Lee,+J">Jaewon Lee</a>, <a href="https://arxiv.org/search/cs?searchtype=author&#x26;query=Geffert,+J">Jan Geffert</a>, <a href="https://arxiv.org/search/cs?searchtype=author&#x26;query=Vranes,+J">Jana Vranes</a>, <a href="https://arxiv.org/search/cs?searchtype=author&#x26;query=Park,+J">Jason Park</a>, <a href="https://arxiv.org/search/cs?searchtype=author&#x26;query=Mahadeokar,+J">Jay Mahadeokar</a>, <a href="https://arxiv.org/search/cs?searchtype=author&#x26;query=Shah,+J">Jeet Shah</a>, <a href="https://arxiv.org/search/cs?searchtype=author&#x26;query=van+der+Linde,+J">Jelmer van der Linde</a>, <a href="https://arxiv.org/search/cs?searchtype=author&#x26;query=Billock,+J">Jennifer Billock</a>, <a href="https://arxiv.org/search/cs?searchtype=author&#x26;query=Hong,+J">Jenny Hong</a>, <a href="https://arxiv.org/search/cs?searchtype=author&#x26;query=Lee,+J">Jenya Lee</a>, <a href="https://arxiv.org/search/cs?searchtype=author&#x26;query=Fu,+J">Jeremy Fu</a>, <a href="https://arxiv.org/search/cs?searchtype=author&#x26;query=Chi,+J">Jianfeng Chi</a>, <a href="https://arxiv.org/search/cs?searchtype=author&#x26;query=Huang,+J">Jianyu Huang</a>, <a href="https://arxiv.org/search/cs?searchtype=author&#x26;query=Liu,+J">Jiawen Liu</a>, <a href="https://arxiv.org/search/cs?searchtype=author&#x26;query=Wang,+J">Jie Wang</a>, <a href="https://arxiv.org/search/cs?searchtype=author&#x26;query=Yu,+J">Jiecao Yu</a>, <a href="https://arxiv.org/search/cs?searchtype=author&#x26;query=Bitton,+J">Joanna Bitton</a>, <a href="https://arxiv.org/search/cs?searchtype=author&#x26;query=Spisak,+J">Joe Spisak</a>, <a href="https://arxiv.org/search/cs?searchtype=author&#x26;query=Park,+J">Jongsoo Park</a>, <a href="https://arxiv.org/search/cs?searchtype=author&#x26;query=Rocca,+J">Joseph Rocca</a>, <a href="https://arxiv.org/search/cs?searchtype=author&#x26;query=Johnstun,+J">Joshua Johnstun</a>, <a href="https://arxiv.org/search/cs?searchtype=author&#x26;query=Saxe,+J">Joshua Saxe</a>, <a href="https://arxiv.org/search/cs?searchtype=author&#x26;query=Jia,+J">Junteng Jia</a> et al. (460 additional authors not shown)</p> </div> </article> <div class="actions" data-astro-cid-tvrprqhi> <a href="/" class="btn btn-primary" data-astro-cid-tvrprqhi>一覧に戻る</a> </div> </div>  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      // スムーズスクロール効果
+      const links = document.querySelectorAll('a[href^="#"]');
+      links.forEach((link) => {
+        link.addEventListener("click", (e) => {
+          const href = link.getAttribute("href");
+          if (href && href !== "#") {
+            const target = document.querySelector(href);
+            if (target) {
+              e.preventDefault();
+              target.scrollIntoView({
+                behavior: "smooth",
+                block: "start",
+              });
+            }
+          }
+        });
+      });
+
+      // 読書進捗インジケーター
+      const progressBar = document.createElement("div");
+      progressBar.className = "reading-progress";
+      document.body.appendChild(progressBar);
+
+      function updateProgress() {
+        const scrollTop = window.pageYOffset;
+        const docHeight =
+          document.documentElement.scrollHeight - window.innerHeight;
+        const progress = (scrollTop / docHeight) * 100;
+        progressBar.style.width = progress + "%";
+      }
+
+      window.addEventListener("scroll", updateProgress);
+      updateProgress();
+    });
+  </script>  </div> </main> <footer class="footer" data-astro-cid-sckkx6r4> <div class="container" data-astro-cid-sckkx6r4> <p data-astro-cid-sckkx6r4>&copy; 2025 神林 論文読み履歴</p> </div> </footer> </body></html> 

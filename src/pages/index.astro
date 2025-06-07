@@ -1,47 +1,34 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import PaperCardMD from "../components/PaperCardMD.astro";
-import { getCollection } from "astro:content";
+import { getCollection, type CollectionEntry } from "astro:content";
+import { sortPapersByDate, calculatePaperStats } from "../utils/paper";
+
+type Paper = CollectionEntry<"papers">;
 
 // Content Collectionsから論文を取得
-const papers = await getCollection("papers");
+const papers: Paper[] = await getCollection("papers");
 
 // 日付でソート（新しい順）
-const sortedPapers = papers.sort(
-  (a: any, b: any) =>
-    new Date(b.data.date).getTime() - new Date(a.data.date).getTime()
-);
-
-const totalPapers = papers.length;
+const sortedPapers = sortPapersByDate(papers);
 
 // 統計情報を計算
-const currentYear = new Date().getFullYear();
-const currentMonth = new Date().getMonth() + 1;
-const thisYearPapers = papers.filter(
-  (paper) => new Date(paper.data.date).getFullYear() === currentYear
-).length;
-const thisMonthPapers = papers.filter((paper) => {
-  const paperDate = new Date(paper.data.date);
-  return (
-    paperDate.getFullYear() === currentYear &&
-    paperDate.getMonth() + 1 === currentMonth
-  );
-}).length;
+const stats = calculatePaperStats(papers);
 ---
 
 <Layout title="論文メモ">
   <div class="hero">
     <h1>Papers</h1>
-    <p class="subtitle">{totalPapers} papers collected</p>
+    <p class="subtitle">{stats.total} papers collected</p>
 
     <!-- 統計情報 -->
     <div class="stats">
       <div class="stat-item">
-        <span class="stat-number">{thisYearPapers}</span>
+        <span class="stat-number">{stats.thisYear}</span>
         <span class="stat-label">今年</span>
       </div>
       <div class="stat-item">
-        <span class="stat-number">{thisMonthPapers}</span>
+        <span class="stat-number">{stats.thisMonth}</span>
         <span class="stat-label">今月</span>
       </div>
     </div>
@@ -77,7 +64,7 @@ const thisMonthPapers = papers.filter((paper) => {
         </div>
       ) : (
         <div class="papers-grid" id="papersGrid">
-          {sortedPapers.map((paper: any, index: number) => (
+          {sortedPapers.map((paper: Paper, index: number) => (
             <div
               class="paper-card-wrapper"
               style={`--card-index: ${index}; animation-delay: ${index * 0.1}s`}
@@ -103,6 +90,17 @@ const thisMonthPapers = papers.filter((paper) => {
 
       if (!searchInput || !yearFilter || !papersGrid) return;
 
+      // モバイルでのタッチサポート改善
+      const isMobile = window.innerWidth <= 768;
+
+      if (isMobile) {
+        // モバイルでは検索入力時の遅延を短縮
+        searchInput.setAttribute("autocomplete", "off");
+        searchInput.setAttribute("autocorrect", "off");
+        searchInput.setAttribute("autocapitalize", "off");
+        searchInput.setAttribute("spellcheck", "false");
+      }
+
       // 年フィルターの選択肢を動的に生成
       const years = [
         ...new Set(
@@ -119,25 +117,33 @@ const thisMonthPapers = papers.filter((paper) => {
         }
       });
 
+      // デバウンス機能付きフィルター関数
+      let filterTimeout;
       function filterPapers() {
-        const searchTerm = (searchInput.value || "").toLowerCase();
-        const selectedYear = yearFilter.value;
+        if (filterTimeout) clearTimeout(filterTimeout);
 
-        paperCards.forEach((card) => {
-          const title = card.getAttribute("data-title") || "";
-          const year = card.getAttribute("data-year") || "";
+        const delay = isMobile ? 150 : 50; // モバイルでは少し長めの遅延
 
-          const matchesSearch = !searchTerm || title.includes(searchTerm);
-          const matchesYear = !selectedYear || year === selectedYear;
+        filterTimeout = setTimeout(() => {
+          const searchTerm = (searchInput.value || "").toLowerCase();
+          const selectedYear = yearFilter.value;
 
-          const cardElement = card;
-          if (matchesSearch && matchesYear) {
-            cardElement.style.display = "block";
-            cardElement.style.animation = "fadeInUp 0.3s ease forwards";
-          } else {
-            cardElement.style.display = "none";
-          }
-        });
+          paperCards.forEach((card) => {
+            const title = card.getAttribute("data-title") || "";
+            const year = card.getAttribute("data-year") || "";
+
+            const matchesSearch = !searchTerm || title.includes(searchTerm);
+            const matchesYear = !selectedYear || year === selectedYear;
+
+            const cardElement = card;
+            if (matchesSearch && matchesYear) {
+              cardElement.style.display = "block";
+              cardElement.style.animation = "fadeInUp 0.3s ease forwards";
+            } else {
+              cardElement.style.display = "none";
+            }
+          });
+        }, delay);
       }
 
       searchInput.addEventListener("input", filterPapers);
@@ -145,15 +151,31 @@ const thisMonthPapers = papers.filter((paper) => {
 
       // ページロード時のアニメーション
       paperCards.forEach((card, index) => {
-        setTimeout(() => {
-          card.classList.add("animate-in");
-        }, index * 100);
+        setTimeout(
+          () => {
+            card.classList.add("animate-in");
+          },
+          index * (isMobile ? 50 : 100)
+        ); // モバイルでは少し速く
       });
 
       // カード要素にスタガーアニメーション遅延を適用
       paperCards.forEach((card, index) => {
-        card.style.animationDelay = `${index * 0.05}s`;
+        card.style.animationDelay = `${index * (isMobile ? 0.03 : 0.05)}s`;
       });
+
+      // モバイルでのスクロール改善
+      if (isMobile) {
+        // 検索フィールドがフォーカスされた時のスクロール調整
+        searchInput.addEventListener("focus", () => {
+          setTimeout(() => {
+            searchInput.scrollIntoView({
+              behavior: "smooth",
+              block: "center",
+            });
+          }, 300); // キーボードが表示されるまで少し待つ
+        });
+      }
     });
   </script>
 </Layout>
@@ -161,9 +183,15 @@ const thisMonthPapers = papers.filter((paper) => {
 <style>
   .hero {
     text-align: center;
-    padding: 2rem 0 1.5rem 0;
-    margin-bottom: 2rem;
+    padding: 3rem 0 2rem 0;
+    margin-bottom: 2.5rem;
     position: relative;
+    background: linear-gradient(
+      135deg,
+      rgba(74, 158, 255, 0.03) 0%,
+      transparent 100%
+    );
+    border-radius: 0;
   }
 
   .hero::after {
@@ -172,55 +200,89 @@ const thisMonthPapers = papers.filter((paper) => {
     bottom: 0;
     left: 50%;
     transform: translateX(-50%);
-    width: 30px;
+    width: 60px;
     height: 1px;
-    background: #666666;
+    background: linear-gradient(90deg, transparent, #4a9eff, transparent);
   }
 
   .hero h1 {
-    font-size: 2rem;
-    margin: 0 0 0.5rem 0;
-    font-weight: 400;
+    font-size: 2.5rem;
+    margin: 0 0 0.75rem 0;
+    font-weight: 300;
     color: #ffffff;
-    letter-spacing: 0;
+    letter-spacing: -0.025em;
     font-family: "Plus Jakarta Sans", sans-serif;
-    line-height: 1.2;
+    line-height: 1.1;
+    position: relative;
+  }
+
+  .hero h1::before {
+    content: "";
+    position: absolute;
+    top: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 40px;
+    height: 2px;
+    background: linear-gradient(90deg, #4a9eff, #66b3ff);
+    opacity: 0.6;
   }
 
   .subtitle {
-    color: #999999;
-    font-size: 0.9rem;
-    font-weight: 400;
-    margin: 0 0 1.5rem 0;
-    letter-spacing: 0;
+    color: #aaaaaa;
+    font-size: 0.95rem;
+    font-weight: 300;
+    margin: 0 0 2rem 0;
+    letter-spacing: 0.5px;
     font-family: "Plus Jakarta Sans", sans-serif;
   }
 
   .stats {
     display: flex;
     justify-content: center;
-    gap: 2rem;
-    margin-top: 1.5rem;
+    gap: 2.5rem;
+    margin-top: 2rem;
   }
 
   .stat-item {
     text-align: center;
     position: relative;
-    padding: 1rem 1.5rem;
-    background: #111111;
-    border: 1px solid #333333;
+    padding: 1.5rem 2rem;
+    background: linear-gradient(135deg, #111111 0%, #0a0a0a 100%);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 0;
-    transition: all 0.3s ease;
-    min-width: 80px;
-  }
-
-  .stat-item:hover {
-    border-color: #4a9eff;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(74, 158, 255, 0.1);
+    transition: all 0.4s ease;
+    min-width: 100px;
+    overflow: hidden;
   }
 
   .stat-item::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(74, 158, 255, 0.05),
+      transparent
+    );
+    transition: left 0.6s ease;
+  }
+
+  .stat-item:hover {
+    border-color: rgba(74, 158, 255, 0.4);
+    transform: translateY(-4px);
+    box-shadow: 0 8px 25px rgba(74, 158, 255, 0.15);
+  }
+
+  .stat-item:hover::before {
+    left: 100%;
+  }
+
+  .stat-item::after {
     content: "";
     position: absolute;
     top: 0;
@@ -230,35 +292,43 @@ const thisMonthPapers = papers.filter((paper) => {
     background: linear-gradient(90deg, #4a9eff, #66b3ff);
     transform: scaleX(0);
     transform-origin: left;
-    transition: transform 0.3s ease;
+    transition: transform 0.4s ease;
   }
 
-  .stat-item:hover::before {
+  .stat-item:hover::after {
     transform: scaleX(1);
   }
 
   .stat-number {
     display: block;
-    font-size: 1.5rem;
-    font-weight: 700;
+    font-size: 2rem;
+    font-weight: 600;
     color: #4a9eff;
     font-family: "Plus Jakarta Sans", sans-serif;
-    margin-bottom: 0.25rem;
+    margin-bottom: 0.5rem;
+    line-height: 1;
+    transition: all 0.3s ease;
+  }
+
+  .stat-item:hover .stat-number {
+    color: #66b3ff;
+    transform: scale(1.05);
   }
 
   .stat-label {
     display: block;
     font-size: 0.8rem;
-    color: #999999;
+    color: #aaaaaa;
     font-weight: 400;
-    letter-spacing: 0.5px;
+    letter-spacing: 0.75px;
+    text-transform: uppercase;
   }
 
   .controls {
     display: flex;
     justify-content: center;
-    gap: 1rem;
-    margin-bottom: 2rem;
+    gap: 1.5rem;
+    margin-bottom: 2.5rem;
     flex-wrap: wrap;
   }
 
@@ -267,45 +337,81 @@ const thisMonthPapers = papers.filter((paper) => {
     position: relative;
   }
 
+  .search-container::before,
+  .filter-container::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      45deg,
+      rgba(74, 158, 255, 0.1) 0%,
+      transparent 50%
+    );
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+    border-radius: 0;
+  }
+
+  .search-container:hover::before,
+  .filter-container:hover::before {
+    opacity: 1;
+  }
+
   .search-input,
   .filter-select {
-    background: #111111;
-    border: 1px solid #333333;
+    background: linear-gradient(135deg, #111111 0%, #0a0a0a 100%);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     color: #ffffff;
-    padding: 0.75rem 1rem;
+    padding: 1rem 1.25rem;
     border-radius: 0;
     font-family: "Plus Jakarta Sans", sans-serif;
     font-size: 0.9rem;
-    transition: border-color 0.2s ease;
-    min-width: 200px;
+    transition: all 0.3s ease;
+    min-width: 220px;
+    position: relative;
   }
 
   .search-input:focus,
   .filter-select:focus {
     outline: none;
-    border-color: #4a9eff;
+    border-color: rgba(74, 158, 255, 0.6);
+    box-shadow: 0 0 0 3px rgba(74, 158, 255, 0.1);
+    transform: translateY(-2px);
   }
 
   .search-input::placeholder {
-    color: #666666;
+    color: #888888;
+    transition: color 0.3s ease;
+  }
+
+  .search-input:focus::placeholder {
+    color: #aaaaaa;
   }
 
   .papers-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-    gap: 1.5rem;
-    margin-top: 1rem;
+    gap: 2rem;
+    margin-top: 1.5rem;
   }
 
   .paper-card-wrapper {
     opacity: 0;
-    transform: translateY(20px);
-    transition: all 0.3s ease;
+    transform: translateY(30px) scale(0.95);
+    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: transform, opacity;
+    position: relative;
+    z-index: 1;
+    isolation: isolate;
   }
 
   .paper-card-wrapper.animate-in {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateY(0) scale(1);
   }
 
   /* ローディング効果 */
@@ -313,30 +419,52 @@ const thisMonthPapers = papers.filter((paper) => {
     content: "読み込み中...";
     display: block;
     text-align: center;
-    color: #666666;
+    color: #888888;
     font-size: 0.9rem;
-    padding: 2rem;
+    padding: 3rem;
+    font-family: "Plus Jakarta Sans", sans-serif;
+    letter-spacing: 0.5px;
   }
 
   .empty-state {
     text-align: center;
-    padding: 3rem 2rem;
-    background: #111111;
-    border-radius: 4px;
-    border: 1px solid #333333;
+    padding: 4rem 2rem;
+    background: linear-gradient(135deg, #111111 0%, #0a0a0a 100%);
+    border-radius: 0;
+    border: 1px solid rgba(255, 255, 255, 0.1);
     margin: 2rem 0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .empty-state::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, #4a9eff, #66b3ff, #4a9eff);
   }
 
   .empty-icon {
-    font-size: 3rem;
-    margin-bottom: 1rem;
+    font-size: 4rem;
+    margin-bottom: 1.5rem;
+    filter: grayscale(1) opacity(0.6);
   }
 
   .empty-state p {
     color: #cccccc;
     font-size: 1rem;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.75rem;
     font-weight: 300;
+    line-height: 1.6;
+    font-family: "Plus Jakarta Sans", sans-serif;
+  }
+
+  .empty-state p:last-child {
+    color: #999999;
+    font-size: 0.9rem;
   }
 
   /* アニメーション */
@@ -353,7 +481,98 @@ const thisMonthPapers = papers.filter((paper) => {
 
   @media (max-width: 768px) {
     .hero {
-      padding: 1.5rem 1rem 1rem 1rem;
+      padding: 2rem 1rem 1.5rem 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero h1 {
+      font-size: 2rem;
+    }
+
+    .subtitle {
+      font-size: 0.9rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .stats {
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .stat-item {
+      padding: 1.25rem 1.5rem;
+      min-width: 120px;
+      flex: 1;
+    }
+
+    .stat-number {
+      font-size: 1.5rem;
+    }
+
+    .stat-label {
+      font-size: 0.75rem;
+    }
+
+    .controls {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 1rem;
+      margin-bottom: 2rem;
+      padding: 0 0.5rem;
+    }
+
+    .search-container,
+    .filter-container {
+      width: 100%;
+    }
+
+    .search-input,
+    .filter-select {
+      width: 100%;
+      min-width: auto;
+      padding: 1rem 1.25rem;
+      font-size: 1rem;
+      min-height: 44px; /* タッチフレンドリー */
+      box-sizing: border-box;
+    }
+
+    .papers-grid {
+      grid-template-columns: 1fr;
+      gap: 1.25rem;
+      padding: 0 0.5rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .paper-card-wrapper {
+      position: relative;
+      z-index: 1;
+      margin-bottom: 0;
+      clear: both;
+      display: block;
+      width: 100%;
+      transform: none !important; /* モバイルでアニメーション無効化 */
+      opacity: 1 !important;
+    }
+
+    .empty-state {
+      padding: 3rem 1.5rem;
+      margin: 1rem 0.5rem;
+    }
+
+    .empty-icon {
+      font-size: 3rem;
+    }
+
+    .empty-state p {
+      font-size: 0.9rem;
+    }
+  }
+
+  /* 小さなモバイル画面用の追加スタイル */
+  @media (max-width: 480px) {
+    .hero {
+      padding: 1.5rem 0.75rem 1rem 0.75rem;
     }
 
     .hero h1 {
@@ -365,7 +584,13 @@ const thisMonthPapers = papers.filter((paper) => {
     }
 
     .stats {
-      gap: 1rem;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .stat-item {
+      padding: 1rem 1.25rem;
+      min-width: auto;
     }
 
     .stat-number {
@@ -373,18 +598,36 @@ const thisMonthPapers = papers.filter((paper) => {
     }
 
     .controls {
-      flex-direction: column;
-      align-items: center;
+      padding: 0 0.25rem;
     }
 
     .search-input,
     .filter-select {
-      min-width: 280px;
+      padding: 0.875rem 1rem;
+      font-size: 0.95rem;
     }
 
     .papers-grid {
-      grid-template-columns: 1fr;
+      padding: 0 0.25rem;
       gap: 1rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .paper-card-wrapper {
+      position: relative;
+      z-index: 1;
+      margin-bottom: 0;
+      clear: both;
+      display: block;
+      width: 100%;
+      transform: none !important; /* モバイルでアニメーション無効化 */
+      opacity: 1 !important;
+    }
+
+    .empty-state {
+      padding: 2rem 1rem;
+      margin: 1rem 0.25rem;
     }
   }
 </style>

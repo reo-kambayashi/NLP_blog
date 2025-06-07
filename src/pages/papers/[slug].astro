@@ -1,6 +1,7 @@
 ---
 import Layout from "../../layouts/Layout.astro";
 import { getCollection, type CollectionEntry } from "astro:content";
+import { formatDate } from "../../utils/date";
 
 export async function getStaticPaths() {
   const papers = await getCollection("papers");
@@ -36,7 +37,7 @@ const { Content } = await paper.render();
         <h1>{paper.data.title}</h1>
         <div class="paper-meta">
           <div class="read-date">
-            読了日: {paper.data.date}
+            読了日: {formatDate(paper.data.date)}
           </div>
         </div>
       </header>
@@ -138,94 +139,299 @@ const { Content } = await paper.render();
   }
 
   .navigation {
-    margin-bottom: 1.5rem;
+    margin-bottom: 2rem;
   }
 
   .back-link {
     display: inline-flex;
     align-items: center;
-    gap: 0.5rem;
-    color: #8a8a8a; /* より柔らかいグレー */
+    gap: 0.75rem;
+    color: #aaaaaa;
     text-decoration: none;
     font-weight: 400;
-    transition: color 0.3s ease;
-    padding: 0.5rem 0;
+    transition: all 0.3s ease;
+    padding: 0.75rem 0;
     border-bottom: 1px solid transparent;
     font-size: 0.9rem;
+    position: relative;
+  }
+
+  .back-link::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: -10px;
+    transform: translateY(-50%);
+    width: 0;
+    height: 1px;
+    background: #4a9eff;
+    transition: width 0.3s ease;
   }
 
   .back-link:hover {
     color: #ffffff;
-    border-bottom-color: #ffffff;
+    border-bottom-color: rgba(74, 158, 255, 0.3);
+    transform: translateX(-4px);
+  }
+
+  .back-link:hover::before {
+    width: 20px;
   }
 
   .paper-article {
-    background: #111111;
+    background: linear-gradient(135deg, #111111 0%, #0a0a0a 100%);
     border-radius: 0;
-    padding: 2.5rem;
-    box-shadow: none;
+    padding: 3rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
     margin-bottom: 2rem;
-    border: 1px solid #333333;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .paper-article::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(90deg, #4a9eff, #66b3ff, #4a9eff);
   }
 
   .paper-header {
-    border-bottom: 1px solid #444444; /* より明るいボーダー */
-    padding-bottom: 1.5rem;
-    margin-bottom: 2.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 2rem;
+    margin-bottom: 3rem;
+    position: relative;
+  }
+
+  .paper-header::after {
+    content: "";
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: linear-gradient(90deg, #4a9eff, #66b3ff);
+    transition: width 0.6s ease;
+  }
+
+  .paper-article:hover .paper-header::after {
+    width: 100%;
   }
 
   .paper-header h1 {
     color: #ffffff;
-    margin: 0 0 1rem 0;
-    font-size: 1.875rem;
-    font-weight: 500;
-    line-height: 1.3;
+    margin: 0 0 1.5rem 0;
+    font-size: 2.25rem;
+    font-weight: 400;
+    line-height: 1.2;
     letter-spacing: -0.025em;
     font-family: "Plus Jakarta Sans", sans-serif;
+    position: relative;
+  }
+
+  .paper-header h1::before {
+    content: "";
+    position: absolute;
+    top: -0.5rem;
+    left: -1rem;
+    width: 4px;
+    height: calc(100% + 1rem);
+    background: linear-gradient(180deg, #4a9eff, #66b3ff);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .paper-article:hover .paper-header h1::before {
+    opacity: 1;
   }
 
   .paper-meta {
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    gap: 0.75rem;
     margin-bottom: 1rem;
   }
 
   .read-date {
-    color: #999999;
-    font-size: 0.95rem;
+    color: #aaaaaa;
+    font-size: 0.9rem;
     font-weight: 400;
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: "Plus Jakarta Sans", sans-serif;
+    letter-spacing: 0.25px;
+  }
+
+  .read-date::before {
+    content: "📅";
+    font-size: 0.8rem;
+    opacity: 0.7;
   }
 
   .paper-content {
-    line-height: 1.9;
-    color: #f0f0f0; /* さらに明るい本文色 */
+    line-height: 1.8;
+    color: #e8e8e8;
     font-family: "Plus Jakarta Sans", sans-serif;
     font-size: 1.125rem;
     font-weight: 400;
+    position: relative;
   }
 
   /* Markdown コンテンツのスタイリング */
   .paper-content :global(h2) {
     color: #ffffff;
-    font-size: 1.625rem;
-    font-weight: 700;
+    font-size: 1.75rem;
+    font-weight: 600;
     margin: 3rem 0 1.5rem 0;
     border-bottom: 2px solid #4a9eff;
     padding-bottom: 1rem;
     letter-spacing: -0.025em;
     font-family: "Plus Jakarta Sans", sans-serif;
     position: relative;
-    line-height: 1.3;
+    line-height: 1.2;
   }
 
-  /* h2にも縦棒を追加 */
   .paper-content :global(h2::before) {
     content: "";
     position: absolute;
-    left: -1.25rem;
+    left: -1.5rem;
     top: 50%;
+    transform: translateY(-50%);
+    width: 4px;
+    height: 60%;
+    background: linear-gradient(180deg, #4a9eff, #66b3ff);
+    border-radius: 2px;
+  }
+
+  .paper-content :global(h3) {
+    color: #ffffff;
+    font-size: 1.375rem;
+    font-weight: 600;
+    margin: 2.5rem 0 1rem 0;
+    position: relative;
+    padding-left: 1rem;
+    letter-spacing: -0.025em;
+    font-family: "Plus Jakarta Sans", sans-serif;
+    line-height: 1.3;
+  }
+
+  .paper-content :global(h3::before) {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 3px;
+    height: 70%;
+    background: #66b3ff;
+    border-radius: 2px;
+  }
+
+  .paper-content :global(h4) {
+    color: #f5f5f5;
+    font-size: 1.125rem;
+    font-weight: 500;
+    margin: 2rem 0 0.75rem 0;
+    position: relative;
+    padding-left: 0.75rem;
+    letter-spacing: -0.025em;
+    font-family: "Plus Jakarta Sans", sans-serif;
+  }
+
+  .paper-content :global(h4::before) {
+    content: "▶";
+    position: absolute;
+    left: 0;
+    top: 0;
+    color: #4a9eff;
+    font-size: 0.8rem;
+    font-weight: normal;
+  }
+
+  .paper-content :global(p) {
+    margin: 1.5rem 0;
+    line-height: 1.8;
+    color: #d0d0d0;
+  }
+
+  .paper-content :global(strong) {
+    color: #ffffff;
+    font-weight: 600;
+  }
+
+  .paper-content :global(em) {
+    color: #4a9eff;
+    font-style: italic;
+  }
+
+  .paper-content :global(code) {
+    background: rgba(74, 158, 255, 0.1);
+    color: #66b3ff;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.9em;
+    border: 1px solid rgba(74, 158, 255, 0.2);
+  }
+
+  .paper-content :global(pre) {
+    background: #0a0a0a;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin: 2rem 0;
+    overflow-x: auto;
+    position: relative;
+  }
+
+  .paper-content :global(pre::before) {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(90deg, #4a9eff, #66b3ff);
+  }
+
+  .paper-content :global(pre code) {
+    background: none;
+    color: #e8e8e8;
+    padding: 0;
+    border: none;
+    font-size: 0.9rem;
+  }
+
+  .paper-content :global(blockquote) {
+    border-left: 4px solid #4a9eff;
+    background: linear-gradient(
+      135deg,
+      rgba(74, 158, 255, 0.05) 0%,
+      transparent 100%
+    );
+    margin: 2rem 0;
+    padding: 1.5rem 2rem;
+    color: #cccccc;
+    font-style: italic;
+    position: relative;
+    border-radius: 0 8px 8px 0;
+  }
+
+  .paper-content :global(blockquote::before) {
+    content: ""
+      ";
+    position: absolute;
+    top: 0.5rem;
+    left: 0.75rem;
+    color: #4a9eff;
+    font-size: 2rem;
+    font-weight: bold;
+    line-height: 1;
+  }
     transform: translateY(-50%);
     width: 5px;
     height: 1.5em;
@@ -239,13 +445,16 @@ const { Content } = await paper.render();
     font-weight: 600;
     margin: 2.5rem 0 1.25rem 0;
     letter-spacing: -0.025em;
-    font-family: "Plus Jakarta Sans", sans-serif;
+    font-family: "
+      Plus Jakarta Sans
+      ", sans-serif;
     position: relative;
     line-height: 1.3;
   }
 
   .paper-content :global(h3::before) {
-    content: "";
+    content: "
+      ";
     position: absolute;
     left: -1rem;
     top: 50%;
@@ -261,153 +470,208 @@ const { Content } = await paper.render();
     font-size: 1.125rem;
     font-weight: 600;
     margin: 2rem 0 1rem 0;
-    font-family: "Plus Jakarta Sans", sans-serif;
+    font-family: "
+      Plus Jakarta Sans
+      ", sans-serif;
     position: relative;
     padding-left: 1rem;
     border-left: 3px solid #666666;
   }
 
   .paper-content :global(p) {
-    margin: 0 0 2rem 0;
-    line-height: 2;
+    margin: 1rem 0;
+    line-height: 1.8;
   }
 
+  /* リストのスタイリング - 完全に新しい統一定義 */
   .paper-content :global(ul),
   .paper-content :global(ol) {
-    margin: 0 0 1.75rem 0;
-    padding-left: 0;
-    counter-reset: custom-counter;
+    margin: 1rem 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  /* リストと前後の要素の間の余白調整 */
+  .paper-content :global(p + ul),
+  .paper-content :global(p + ol) {
+    margin-top: 0.5rem;
+  }
+
+  .paper-content :global(ul + p),
+  .paper-content :global(ol + p) {
+    margin-top: 0.75rem;
+  }
+
+  /* リスト直後の見出しの余白調整 */
+  .paper-content :global(ul + h2),
+  .paper-content :global(ol + h2),
+  .paper-content :global(ul + h3),
+  .paper-content :global(ol + h3),
+  .paper-content :global(ul + h4),
+  .paper-content :global(ol + h4) {
+    margin-top: 2rem;
+  }
+
+  .paper-content :global(ol) {
+    counter-reset: list-counter;
   }
 
   .paper-content :global(li) {
-    margin: 1rem 0;
-    line-height: 1.8;
-    color: #f0f0f0;
+    margin: 0.4rem 0;
+    line-height: 1.6;
+    color: #d0d0d0;
     position: relative;
-    padding-left: 3rem;
+    padding-left: 1.5rem;
+    transition: all 0.2s ease;
   }
 
-  /* カスタムリストマーカー - ul */
-  .paper-content :global(ul > li) {
-    list-style: none;
+  /* リスト項目内の段落の余白を削除 */
+  .paper-content :global(li p) {
+    margin: 0;
+    padding: 0;
+    line-height: inherit;
   }
 
+  .paper-content :global(li:hover) {
+    color: #ffffff;
+  }
+
+  /* 箇条書きリスト（ul） */
   .paper-content :global(ul > li::before) {
-    content: "●";
-    color: #66b3ff;
+    content: "
+      •
+      ";
     position: absolute;
-    left: 1rem;
-    font-size: 0.9rem;
-    top: 0.15rem;
+    left: 0.3rem;
+    top: 0;
+    color: #4a9eff;
     font-weight: bold;
+    font-size: 1em;
+    line-height: 1.6;
   }
 
-  /* カスタム番号付きリスト - ol */
-  .paper-content :global(ol) {
-    list-style: none;
+  .paper-content :global(ul > li:hover::before) {
+    color: #66b3ff;
   }
 
+  /* 番号付きリスト（ol） */
   .paper-content :global(ol > li) {
-    counter-increment: custom-counter;
-    list-style: none;
+    counter-increment: list-counter;
   }
 
   .paper-content :global(ol > li::before) {
-    content: counter(custom-counter);
+    content: counter(list-counter) "
+      .
+      ";
     position: absolute;
     left: 0;
-    top: 0.1rem;
-    width: 1.8rem;
-    height: 1.8rem;
-    background: #4a9eff;
-    color: #ffffff;
-    border-radius: 4px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    top: 0;
+    color: #4a9eff;
     font-weight: 600;
-    font-size: 0.85rem;
-    font-family: "Plus Jakarta Sans", sans-serif;
-    transition: background-color 0.2s ease;
+    font-size: 0.85em;
+    line-height: 1.6;
+    min-width: 1.25rem;
   }
 
   .paper-content :global(ol > li:hover::before) {
-    background: #66b3ff;
+    color: #66b3ff;
   }
 
-  /* ネストした番号付きリスト - 第2レベル */
+  /* ネストしたリスト */
+  .paper-content :global(ul ul),
+  .paper-content :global(ol ol),
+  .paper-content :global(ul ol),
+  .paper-content :global(ol ul) {
+    margin: 0.2rem 0;
+    padding-left: 1rem;
+  }
+
+  /* ネストしたulのスタイル */
+  .paper-content :global(ul ul > li::before) {
+    content: "
+      ◦
+      ";
+    color: #888888;
+    font-size: 0.9em;
+    left: 0.3rem;
+  }
+
+  /* さらにネストしたulのスタイル */
+  .paper-content :global(ul ul ul > li::before) {
+    content: "
+      ▪
+      ";
+    color: #666666;
+    font-size: 0.8em;
+  }
+
+  /* ネストしたolのスタイル */
   .paper-content :global(ol ol) {
-    counter-reset: custom-counter-2;
-    margin: 0.75rem 0;
-    padding-left: 2rem;
+    counter-reset: nested-list-counter;
   }
 
   .paper-content :global(ol ol > li) {
-    counter-increment: custom-counter-2;
-    padding-left: 2.5rem;
+    counter-increment: nested-list-counter;
   }
 
   .paper-content :global(ol ol > li::before) {
-    content: counter(custom-counter) "." counter(custom-counter-2);
-    width: 2.2rem;
-    height: 1.6rem;
-    background: #666666;
-    border-radius: 3px;
-    font-size: 0.75rem;
-    font-weight: 500;
+    content: counter(list-counter) "
+      .
+      " counter(nested-list-counter);
+    color: #888888;
+    font-size: 0.8em;
   }
 
-  .paper-content :global(ol ol > li:hover::before) {
-    background: #808080;
+  /* テーブルのスタイリング */
+  .paper-content :global(table) {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 2rem 0;
+    background: linear-gradient(135deg, #111111 0%, #0a0a0a 100%);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
   }
 
-  /* ネストした番号付きリスト - 第3レベル */
-  .paper-content :global(ol ol ol) {
-    counter-reset: custom-counter-3;
+  .paper-content :global(thead) {
+    background: linear-gradient(135deg, #4a9eff, #66b3ff);
   }
 
-  .paper-content :global(ol ol ol > li) {
-    counter-increment: custom-counter-3;
-    padding-left: 2.2rem;
+  .paper-content :global(th) {
+    padding: 1rem;
+    text-align: left;
+    font-weight: 600;
+    color: #ffffff;
+    font-family: "
+      Plus Jakarta Sans
+      ", sans-serif;
+    font-size: 0.9rem;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
   }
 
-  .paper-content :global(ol ol ol > li::before) {
-    content: counter(custom-counter-3, lower-alpha);
-    width: 1.6rem;
-    height: 1.6rem;
-    background: #999999;
-    border-radius: 2px;
-    font-size: 0.7rem;
-    font-weight: 500;
+  .paper-content :global(td) {
+    padding: 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    color: #d0d0d0;
+    transition: all 0.2s ease;
   }
 
-  .paper-content :global(ol ol ol > li:hover::before) {
-    background: #aaaaaa;
+  .paper-content :global(tr:hover td) {
+    background: rgba(74, 158, 255, 0.05);
+    color: #ffffff;
   }
 
-  /* 特別なスタイル - 重要な番号リスト */
-  .paper-content :global(ol.important) {
-    counter-reset: important-counter;
+  .paper-content :global(tr:last-child td) {
+    border-bottom: none;
   }
 
-  .paper-content :global(ol.important > li) {
-    counter-increment: important-counter;
-  }
 
-  .paper-content :global(ol.important > li::before) {
-    content: counter(important-counter);
-    background: #ff6b35;
-    border-radius: 4px;
-    font-weight: 700;
-    width: 1.8rem;
-    height: 1.8rem;
-  }
 
-  /* 重要なリスト項目のハイライト */
-  .paper-content :global(li strong) {
-    color: #66b3ff; /* より明るいアクセントカラー */
-    font-weight: 700;
-  }
+
+
+
 
   .paper-content :global(blockquote) {
     border-left: 4px solid #66b3ff;
@@ -424,7 +688,8 @@ const { Content } = await paper.render();
   }
 
   .paper-content :global(blockquote::before) {
-    content: """;
+    content: "
+      "";
     font-size: 4rem;
     color: #66b3ff;
     position: absolute;
@@ -522,65 +787,6 @@ const { Content } = await paper.render();
     border-radius: 1px;
   }
 
-  /* リストのネスト対応 */
-  .paper-content :global(ul ul),
-  .paper-content :global(ol ol),
-  .paper-content :global(ul ol),
-  .paper-content :global(ol ul) {
-    margin: 0.75rem 0;
-    padding-left: 2rem;
-  }
-
-  /* ネストしたulリストのマーカー色を変更 */
-  .paper-content :global(ul ul > li::before) {
-    content: "○";
-    color: #80c7ff;
-    left: 1rem;
-  }
-
-  .paper-content :global(ul ul ul > li::before) {
-    content: "▪";
-    color: #a0a0a0;
-    left: 1rem;
-  }
-
-  /* 混合ネストリスト - ul内のol */
-  .paper-content :global(ul ol) {
-    counter-reset: nested-in-ul;
-  }
-
-  .paper-content :global(ul ol > li) {
-    counter-increment: nested-in-ul;
-  }
-
-  .paper-content :global(ul ol > li::before) {
-    content: counter(nested-in-ul);
-    width: 1.6rem;
-    height: 1.6rem;
-    background: #888888;
-    color: #ffffff;
-    border-radius: 3px;
-    font-size: 0.75rem;
-    font-weight: 500;
-  }
-
-  /* 混合ネストリスト - ol内のul */
-  .paper-content :global(ol ul > li::before) {
-    content: "◆";
-    color: #ff9966;
-    position: absolute;
-    left: 1rem;
-    font-size: 0.8rem;
-    top: 0.2rem;
-    font-weight: bold;
-    width: auto;
-    height: auto;
-    background: none;
-    border-radius: 0;
-    display: inline;
-    box-shadow: none;
-  }
-
   /* テーブルのスタイル */
   .paper-content :global(table) {
     width: 100%;
@@ -654,7 +860,10 @@ const { Content } = await paper.render();
   }
 
   /* リンクにアイコン風の装飾 */
-  .paper-content :global(a[href^="http"]:not([href*="localhost"]):not([href*="127.0.0.1"])::after) {
+  .paper-content
+    :global(
+      a[href^="http"]:not([href*="localhost"]):not([href*="127.0.0.1"])::after
+    ) {
     content: " ↗";
     font-size: 0.85em;
     opacity: 0.7;
@@ -662,7 +871,12 @@ const { Content } = await paper.render();
     margin-left: 0.2em;
   }
 
-  .paper-content :global(a[href^="http"]:not([href*="localhost"]):not([href*="127.0.0.1"]):hover::after) {
+  .paper-content
+    :global(
+      a[href^="http"]:not([href*="localhost"]):not(
+          [href*="127.0.0.1"]
+        ):hover::after
+    ) {
     opacity: 1;
   }
 
@@ -728,7 +942,9 @@ const { Content } = await paper.render();
   }
 
   .paper-content :global(blockquote) {
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transition:
+      transform 0.3s ease,
+      box-shadow 0.3s ease;
   }
 
   .paper-content :global(blockquote:hover) {
@@ -737,7 +953,9 @@ const { Content } = await paper.render();
   }
 
   .paper-content :global(pre) {
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transition:
+      transform 0.3s ease,
+      box-shadow 0.3s ease;
   }
 
   .paper-content :global(pre:hover) {
@@ -759,19 +977,19 @@ const { Content } = await paper.render();
     .paper-content :global(h3::before) {
       display: none;
     }
-    
+
     .paper-content :global(blockquote) {
       background: #f9f9f9 !important;
       color: #333333 !important;
       border-left-color: #333333 !important;
     }
-    
+
     .paper-content :global(code) {
       background: #f5f5f5 !important;
       color: #333333 !important;
       border: 1px solid #cccccc !important;
     }
-    
+
     .paper-content :global(pre) {
       background: #f8f8f8 !important;
       color: #333333 !important;
@@ -779,9 +997,110 @@ const { Content } = await paper.render();
     }
   }
 
+  /* モバイル対応 */
   @media (max-width: 768px) {
     .paper-detail {
-      padding: 0 0.75rem;
+      padding: 0 0.5rem;
+    }
+
+    .breadcrumb {
+      padding: 1rem 0.5rem;
+      font-size: 0.85rem;
+    }
+
+    .navigation {
+      margin-bottom: 1.5rem;
+    }
+
+    .back-link {
+      font-size: 0.9rem;
+      padding: 0.75rem 0;
+      min-height: 44px; /* タッチフレンドリー */
+      display: inline-flex;
+      align-items: center;
+    }
+
+    .paper-article {
+      padding: 1.5rem;
+    }
+
+    .paper-header h1 {
+      font-size: 1.5rem;
+      line-height: 1.3;
+    }
+
+    .paper-meta {
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .read-date {
+      font-size: 0.85rem;
+    }
+
+    .paper-content {
+      font-size: 0.95rem;
+      line-height: 1.7;
+    }
+
+    /* マークダウンコンテンツのモバイル対応 */
+    .paper-content h2 {
+      font-size: 1.25rem;
+      margin: 2rem 0 1rem 0;
+    }
+
+    .paper-content h3 {
+      font-size: 1.1rem;
+      margin: 1.5rem 0 0.75rem 0;
+    }
+
+    .paper-content p {
+      margin-bottom: 1.25rem;
+    }
+
+    .paper-content ul,
+    .paper-content ol {
+      padding-left: 1.25rem;
+    }
+
+    .paper-content li {
+      margin-bottom: 0.5rem;
+    }
+
+    .paper-content pre {
+      padding: 1rem;
+      overflow-x: auto;
+      font-size: 0.85rem;
+    }
+
+    .paper-content blockquote {
+      padding: 1rem;
+      margin: 1.5rem 0;
+      font-size: 0.9rem;
+    }
+
+    .actions {
+      padding: 1.5rem 0.5rem;
+    }
+
+    .btn {
+      padding: 1rem 1.5rem;
+      font-size: 0.95rem;
+      width: 100%;
+      justify-content: center;
+      min-height: 44px; /* タッチフレンドリー */
+    }
+  }
+
+  /* 小さなモバイル画面用 */
+  @media (max-width: 480px) {
+    .paper-detail {
+      padding: 0 0.25rem;
+    }
+
+    .breadcrumb {
+      padding: 0.75rem 0.25rem;
+      font-size: 0.8rem;
     }
 
     .paper-article {
@@ -789,149 +1108,33 @@ const { Content } = await paper.render();
     }
 
     .paper-header h1 {
-      font-size: 1.625rem;
-    }
-
-    .paper-meta {
-      gap: 0.75rem;
+      font-size: 1.3rem;
     }
 
     .paper-content {
-      font-size: 1.0625rem;
-      line-height: 1.9;
+      font-size: 0.9rem;
     }
 
-    /* モバイルでの縦棒調整 */
-    .paper-content :global(h2::before) {
-      left: -1rem;
+    .paper-content h2 {
+      font-size: 1.1rem;
     }
 
-    .paper-content :global(h3::before) {
-      left: -0.75rem;
+    .paper-content h3 {
+      font-size: 1rem;
+    }
+
+    .paper-content pre {
+      font-size: 0.8rem;
+      padding: 0.75rem;
     }
 
     .actions {
-      flex-direction: column;
-      align-items: stretch;
+      padding: 1.25rem 0.25rem;
     }
 
-    .paper-content :global(h2) {
-      font-size: 1.375rem;
-      margin: 2rem 0 1rem 0;
+    .btn {
+      padding: 0.875rem 1.25rem;
+      font-size: 0.9rem;
     }
-
-    .paper-content :global(h3) {
-      font-size: 1.125rem;
-      margin: 1.5rem 0 0.75rem 0;
-    }
-
-    .paper-content :global(ul),
-    .paper-content :global(ol) {
-      padding-left: 2rem;
-    }
-
-    .paper-content :global(li) {
-      padding-left: 2.5rem;
-    }
-
-    .paper-content :global(ol > li::before) {
-      width: 1.6rem;
-      height: 1.6rem;
-      font-size: 0.8rem;
-    }
-
-    .paper-content :global(ol ol > li::before) {
-      width: 1.8rem;
-      height: 1.4rem;
-      font-size: 0.7rem;
-    }
-
-    .paper-content :global(ol ol ol > li::before) {
-      width: 1.4rem;
-      height: 1.4rem;
-      font-size: 0.65rem;
-    }
-  }
-
-  /* 特別なMarkdown要素のスタイル */
-  /* 警告ボックス（> [!WARNING]形式） */
-  .paper-content :global(blockquote[data-type="warning"]),
-  .paper-content :global(blockquote:has(p:first-child:contains("警告"))),
-  .paper-content :global(blockquote:has(p:first-child:contains("注意"))) {
-    border-left-color: #ff6b35;
-    background: linear-gradient(135deg, #ff6b3508, #ff6b3504);
-  }
-
-  .paper-content :global(blockquote[data-type="warning"]::before) {
-    color: #ff6b35;
-    content: "⚠";
-  }
-
-  /* 情報ボックス */
-  .paper-content :global(blockquote[data-type="info"]),
-  .paper-content :global(blockquote:has(p:first-child:contains("情報"))),
-  .paper-content :global(blockquote:has(p:first-child:contains("NOTE"))) {
-    border-left-color: #66b3ff;
-    background: linear-gradient(135deg, #66b3ff08, #66b3ff04);
-  }
-
-  .paper-content :global(blockquote[data-type="info"]::before) {
-    color: #66b3ff;
-    content: "ℹ";
-  }
-
-  /* 成功ボックス */
-  .paper-content :global(blockquote[data-type="success"]),
-  .paper-content :global(blockquote:has(p:first-child:contains("成功"))),
-  .paper-content :global(blockquote:has(p:first-child:contains("SUCCESS"))) {
-    border-left-color: #00d084;
-    background: linear-gradient(135deg, #00d08408, #00d08404);
-  }
-
-  .paper-content :global(blockquote[data-type="success"]::before) {
-    color: #00d084;
-    content: "✓";
-  }
-
-  /* キーボードショートカット */
-  .paper-content :global(kbd) {
-    background: linear-gradient(135deg, #2a2a2a, #1a1a1a);
-    color: #ffffff;
-    padding: 0.2rem 0.5rem;
-    border-radius: 4px;
-    font-size: 0.85rem;
-    font-family: "SF Mono", Monaco, monospace;
-    border: 1px solid #444444;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3), inset 0 1px rgba(255, 255, 255, 0.1);
-    display: inline-block;
-    margin: 0 0.1rem;
-  }
-
-  /* 削除線のスタイル改善 */
-  .paper-content :global(del),
-  .paper-content :global(s) {
-    color: #888888;
-    text-decoration: line-through;
-    text-decoration-color: #ff6b35;
-    text-decoration-thickness: 2px;
-    opacity: 0.7;
-  }
-
-  /* 下線のスタイル改善 */
-  .paper-content :global(u),
-  .paper-content :global(ins) {
-    text-decoration: underline;
-    text-decoration-color: #66b3ff;
-    text-decoration-thickness: 2px;
-    text-underline-offset: 3px;
-  }
-
-  /* マーク（ハイライト）のスタイル */
-  .paper-content :global(mark) {
-    background: linear-gradient(135deg, rgba(255, 235, 59, 0.4), rgba(255, 235, 59, 0.3));
-    color: #000000;
-    padding: 0.2rem 0.4rem;
-    border-radius: 3px;
-    font-weight: 600;
   }
 </style>
