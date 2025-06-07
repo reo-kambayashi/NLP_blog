@@ -1,5 +1,5 @@
 ---
-title: "The Llama 3 Herd of Models(2024)"
+title: "The Llama 3 Herd of Models (2024)"
 date: "2025-06-07"
 ---
 
@@ -8,7 +8,7 @@ https://arxiv.org/abs/2407.21783
 
 ## 要約
 - Llama-3に関する研究開発
-- 15.6トークンで学習された8B,70B,405Bのdense Transformer
+- 15.6Tトークンで学習された8B,70B,405Bのdense Transformer
 - 128Kトークンのコンテクストウィンドウ
 - **DPO！！！**
 - 4oとかClaude3.5とかに匹敵するレベル
