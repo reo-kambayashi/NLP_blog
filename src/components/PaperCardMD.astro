@@ -40,6 +40,7 @@ const { title, date } = paper.data;
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
     height: 100%;
+    min-height: 280px; /* 改善: 最小高さを保証してレイアウト崩れを防止 */
     display: flex;
     flex-direction: column;
     overflow: hidden;
@@ -48,6 +49,7 @@ const { title, date } = paper.data;
     z-index: 1;
     isolation: isolate;
     box-sizing: border-box;
+    contain: layout style; /* 改善: レンダリング最適化 */
   }
 
   .paper-card::before {
@@ -68,7 +70,7 @@ const { title, date } = paper.data;
 
   .paper-card:hover {
     border-color: rgba(74, 158, 255, 0.4);
-    transform: translateY(-6px) scale(1.02);
+    transform: translateY(-3px) scale(1.01); /* 改善: より控えめな移動と拡大 */
     box-shadow:
       0 8px 32px rgba(74, 158, 255, 0.15),
       0 0 0 1px rgba(74, 158, 255, 0.1);
@@ -115,6 +117,15 @@ const { title, date } = paper.data;
     transition: all 0.3s ease;
     position: relative;
     display: inline-block;
+    outline: none; /* 改善: デフォルトアウトラインを除去 */
+  }
+
+  /* 改善: アクセシビリティのためのフォーカス状態を追加 */
+  .paper-title a:focus {
+    color: #4a9eff;
+    outline: 2px solid #4a9eff;
+    outline-offset: 2px;
+    border-radius: 2px;
   }
 
   .paper-title a::before {
@@ -201,6 +212,15 @@ const { title, date } = paper.data;
     gap: 0.625rem; /* 改善: ギャップ調整 */
     position: relative;
     padding: 0.75rem 0; /* 改善: パディング増加 */
+    outline: none; /* 改善: デフォルトアウトラインを除去 */
+  }
+
+  /* 改善: アクセシビリティのためのフォーカス状態を追加 */
+  .read-more-link:focus {
+    color: #66b3ff;
+    outline: 2px solid #66b3ff;
+    outline-offset: 2px;
+    border-radius: 2px;
   }
 
   .read-more-link::after {
@@ -346,6 +366,7 @@ const { title, date } = paper.data;
   @media (max-width: 360px) {
     .paper-card {
       padding: 0.875rem;
+      min-height: 240px; /* 改善: 極小画面でも最小高さを保証 */
     }
 
     .paper-header {
@@ -356,6 +377,8 @@ const { title, date } = paper.data;
       font-size: 0.9rem;
       line-height: 1.25;
       margin-bottom: 0.5rem;
+      word-break: break-word; /* 改善: 長いタイトルの改行処理 */
+      hyphens: auto; /* 改善: 自動ハイフネーション */
     }
 
     .paper-meta {
@@ -381,14 +404,22 @@ const { title, date } = paper.data;
       font-size: 0.7rem;
       padding: 0.4rem 0;
       min-height: 38px;
+      justify-content: flex-end; /* 改善: 極小画面での配置を改善 */
     }
   }
 
   /* タッチデバイス用の最適化 */
   @media (hover: none) and (pointer: coarse) {
-    /* モバイルデバイスではホバー効果を無効化 */
+    /* モバイルデバイスではホバー効果を完全に無効化 */
+    .paper-card {
+      transform: none !important;
+      transition:
+        box-shadow 0.2s ease,
+        border-color 0.2s ease; /* 改善: より軽いアニメーション */
+    }
+
     .paper-card:hover {
-      transform: none;
+      transform: none !important;
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
       border-color: rgba(255, 255, 255, 0.1);
     }
@@ -414,10 +445,30 @@ const { title, date } = paper.data;
       width: 0;
     }
 
+    .read-more-link:hover {
+      color: #5cc7ff; /* 改善: モバイルではホバー色を維持しない */
+      transform: none;
+    }
+
+    .read-more-link:hover::after {
+      transform: none;
+    }
+
     /* タッチ要素のサイズ確保 */
+    .paper-title a,
     .read-more-link {
-      min-height: 44px;
-      padding: 0.75rem 0;
+      min-height: 44px; /* 改善: より大きなタッチターゲット */
+      display: flex;
+      align-items: center;
+      padding: 0.5rem 0; /* 改善: タッチ領域を拡大 */
+    }
+
+    /* 改善: アクティブ状態のフィードバック */
+    .paper-title a:active,
+    .read-more-link:active {
+      background-color: rgba(74, 158, 255, 0.1);
+      border-radius: 4px;
+      transform: scale(0.98);
     }
   }
 </style>

@@ -255,6 +255,8 @@ const { title } = Astro.props;
     max-width: 1280px; /* 改善: 少し幅を広げて、より多くのコンテンツを表示 */
     margin: 0 auto;
     padding: 0 1.5rem; /* 改善: デフォルトパディングを増加 */
+    width: 100%; /* 改善: 幅を明示的に設定 */
+    box-sizing: border-box; /* 改善: ボックスサイズを明示 */
   }
 
   .header {
@@ -527,6 +529,7 @@ const { title } = Astro.props;
   @media (max-width: 768px) {
     .container {
       padding: 0 0.875rem;
+      max-width: 100%; /* 改善: モバイルでは最大幅を100%に制限 */
     }
 
     .header .container {
@@ -539,11 +542,13 @@ const { title } = Astro.props;
       font-size: 1.2rem;
       text-align: center;
       margin-bottom: 0;
+      word-break: break-word; /* 改善: 長いタイトルの改行処理 */
     }
 
     .nav {
       gap: 1.25rem;
       justify-content: center;
+      flex-wrap: wrap; /* 改善: ナビゲーションの折り返しを許可 */
     }
 
     .nav-link {
@@ -566,6 +571,7 @@ const { title } = Astro.props;
     .footer p {
       font-size: 0.75rem;
       padding: 0 0.875rem;
+      word-break: break-word; /* 改善: 長いテキストの改行処理 */
     }
   }
 
@@ -573,6 +579,7 @@ const { title } = Astro.props;
   @media (max-width: 480px) {
     .container {
       padding: 0 0.625rem;
+      max-width: 100%; /* 改善: 幅制限を確実に設定 */
     }
 
     .header .container {
@@ -586,6 +593,7 @@ const { title } = Astro.props;
 
     .nav {
       gap: 1rem;
+      flex-wrap: wrap; /* 改善: ナビゲーションの折り返しを許可 */
     }
 
     .nav-link {
@@ -613,6 +621,8 @@ const { title } = Astro.props;
   @media (max-width: 360px) {
     .container {
       padding: 0 0.5rem;
+      max-width: 100%; /* 改善: 極小画面でも幅制限を確実に設定 */
+      overflow-x: hidden; /* 改善: 水平スクロールを防止 */
     }
 
     .header .container {
@@ -622,10 +632,12 @@ const { title } = Astro.props;
 
     .header h1 {
       font-size: 0.95rem;
+      hyphens: auto; /* 改善: 必要に応じて自動改行 */
     }
 
     .nav {
       gap: 0.875rem;
+      flex-wrap: wrap; /* 改善: ナビゲーションの折り返しを許可 */
     }
 
     .nav-link {

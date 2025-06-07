@@ -95,6 +95,14 @@
 
 /* モバイル対応 (768px以下) - 強力な指定 */
 @media (max-width: 768px) {
+  /* 改善: 安全な幅制限を追加 */
+  .paper-article,
+  .paper-article .paper-content {
+    max-width: 100% !important;
+    overflow-x: hidden !important;
+    box-sizing: border-box !important;
+  }
+
   .paper-article .paper-content {
     font-size: 0.9rem !important;
     line-height: 1.65 !important;

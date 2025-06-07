@@ -418,7 +418,10 @@ const stats = calculatePaperStats(papers);
     ); /* 改善: カードの最小幅を増加 */
     gap: 2.5rem; /* 改善: より大きなギャップ */
     margin-top: 2rem; /* 改善: マージン調整 */
-    padding: 0 0.5rem; /* 改善: 左右にパディング追加 */
+    padding: 1rem 0.5rem 0 0.5rem; /* 改善: 上部パディングを追加してホバー時の見切れを防止 */
+    width: 100%; /* 改善: 幅を明示的に設定 */
+    box-sizing: border-box; /* 改善: ボックスサイジングを明示 */
+    overflow-x: hidden; /* 改善: 水平スクロールを防止 */
   }
 
   .paper-card-wrapper {
@@ -429,6 +432,7 @@ const stats = calculatePaperStats(papers);
     position: relative;
     z-index: 1;
     isolation: isolate;
+    margin-top: 0.5rem; /* 改善: ホバー時の上方向移動に対応したマージン */
   }
 
   .paper-card-wrapper.animate-in {
@@ -526,7 +530,8 @@ const stats = calculatePaperStats(papers);
     .papers-grid {
       grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
       gap: 1.75rem;
-      padding: 0 1rem;
+      padding: 0.75rem 1rem 0 1rem; /* 改善: 上部パディング追加 */
+      max-width: 100%; /* 改善: 最大幅を制限 */
     }
   }
 
@@ -594,9 +599,12 @@ const stats = calculatePaperStats(papers);
     .papers-grid {
       grid-template-columns: 1fr;
       gap: 1rem;
-      padding: 0 0.5rem;
+      padding: 0.5rem 0.5rem 0 0.5rem; /* 改善: 上部パディング追加 */
       position: relative;
       z-index: 1;
+      max-width: 100%; /* 改善: 最大幅を制限 */
+      margin-left: auto; /* 改善: センタリング */
+      margin-right: auto; /* 改善: センタリング */
     }
 
     .paper-card-wrapper {
@@ -764,8 +772,10 @@ const stats = calculatePaperStats(papers);
     }
 
     .papers-grid {
-      padding: 0 0.25rem;
+      padding: 0.25rem 0.25rem 0 0.25rem; /* 改善: 上部パディング追加 */
       gap: 0.75rem;
+      max-width: 100%; /* 改善: 最大幅を制限 */
+      overflow-x: hidden; /* 改善: 水平スクロールを防止 */
     }
 
     .empty-state {
