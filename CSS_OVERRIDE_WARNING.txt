@@ -1,0 +1,14 @@
+⚠️ IMPORTANT: CSS Override File
+
+The file `src/styles/responsive-override.css` is CRITICAL for responsive design.
+
+DO NOT DELETE THIS FILE.
+
+This file ensures that Markdown content font sizes scale properly on mobile devices.
+Without it, text may remain too large on smartphones and tablets, making the site unusable.
+
+For technical details, see:
+- README.md
+- TECHNICAL_DOCS.md
+
+If you must modify this file, test thoroughly on multiple device sizes.

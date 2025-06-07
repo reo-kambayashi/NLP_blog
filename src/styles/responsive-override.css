@@ -1,0 +1,400 @@
+/* 
+ * ======================================================================
+ * CRITICAL FILE - DO NOT DELETE
+ * ======================================================================
+ * 
+ * responsive-override.css
+ * 
+ * ⚠️  WARNING: このファイルを削除すると、モバイルデバイスでの
+ *     レスポンシブフォントサイズが正常に動作しなくなります！
+ * 
+ * PURPOSE (目的):
+ * - AstroのスコープドCSSでは対応できないMarkdownコンテンツの
+ *   レスポンシブフォントサイズ問題を解決
+ * - モバイルデバイスでの可読性を保証
+ * - CSS特異性の問題を解決
+ * 
+ * TECHNICAL BACKGROUND (技術的背景):
+ * - Astroの:global()セレクタでは一部のMarkdown要素で適用されない場合がある
+ * - 複雑にネストしたMarkdown構造（リスト内のコード、テーブル内のリンクなど）で問題発生
+ * - ブラウザデフォルトスタイルとの競合を防止
+ * 
+ * BREAKPOINTS (ブレークポイント):
+ * - 1024px以下: タブレット対応
+ * - 768px以下:  モバイル対応 (基本フォント0.9rem)
+ * - 480px以下:  小型モバイル対応 (基本フォント0.85rem)  
+ * - 360px以下:  極小モバイル対応 (基本フォント0.8rem)
+ * 
+ * RELATED FILES (関連ファイル):
+ * - src/pages/papers/[slug].astro (メインのレスポンシブCSS)
+ * - src/layouts/Layout.astro (このファイルの読み込み)
+ * 
+ * MAINTENANCE (保守):
+ * - [slug].astroのCSS変更時は、このファイルも同時に更新してください
+ * - 新しいMarkdown要素追加時は、該当セレクタを追加してください
+ * - 変更後は必ず全デバイスサイズでテストしてください
+ * 
+ * FOR MORE INFO:
+ * - README.md の「responsive-override.css の必要性」セクション
+ * - TECHNICAL_DOCS.md の詳細技術仕様
+ * 
+ * ======================================================================
+ */
+
+/* Responsive Override CSS - 強制的なフォントサイズ適用 */
+/* このファイルは、AstroのスコープドCSSで適用されない場合のバックアップとして使用 */
+
+/* 基本的なリセット - 最高の特異性 */
+.paper-article .paper-content h1,
+.paper-article .paper-content h2,
+.paper-article .paper-content h3,
+.paper-article .paper-content h4,
+.paper-article .paper-content h5,
+.paper-article .paper-content h6,
+.paper-article .paper-content p,
+.paper-article .paper-content li,
+.paper-article .paper-content td,
+.paper-article .paper-content th,
+.paper-article .paper-content code,
+.paper-article .paper-content pre,
+.paper-article .paper-content blockquote,
+.paper-article .paper-content span,
+.paper-article .paper-content div,
+.paper-article .paper-content strong,
+.paper-article .paper-content em,
+.paper-article .paper-content a {
+  font-size: inherit !important;
+}
+
+/* タブレット対応 (1024px以下) */
+@media (max-width: 1024px) {
+  .paper-article .paper-content {
+    font-size: 1.05rem !important;
+    line-height: 1.7 !important;
+  }
+
+  .paper-article .paper-content h1,
+  .paper-article .paper-content h2 {
+    font-size: 1.6rem !important;
+  }
+
+  .paper-article .paper-content h3 {
+    font-size: 1.3rem !important;
+  }
+
+  .paper-article .paper-content h4,
+  .paper-article .paper-content h5,
+  .paper-article .paper-content h6 {
+    font-size: 1.05rem !important;
+  }
+
+  .paper-article .paper-content * {
+    font-size: inherit !important;
+  }
+}
+
+/* モバイル対応 (768px以下) - 強力な指定 */
+@media (max-width: 768px) {
+  .paper-article .paper-content {
+    font-size: 0.9rem !important;
+    line-height: 1.65 !important;
+  }
+
+  .paper-article .paper-content h1,
+  .paper-article .paper-content h2 {
+    font-size: 1.2rem !important;
+    margin: 1.75rem 0 0.875rem 0 !important;
+    padding-bottom: 0.75rem !important;
+  }
+
+  .paper-article .paper-content h3 {
+    font-size: 1.05rem !important;
+    margin: 1.5rem 0 0.75rem 0 !important;
+  }
+
+  .paper-article .paper-content h4,
+  .paper-article .paper-content h5,
+  .paper-article .paper-content h6 {
+    font-size: 0.95rem !important;
+    margin: 1.25rem 0 0.6rem 0 !important;
+  }
+
+  .paper-article .paper-content p {
+    margin: 1rem 0 !important;
+    line-height: 1.65 !important;
+    font-size: 0.9rem !important;
+  }
+
+  .paper-article .paper-content ul,
+  .paper-article .paper-content ol {
+    margin: 0.875rem 0 !important;
+    font-size: 0.9rem !important;
+  }
+
+  .paper-article .paper-content li {
+    margin: 0.35rem 0 !important;
+    padding-left: 1.25rem !important;
+    font-size: 0.9rem !important;
+    line-height: 1.55 !important;
+  }
+
+  .paper-article .paper-content pre {
+    padding: 1rem !important;
+    margin: 1.75rem 0 !important;
+    font-size: 0.8rem !important;
+    line-height: 1.5 !important;
+    overflow-x: auto !important;
+    border-radius: 6px !important;
+  }
+
+  .paper-article .paper-content code {
+    font-size: 0.85rem !important;
+    padding: 0.3rem 0.5rem !important;
+  }
+
+  .paper-article .paper-content blockquote {
+    padding: 1.25rem 1.5rem !important;
+    margin: 1.75rem 0 !important;
+    font-size: 0.875rem !important;
+    line-height: 1.6 !important;
+  }
+
+  .paper-article .paper-content table {
+    font-size: 0.8rem !important;
+    margin: 1.5rem 0 !important;
+  }
+
+  .paper-article .paper-content th,
+  .paper-article .paper-content td {
+    padding: 0.75rem 0.5rem !important;
+    font-size: 0.8rem !important;
+  }
+
+  .paper-article .paper-content th {
+    font-size: 0.75rem !important;
+  }
+
+  .paper-article .paper-content strong,
+  .paper-article .paper-content em,
+  .paper-article .paper-content a {
+    font-size: inherit !important;
+  }
+
+  /* 全ての子要素に強制サイズ適用 */
+  .paper-article .paper-content * {
+    font-size: inherit !important;
+  }
+}
+
+/* 小型モバイル画面 (480px以下) - さらに強力な指定 */
+@media (max-width: 480px) {
+  .paper-article .paper-content {
+    font-size: 0.85rem !important;
+    line-height: 1.6 !important;
+  }
+
+  .paper-article .paper-content h1,
+  .paper-article .paper-content h2 {
+    font-size: 1.1rem !important;
+    margin: 1.5rem 0 0.75rem 0 !important;
+    padding-bottom: 0.5rem !important;
+  }
+
+  .paper-article .paper-content h3 {
+    font-size: 0.975rem !important;
+    margin: 1.25rem 0 0.625rem 0 !important;
+  }
+
+  .paper-article .paper-content h4,
+  .paper-article .paper-content h5,
+  .paper-article .paper-content h6 {
+    font-size: 0.9rem !important;
+    margin: 1rem 0 0.5rem 0 !important;
+  }
+
+  .paper-article .paper-content p {
+    margin: 0.875rem 0 !important;
+    line-height: 1.6 !important;
+    font-size: 0.85rem !important;
+  }
+
+  .paper-article .paper-content ul,
+  .paper-article .paper-content ol {
+    margin: 0.875rem 0 !important;
+    font-size: 0.85rem !important;
+  }
+
+  .paper-article .paper-content li {
+    margin: 0.3rem 0 !important;
+    padding-left: 1rem !important;
+    font-size: 0.85rem !important;
+    line-height: 1.5 !important;
+  }
+
+  .paper-article .paper-content pre {
+    padding: 0.75rem !important;
+    margin: 1.5rem 0 !important;
+    font-size: 0.75rem !important;
+    line-height: 1.4 !important;
+    border-radius: 4px !important;
+  }
+
+  .paper-article .paper-content code {
+    font-size: 0.8rem !important;
+    padding: 0.25rem 0.4rem !important;
+  }
+
+  .paper-article .paper-content blockquote {
+    padding: 1rem 1.25rem !important;
+    margin: 1.5rem 0 !important;
+    font-size: 0.8rem !important;
+    line-height: 1.55 !important;
+  }
+
+  .paper-article .paper-content table {
+    font-size: 0.75rem !important;
+    margin: 1.25rem 0 !important;
+  }
+
+  .paper-article .paper-content th,
+  .paper-article .paper-content td {
+    padding: 0.6rem 0.4rem !important;
+    font-size: 0.75rem !important;
+  }
+
+  .paper-article .paper-content th {
+    font-size: 0.7rem !important;
+  }
+
+  .paper-article .paper-content strong,
+  .paper-article .paper-content em,
+  .paper-article .paper-content a {
+    font-size: inherit !important;
+  }
+
+  /* 全ての子要素に強制サイズ適用 */
+  .paper-article .paper-content * {
+    font-size: inherit !important;
+  }
+}
+
+/* 極小モバイル画面 (360px以下) - 最強の指定 */
+@media (max-width: 360px) {
+  .paper-article .paper-content {
+    font-size: 0.8rem !important;
+    line-height: 1.55 !important;
+  }
+
+  .paper-article .paper-content h1,
+  .paper-article .paper-content h2 {
+    font-size: 1rem !important;
+    margin: 1.25rem 0 0.625rem 0 !important;
+  }
+
+  .paper-article .paper-content h3 {
+    font-size: 0.9rem !important;
+    margin: 1rem 0 0.5rem 0 !important;
+  }
+
+  .paper-article .paper-content h4,
+  .paper-article .paper-content h5,
+  .paper-article .paper-content h6 {
+    font-size: 0.85rem !important;
+    margin: 0.875rem 0 0.4rem 0 !important;
+  }
+
+  .paper-article .paper-content p {
+    margin: 0.75rem 0 !important;
+    font-size: 0.8rem !important;
+  }
+
+  .paper-article .paper-content ul,
+  .paper-article .paper-content ol {
+    margin: 0.75rem 0 !important;
+    font-size: 0.8rem !important;
+  }
+
+  .paper-article .paper-content li {
+    font-size: 0.8rem !important;
+    padding-left: 0.875rem !important;
+    line-height: 1.5 !important;
+  }
+
+  .paper-article .paper-content pre {
+    padding: 0.625rem !important;
+    font-size: 0.7rem !important;
+    line-height: 1.35 !important;
+  }
+
+  .paper-article .paper-content code {
+    font-size: 0.75rem !important;
+    padding: 0.2rem 0.35rem !important;
+  }
+
+  .paper-article .paper-content blockquote {
+    padding: 0.875rem 1rem !important;
+    font-size: 0.75rem !important;
+  }
+
+  .paper-article .paper-content table {
+    font-size: 0.7rem !important;
+  }
+
+  .paper-article .paper-content th,
+  .paper-article .paper-content td {
+    padding: 0.5rem 0.3rem !important;
+    font-size: 0.7rem !important;
+  }
+
+  .paper-article .paper-content th {
+    font-size: 0.65rem !important;
+  }
+
+  .paper-article .paper-content strong,
+  .paper-article .paper-content em,
+  .paper-article .paper-content a {
+    font-size: inherit !important;
+  }
+
+  /* 全ての子要素に強制サイズ適用 */
+  .paper-article .paper-content * {
+    font-size: inherit !important;
+  }
+}
+
+/* さらなる安全策 - 要素タイプ別の直接指定 */
+@media (max-width: 768px) {
+  article.paper-article div.paper-content h1,
+  article.paper-article div.paper-content h2,
+  article.paper-article div.paper-content h3,
+  article.paper-article div.paper-content h4,
+  article.paper-article div.paper-content h5,
+  article.paper-article div.paper-content h6,
+  article.paper-article div.paper-content p,
+  article.paper-article div.paper-content li,
+  article.paper-article div.paper-content code,
+  article.paper-article div.paper-content pre,
+  article.paper-article div.paper-content blockquote,
+  article.paper-article div.paper-content td,
+  article.paper-article div.paper-content th,
+  article.paper-article div.paper-content span,
+  article.paper-article div.paper-content div,
+  article.paper-article div.paper-content strong,
+  article.paper-article div.paper-content em,
+  article.paper-article div.paper-content a {
+    font-size: inherit !important;
+  }
+}
+
+/* 最終手段 - IDとクラスの組み合わせによる最高特異性 */
+.paper-detail .paper-article .paper-content * {
+  font-size: inherit !important;
+}
+
+/* ブラウザ固有のリセット */
+@media (max-width: 768px) {
+  .paper-article .paper-content *:not(svg):not(path):not(g) {
+    font-size: inherit !important;
+    line-height: inherit !important;
+  }
+}

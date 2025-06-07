@@ -1,5 +1,5 @@
 ---
-title: "Large Language Models Are Human-Level Prompt Engineers(2023)"
+title: "Large Language Models Are Human-Level Prompt Engineers (2023)"
 date: "2025-06-06"
 ---
 

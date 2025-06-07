@@ -99,6 +99,17 @@ const stats = calculatePaperStats(papers);
         searchInput.setAttribute("autocorrect", "off");
         searchInput.setAttribute("autocapitalize", "off");
         searchInput.setAttribute("spellcheck", "false");
+
+        // モバイルでの入力体験改善
+        searchInput.addEventListener("focus", () => {
+          searchInput.placeholder = "検索中...";
+          document.body.style.overflow = "hidden";
+        });
+
+        searchInput.addEventListener("blur", () => {
+          searchInput.placeholder = "論文タイトルで検索...";
+          document.body.style.overflow = "auto";
+        });
       }
 
       // 年フィルターの選択肢を動的に生成
@@ -183,15 +194,17 @@ const stats = calculatePaperStats(papers);
 <style>
   .hero {
     text-align: center;
-    padding: 3rem 0 2rem 0;
-    margin-bottom: 2.5rem;
+    padding: 4rem 0 3rem 0; /* 改善: より大きなパディング */
+    margin-bottom: 3.5rem; /* 改善: より大きなマージン */
     position: relative;
     background: linear-gradient(
       135deg,
-      rgba(74, 158, 255, 0.03) 0%,
+      rgba(74, 158, 255, 0.04) 0%,
+      /* 改善: より薄い背景グラデーション */ rgba(74, 158, 255, 0.01) 50%,
       transparent 100%
     );
-    border-radius: 0;
+    border-radius: 12px; /* 改善: 角を丸く */
+    border: 1px solid rgba(255, 255, 255, 0.06); /* 改善: 薄いボーダー追加 */
   }
 
   .hero::after {
@@ -206,13 +219,13 @@ const stats = calculatePaperStats(papers);
   }
 
   .hero h1 {
-    font-size: 2.5rem;
-    margin: 0 0 0.75rem 0;
+    font-size: 3rem; /* 改善: より大きなタイトル */
+    margin: 0 0 1rem 0; /* 改善: マージン調整 */
     font-weight: 300;
     color: #ffffff;
-    letter-spacing: -0.025em;
+    letter-spacing: -0.03em; /* 改善: 文字間調整 */
     font-family: "Plus Jakarta Sans", sans-serif;
-    line-height: 1.1;
+    line-height: 1.05; /* 改善: タイトル用の行間 */
     position: relative;
   }
 
@@ -229,31 +242,34 @@ const stats = calculatePaperStats(papers);
   }
 
   .subtitle {
-    color: #aaaaaa;
-    font-size: 0.95rem;
+    color: #b8b8b8; /* 改善: より明るいサブタイトル色 */
+    font-size: 1.125rem; /* 改善: サブタイトルを大きく */
     font-weight: 300;
-    margin: 0 0 2rem 0;
-    letter-spacing: 0.5px;
+    margin: 0 0 2.5rem 0; /* 改善: マージン調整 */
+    letter-spacing: 0.3px; /* 改善: 文字間調整 */
     font-family: "Plus Jakarta Sans", sans-serif;
+    opacity: 0.9; /* 改善: 透明度で階層を表現 */
   }
 
   .stats {
     display: flex;
     justify-content: center;
-    gap: 2.5rem;
-    margin-top: 2rem;
+    gap: 3rem; /* 改善: ギャップを増加 */
+    margin-top: 2.5rem; /* 改善: マージン調整 */
+    flex-wrap: wrap; /* 改善: レスポンシブ対応 */
   }
 
   .stat-item {
     text-align: center;
     position: relative;
-    padding: 1.5rem 2rem;
+    padding: 2rem 2.5rem; /* 改善: パディング増加 */
     background: linear-gradient(135deg, #111111 0%, #0a0a0a 100%);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 0;
+    border: 1px solid rgba(255, 255, 255, 0.12); /* 改善: ボーダーを少し濃く */
+    border-radius: 8px; /* 改善: 角を丸く */
     transition: all 0.4s ease;
-    min-width: 100px;
+    min-width: 120px; /* 改善: 最小幅を増加 */
     overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); /* 改善: シャドウ追加 */
   }
 
   .stat-item::before {
@@ -301,18 +317,18 @@ const stats = calculatePaperStats(papers);
 
   .stat-number {
     display: block;
-    font-size: 2rem;
-    font-weight: 600;
-    color: #4a9eff;
+    font-size: 2.25rem; /* 改善: より大きな数字 */
+    font-weight: 700; /* 改善: より太い数字 */
+    color: #5cc7ff; /* 改善: より明るいアクセント色 */
     font-family: "Plus Jakarta Sans", sans-serif;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.75rem; /* 改善: マージン調整 */
     line-height: 1;
     transition: all 0.3s ease;
   }
 
   .stat-item:hover .stat-number {
-    color: #66b3ff;
-    transform: scale(1.05);
+    color: #7dd3ff; /* 改善: ホバー時のより明るい色 */
+    transform: scale(1.1); /* 改善: より大きなスケール */
   }
 
   .stat-label {
@@ -327,9 +343,10 @@ const stats = calculatePaperStats(papers);
   .controls {
     display: flex;
     justify-content: center;
-    gap: 1.5rem;
-    margin-bottom: 2.5rem;
+    gap: 2rem; /* 改善: ギャップ増加 */
+    margin-bottom: 3rem; /* 改善: マージン増加 */
     flex-wrap: wrap;
+    padding: 0 1rem; /* 改善: パディング追加 */
   }
 
   .search-container,
@@ -364,15 +381,16 @@ const stats = calculatePaperStats(papers);
   .search-input,
   .filter-select {
     background: linear-gradient(135deg, #111111 0%, #0a0a0a 100%);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.15); /* 改善: より濃いボーダー */
     color: #ffffff;
-    padding: 1rem 1.25rem;
-    border-radius: 0;
+    padding: 1.125rem 1.5rem; /* 改善: パディング増加 */
+    border-radius: 8px; /* 改善: 角を丸く */
     font-family: "Plus Jakarta Sans", sans-serif;
-    font-size: 0.9rem;
+    font-size: 1rem; /* 改善: フォントサイズ調整 */
     transition: all 0.3s ease;
-    min-width: 220px;
+    min-width: 240px; /* 改善: 最小幅を増加 */
     position: relative;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); /* 改善: シャドウ追加 */
   }
 
   .search-input:focus,
@@ -394,9 +412,13 @@ const stats = calculatePaperStats(papers);
 
   .papers-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-    gap: 2rem;
-    margin-top: 1.5rem;
+    grid-template-columns: repeat(
+      auto-fill,
+      minmax(380px, 1fr)
+    ); /* 改善: カードの最小幅を増加 */
+    gap: 2.5rem; /* 改善: より大きなギャップ */
+    margin-top: 2rem; /* 改善: マージン調整 */
+    padding: 0 0.5rem; /* 改善: 左右にパディング追加 */
   }
 
   .paper-card-wrapper {
@@ -479,45 +501,78 @@ const stats = calculatePaperStats(papers);
     }
   }
 
-  @media (max-width: 768px) {
+  /* タブレット対応 (1024px以下) */
+  @media (max-width: 1024px) {
     .hero {
-      padding: 2rem 1rem 1.5rem 1rem;
-      margin-bottom: 1.5rem;
+      padding: 2.5rem 1.5rem 2rem 1.5rem;
     }
 
     .hero h1 {
-      font-size: 2rem;
+      font-size: 2.25rem;
     }
 
     .subtitle {
-      font-size: 0.9rem;
-      margin-bottom: 1.5rem;
+      font-size: 1rem;
     }
 
     .stats {
-      gap: 1rem;
-      flex-wrap: wrap;
+      gap: 1.25rem;
     }
 
     .stat-item {
-      padding: 1.25rem 1.5rem;
-      min-width: 120px;
+      padding: 1.5rem 2rem;
+    }
+
+    .papers-grid {
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 1.75rem;
+      padding: 0 1rem;
+    }
+  }
+
+  /* モバイル対応 (768px以下) */
+  @media (max-width: 768px) {
+    .hero {
+      padding: 1.75rem 0.75rem 1.25rem 0.75rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .hero h1 {
+      font-size: 1.8rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .subtitle {
+      font-size: 0.85rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .stats {
+      gap: 0.875rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .stat-item {
+      padding: 1rem 1.5rem;
+      min-width: 100px;
       flex: 1;
+      max-width: 140px;
     }
 
     .stat-number {
-      font-size: 1.5rem;
+      font-size: 1.4rem;
     }
 
     .stat-label {
-      font-size: 0.75rem;
+      font-size: 0.7rem;
     }
 
     .controls {
       flex-direction: column;
       align-items: stretch;
-      gap: 1rem;
-      margin-bottom: 2rem;
+      gap: 0.875rem;
+      margin-bottom: 1.75rem;
       padding: 0 0.5rem;
     }
 
@@ -530,15 +585,15 @@ const stats = calculatePaperStats(papers);
     .filter-select {
       width: 100%;
       min-width: auto;
-      padding: 1rem 1.25rem;
-      font-size: 1rem;
-      min-height: 44px; /* タッチフレンドリー */
+      padding: 0.875rem 1rem;
+      font-size: 0.9rem;
+      min-height: 44px;
       box-sizing: border-box;
     }
 
     .papers-grid {
       grid-template-columns: 1fr;
-      gap: 1.25rem;
+      gap: 1rem;
       padding: 0 0.5rem;
       position: relative;
       z-index: 1;
@@ -551,65 +606,83 @@ const stats = calculatePaperStats(papers);
       clear: both;
       display: block;
       width: 100%;
-      transform: none !important; /* モバイルでアニメーション無効化 */
+      transform: none !important;
       opacity: 1 !important;
     }
 
     .empty-state {
-      padding: 3rem 1.5rem;
+      padding: 2.5rem 1.25rem;
       margin: 1rem 0.5rem;
     }
 
     .empty-icon {
-      font-size: 3rem;
+      font-size: 2.75rem;
+      margin-bottom: 1.25rem;
     }
 
     .empty-state p {
-      font-size: 0.9rem;
+      font-size: 0.85rem;
+    }
+
+    .empty-state p:last-child {
+      font-size: 0.8rem;
     }
   }
 
-  /* 小さなモバイル画面用の追加スタイル */
+  /* 小型モバイル画面 (480px以下) */
   @media (max-width: 480px) {
     .hero {
-      padding: 1.5rem 0.75rem 1rem 0.75rem;
+      padding: 1.5rem 0.5rem 1rem 0.5rem;
+      margin-bottom: 1rem;
     }
 
     .hero h1 {
-      font-size: 1.75rem;
+      font-size: 1.6rem;
+      margin-bottom: 0.625rem;
     }
 
     .subtitle {
-      font-size: 0.85rem;
+      font-size: 0.8rem;
+      margin-bottom: 1rem;
     }
 
     .stats {
       flex-direction: column;
-      gap: 0.75rem;
+      gap: 0.625rem;
+      align-items: stretch;
     }
 
     .stat-item {
-      padding: 1rem 1.25rem;
+      padding: 0.875rem 1.25rem;
       min-width: auto;
+      max-width: none;
+      flex: none;
     }
 
     .stat-number {
       font-size: 1.25rem;
     }
 
+    .stat-label {
+      font-size: 0.65rem;
+    }
+
     .controls {
-      padding: 0 0.25rem;
+      padding: 0 0.375rem;
+      gap: 0.75rem;
+      margin-bottom: 1.5rem;
     }
 
     .search-input,
     .filter-select {
-      padding: 0.875rem 1rem;
-      font-size: 0.95rem;
+      padding: 0.75rem 0.875rem;
+      font-size: 0.85rem;
+      min-height: 42px;
     }
 
     .papers-grid {
-      padding: 0 0.25rem;
-      gap: 1rem;
+      padding: 0 0.375rem;
+      gap: 0.875rem;
       position: relative;
       z-index: 1;
     }
@@ -621,13 +694,96 @@ const stats = calculatePaperStats(papers);
       clear: both;
       display: block;
       width: 100%;
-      transform: none !important; /* モバイルでアニメーション無効化 */
+      transform: none !important;
       opacity: 1 !important;
     }
 
     .empty-state {
       padding: 2rem 1rem;
-      margin: 1rem 0.25rem;
+      margin: 0.875rem 0.375rem;
+    }
+
+    .empty-icon {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .empty-state p {
+      font-size: 0.8rem;
+    }
+
+    .empty-state p:last-child {
+      font-size: 0.75rem;
+    }
+  }
+
+  /* 極小モバイル画面 (360px以下) */
+  @media (max-width: 360px) {
+    .hero {
+      padding: 1.25rem 0.375rem 0.875rem 0.375rem;
+      margin-bottom: 0.875rem;
+    }
+
+    .hero h1 {
+      font-size: 1.45rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .subtitle {
+      font-size: 0.75rem;
+      margin-bottom: 0.875rem;
+    }
+
+    .stats {
+      gap: 0.5rem;
+    }
+
+    .stat-item {
+      padding: 0.75rem 1rem;
+    }
+
+    .stat-number {
+      font-size: 1.125rem;
+    }
+
+    .stat-label {
+      font-size: 0.6rem;
+    }
+
+    .controls {
+      padding: 0 0.25rem;
+      gap: 0.625rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .search-input,
+    .filter-select {
+      padding: 0.625rem 0.75rem;
+      font-size: 0.8rem;
+      min-height: 40px;
+    }
+
+    .papers-grid {
+      padding: 0 0.25rem;
+      gap: 0.75rem;
+    }
+
+    .empty-state {
+      padding: 1.75rem 0.875rem;
+      margin: 0.75rem 0.25rem;
+    }
+
+    .empty-icon {
+      font-size: 2.25rem;
+      margin-bottom: 0.875rem;
+    }
+
+    .empty-state p {
+      font-size: 0.75rem;
+    }
+
+    .empty-state p:last-child {
+      font-size: 0.7rem;
     }
   }
 </style>
