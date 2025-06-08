@@ -1,0 +1,116 @@
+<!DOCTYPE html><html lang="ja" data-astro-cid-sckkx6r4> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><meta name="generator" content="Astro v5.9.0"><meta name="theme-color" content="#000000"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="論文メモ"><title>Sudden Drops in the Loss: Syntax Acquisition, Phase Transitions, and Simplicity Bias in MLMs (2024) - 論文メモ</title><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200;300;400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous"><link rel="stylesheet" href="/src/styles/responsive-override.css"><link rel="stylesheet" href="/_astro/index.D2cFvYsA.css">
+<link rel="stylesheet" href="/_astro/_slug_.DwilYN3C.css"></head> <body data-astro-cid-sckkx6r4> <a href="#main-content" class="skip-link" data-astro-cid-sckkx6r4>メインコンテンツへスキップ</a> <header class="header" data-astro-cid-sckkx6r4> <div class="container" data-astro-cid-sckkx6r4> <h1 data-astro-cid-sckkx6r4><a href="/" data-astro-cid-sckkx6r4>神林 論文読み履歴</a></h1> <nav class="nav" data-astro-cid-sckkx6r4> <a href="/" class="nav-link" data-astro-cid-sckkx6r4>ホーム</a> </nav> </div> </header> <main class="main" id="main-content" data-astro-cid-sckkx6r4> <div class="container" data-astro-cid-sckkx6r4>  <div class="paper-detail" data-astro-cid-tvrprqhi> <!-- パンくずリスト --> <nav class="breadcrumb" data-astro-cid-tvrprqhi> <a href="/" class="breadcrumb-link" data-astro-cid-tvrprqhi>ホーム</a> <span class="breadcrumb-separator" data-astro-cid-tvrprqhi>›</span> <span class="breadcrumb-current" data-astro-cid-tvrprqhi>論文詳細</span> </nav> <div class="navigation" data-astro-cid-tvrprqhi> <a href="/" class="back-link" data-astro-cid-tvrprqhi>← 論文一覧に戻る</a> </div> <article class="paper-article" data-astro-cid-tvrprqhi> <header class="paper-header" data-astro-cid-tvrprqhi> <h1 data-astro-cid-tvrprqhi>Sudden Drops in the Loss: Syntax Acquisition, Phase Transitions, and Simplicity Bias in MLMs (2024)</h1> <div class="paper-meta" data-astro-cid-tvrprqhi> <div class="read-date" data-astro-cid-tvrprqhi>
+読了日: 2025/6/8 </div> </div> </header> <div class="paper-content" data-astro-cid-tvrprqhi> <h2 id="arxiv">arXiv</h2>
+<p><a href="https://arxiv.org/abs/2309.07311">https://arxiv.org/abs/2309.07311</a></p>
+<h2 id="著者">著者</h2>
+<p><a href="https://openreview.net/profile?id=~Angelica_Chen1">Angelica Chen</a>, <a href="https://openreview.net/profile?id=~Ravid_Shwartz-Ziv2">Ravid Shwartz-Ziv</a>, <a href="https://openreview.net/profile?id=~Kyunghyun_Cho1">Kyunghyun Cho</a>, <a href="https://openreview.net/profile?id=~Matthew_L_Leavitt1">Matthew L Leavitt</a>, <a href="https://openreview.net/profile?id=~Naomi_Saphra1">Naomi Saphra</a></p>
+<h2 id="要約">要約</h2>
+<ul>
+<li>BERTとかのMLMの学習過程で、短い期間でSASを獲得する傾向がある</li>
+<li>SASを獲得すると損失が急激に低下し、言語能力の獲得を促進</li>
+<li>SASは訓練中に操作可能
+<ul>
+<li>抑制すると複雑な言語能力の出現が妨げられる</li>
+<li>初期段階で一時的に抑制するとモデルの品質向上、収束の加速が見られた</li>
+</ul>
+</li>
+</ul>
+<h2 id="用語とか">用語とか</h2>
+<h3 id="mlm-masked-language-model">MLM (Masked Language Model)</h3>
+<ul>
+<li>文章中の一部の単語を隠して、その隠された単語を予測させるタスクを通じて言語を学習するモデル</li>
+<li>BERTなど</li>
+<li>文の前後両方の文脈を同時に考慮できる</li>
+</ul>
+<h3 id="sassyntactic-attention-structure">SAS(Syntactic Attention Structure)</h3>
+<ul>
+<li>モデルが特定の構文的な依存関係に注目したアテンションヘッドを形成する傾向</li>
+<li>MLMの学習時に明示的な帰納バイアスなしに自然発生</li>
+<li>SASの発現を制御→MLMの内部構造の特性と外的な能力の関係を観察
+<img src="/images/%E3%82%B9%E3%82%AF%E3%83%AA%E3%83%BC%E3%83%B3%E3%82%B7%E3%83%A7%E3%83%83%E3%83%88%202025-06-08%2021.04.25.png" alt="SASの概念図"></li>
+</ul>
+<h3 id="uasunlabeld-attatchment-score">UAS(unlabeld attatchment score)</h3>
+<ul>
+<li>SASの定量化</li>
+<li>言語モデルが構文解析の結果と同じように単語にアテンションを当てられているか</li>
+<li>構文解析の結果と比較して予測が成功した割合を計算</li>
+</ul>
+<h3 id="相転移">相転移</h3>
+<ul>
+<li>非連続的な過程</li>
+<li>知識の発見はスケーリング則に従わず唐突な変化を見せる</li>
+</ul>
+<h2 id="sasを調整する手法">SASを調整する手法</h2>
+<span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>L</mi><mo stretchy="false">(</mo><mi>x</mi><mo stretchy="false">)</mo><mo>=</mo><msub><mi>L</mi><mrow><mi>M</mi><mi>L</mi><mi>M</mi></mrow></msub><mo stretchy="false">(</mo><mi>x</mi><mo stretchy="false">)</mo><mo>+</mo><mi>λ</mi><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mrow><mi mathvariant="normal">∣</mi><mi>x</mi><mi mathvariant="normal">∣</mi></mrow></munderover><munder><mo>∑</mo><mrow><msub><mi>x</mi><mi>j</mi></msub><mo>∈</mo><mi>D</mi><mo stretchy="false">(</mo><msub><mi>x</mi><mi>i</mi></msub><mo stretchy="false">)</mo></mrow></munder><mi>γ</mi><mo stretchy="false">(</mo><msub><mi>x</mi><mi>i</mi></msub><mo separator="true">,</mo><msub><mi>x</mi><mi>j</mi></msub><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">L(x) = L_{MLM}(x) + \lambda \sum^{|x|}_{i=1} \sum_{x_{j} \in D(x_i)} \gamma(x_i, x_j)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">L</span><span class="mopen">(</span><span class="mord mathnormal">x</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathnormal">L</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3283em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.10903em;">M</span><span class="mord mathnormal mtight">L</span><span class="mord mathnormal mtight" style="margin-right:0.10903em;">M</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord mathnormal">x</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:3.4993em;vertical-align:-1.5383em;"></span><span class="mord mathnormal">λ</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mop op-limits"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.961em;"><span style="top:-1.8723em;margin-left:0em;"><span class="pstrut" style="height:3.05em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">i</span><span class="mrel mtight">=</span><span class="mord mtight">1</span></span></span></span><span style="top:-3.05em;"><span class="pstrut" style="height:3.05em;"></span><span><span class="mop op-symbol large-op">∑</span></span></span><span style="top:-4.386em;margin-left:0em;"><span class="pstrut" style="height:3.05em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">∣</span><span class="mord mathnormal mtight">x</span><span class="mord mtight">∣</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:1.2777em;"><span></span></span></span></span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mop op-limits"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.05em;"><span style="top:-1.809em;margin-left:0em;"><span class="pstrut" style="height:3.05em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mathnormal mtight">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3281em;"><span style="top:-2.357em;margin-left:0em;margin-right:0.0714em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.05724em;">j</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2819em;"><span></span></span></span></span></span></span><span class="mrel mtight">∈</span><span class="mord mathnormal mtight" style="margin-right:0.02778em;">D</span><span class="mopen mtight">(</span><span class="mord mtight"><span class="mord mathnormal mtight">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3281em;"><span style="top:-2.357em;margin-left:0em;margin-right:0.0714em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.143em;"><span></span></span></span></span></span></span><span class="mclose mtight">)</span></span></span></span><span style="top:-3.05em;"><span class="pstrut" style="height:3.05em;"></span><span><span class="mop op-symbol large-op">∑</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:1.5383em;"><span></span></span></span></span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.05556em;">γ</span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.05724em;">j</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span></span>
+<ul>
+<li>構文性スコア<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>γ</mi><mo stretchy="false">(</mo><msub><mi>x</mi><mi>i</mi></msub><mo separator="true">,</mo><msub><mi>x</mi><mi>j</mi></msub><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">\gamma(x_i, x_j)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.0361em;vertical-align:-0.2861em;"></span><span class="mord mathnormal" style="margin-right:0.05556em;">γ</span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.05724em;">j</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span>を用いた正則化項を<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>λ</mi></mrow><annotation encoding="application/x-tex">\lambda</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord mathnormal">λ</span></span></span></span>でスケーリング
+<ul>
+<li><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>λ</mi><mo>&#x3C;</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">\lambda &#x3C; 0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7335em;vertical-align:-0.0391em;"></span><span class="mord mathnormal">λ</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">&#x3C;</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">0</span></span></span></span>: SASを促進</li>
+<li><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>λ</mi><mo>></mo><mn>0</mn></mrow><annotation encoding="application/x-tex">\lambda > 0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7335em;vertical-align:-0.0391em;"></span><span class="mord mathnormal">λ</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">></span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">0</span></span></span></span>: SASを抑制</li>
+</ul>
+</li>
+<li><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>γ</mi><mo stretchy="false">(</mo><msub><mi>x</mi><mi>i</mi></msub><mo separator="true">,</mo><msub><mi>x</mi><mi>j</mi></msub><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">\gamma(x_i, x_j)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.0361em;vertical-align:-0.2861em;"></span><span class="mord mathnormal" style="margin-right:0.05556em;">γ</span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.05724em;">j</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span>: 構文的に関係のある単語<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>i</mi><mo separator="true">,</mo><mi>j</mi></mrow><annotation encoding="application/x-tex">i,j</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.854em;vertical-align:-0.1944em;"></span><span class="mord mathnormal">i</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.05724em;">j</span></span></span></span>間の最大アテンションの重み</li>
+</ul>
+<h2 id="sasを初期段階で抑制するとモデル品質が向上する理由">SASを初期段階で抑制するとモデル品質が向上する理由</h2>
+<ul>
+<li>代替戦略の獲得
+<ul>
+<li>ざっくりSASじゃない戦略のこと</li>
+<li>長距離の文脈を利用する戦略</li>
+</ul>
+</li>
+<li>SASをよりよく学ぶための踏み台的な</li>
+</ul>
+<h2 id="結論">結論</h2>
+<h3 id="単純性バイアスとの関係">単純性バイアスとの関係</h3>
+<ul>
+<li>モデルは学習初期でSASのような解釈しやすく単純な回を好む傾向があり</li>
+<li>これに固執すると長期的な性能向上を妨げる可能性</li>
+</ul>
+<h3 id="学習の臨界点">学習の臨界点</h3>
+<ul>
+<li>フェーズ遷移(損失が急落するところ)が起きている最中に学習方法を変更するとモデルの性能が最も下がる</li>
+<li>臨界点は非常に不安定</li>
+</ul>
+<h2 id="感想">感想</h2>
+<ul>
+<li>学習過程での構文の獲得過程みたいなものが見れておもろい</li>
+<li>最初はSASを抑制した方がいいみたいなのはwarmupとかと繋がるのかな？</li>
+<li>長期的に性能をあげるための工夫が大事</li>
+</ul> </div> </article> <div class="actions" data-astro-cid-tvrprqhi> <a href="/" class="btn btn-primary" data-astro-cid-tvrprqhi>一覧に戻る</a> </div> </div>  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      // スムーズスクロール効果
+      const links = document.querySelectorAll('a[href^="#"]');
+      links.forEach((link) => {
+        link.addEventListener("click", (e) => {
+          const href = link.getAttribute("href");
+          if (href && href !== "#") {
+            const target = document.querySelector(href);
+            if (target) {
+              e.preventDefault();
+              target.scrollIntoView({
+                behavior: "smooth",
+                block: "start",
+              });
+            }
+          }
+        });
+      });
+
+      // 読書進捗インジケーター
+      const progressBar = document.createElement("div");
+      progressBar.className = "reading-progress";
+      document.body.appendChild(progressBar);
+
+      function updateProgress() {
+        const scrollTop = window.pageYOffset;
+        const docHeight =
+          document.documentElement.scrollHeight - window.innerHeight;
+        const progress = (scrollTop / docHeight) * 100;
+        progressBar.style.width = progress + "%";
+      }
+
+      window.addEventListener("scroll", updateProgress);
+      updateProgress();
+    });
+  </script>  </div> </main> <footer class="footer" data-astro-cid-sckkx6r4> <div class="container" data-astro-cid-sckkx6r4> <p data-astro-cid-sckkx6r4>&copy; 2025 神林 論文読み履歴</p> </div> </footer> </body></html> 
