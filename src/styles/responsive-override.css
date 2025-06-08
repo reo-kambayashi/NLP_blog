@@ -406,3 +406,92 @@
     line-height: inherit !important;
   }
 }
+
+/* KaTeX Math Styles for Dark Theme */
+.katex-display {
+  margin: 1em 0 !important;
+  text-align: center !important;
+}
+
+.katex {
+  color: #ffffff !important;
+  font-size: 1.1em !important;
+  /* 下付き文字用のカスタムプロパティ */
+  --katex-subscript-size: 0.45;
+}
+
+.katex .mord,
+.katex .mop,
+.katex .mrel,
+.katex .mbin,
+.katex .mpunct,
+.katex .mopen,
+.katex .mclose {
+  color: #ffffff !important;
+}
+
+/* 全ての下付き文字に対する包括的なスタイル */
+.katex * {
+  font-size: inherit !important;
+}
+
+.katex .sizing.reset-size6.size3,
+.katex .sizing.reset-size5.size3,
+.katex .fontsize-ensurer.reset-size6.size3,
+.katex .fontsize-ensurer.reset-size5.size3 {
+  font-size: 0.65em !important;
+}
+
+/* 下付き文字のサイズ調整 - より強力なセレクタ */
+.katex .msubsup .msupsub {
+  font-size: 0.7em !important;
+}
+
+.katex .msubsup .msupsub .mord {
+  font-size: 1em !important;
+}
+
+/* 下付き文字と上付き文字のより細かい制御 */
+.katex .base + .msupsub {
+  font-size: 0.75em !important;
+}
+
+/* KaTeXの下付き文字により具体的なスタイル */
+.katex .vlist-t .vlist-r .vlist .fontsize-ensurer,
+.katex .vlist-t .vlist-r .vlist .sizing,
+.katex .sizing.reset-size5.size3,
+.katex .fontsize-ensurer.reset-size5.size3 {
+  font-size: 0.7em !important;
+}
+
+/* さらに具体的な下付き文字セレクタ */
+.katex .mord.text,
+.katex span[style*="top:0.3em"],
+.katex span[style*="top:0.31em"],
+.katex span[style*="top:0.32em"] {
+  font-size: 0.7em !important;
+}
+
+/* 下付き文字要素の直接指定 */
+.katex .pstrut + .sizing.reset-size6.size3 {
+  font-size: 0.65em !important;
+}
+
+/* Math display on mobile */
+@media (max-width: 768px) {
+  .katex {
+    font-size: 1em !important;
+  }
+  
+  .katex-display {
+    margin: 0.8em 0 !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .katex {
+    font-size: 0.9em !important;
+  }
+}
