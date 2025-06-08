@@ -439,12 +439,12 @@
 .katex .sizing.reset-size5.size3,
 .katex .fontsize-ensurer.reset-size6.size3,
 .katex .fontsize-ensurer.reset-size5.size3 {
-  font-size: 0.65em !important;
+  font-size: 0.55em !important;
 }
 
 /* 下付き文字のサイズ調整 - より強力なセレクタ */
 .katex .msubsup .msupsub {
-  font-size: 0.7em !important;
+  font-size: 0.6em !important;
 }
 
 .katex .msubsup .msupsub .mord {
@@ -453,7 +453,7 @@
 
 /* 下付き文字と上付き文字のより細かい制御 */
 .katex .base + .msupsub {
-  font-size: 0.75em !important;
+  font-size: 0.65em !important;
 }
 
 /* KaTeXの下付き文字により具体的なスタイル */
@@ -461,7 +461,7 @@
 .katex .vlist-t .vlist-r .vlist .sizing,
 .katex .sizing.reset-size5.size3,
 .katex .fontsize-ensurer.reset-size5.size3 {
-  font-size: 0.7em !important;
+  font-size: 0.6em !important;
 }
 
 /* さらに具体的な下付き文字セレクタ */
@@ -469,12 +469,27 @@
 .katex span[style*="top:0.3em"],
 .katex span[style*="top:0.31em"],
 .katex span[style*="top:0.32em"] {
-  font-size: 0.7em !important;
+  font-size: 0.6em !important;
 }
 
 /* 下付き文字要素の直接指定 */
 .katex .pstrut + .sizing.reset-size6.size3 {
-  font-size: 0.65em !important;
+  font-size: 0.55em !important;
+}
+
+/* 追加の下付き文字制御 - より包括的 */
+.katex .vlist-t .vlist-r .vlist {
+  font-size: 0.6em !important;
+}
+
+.katex .base .mord + .msupsub,
+.katex .base .mop + .msupsub {
+  font-size: 0.6em !important;
+}
+
+/* 特定の下付き文字要素 */
+.katex .msubsup > .vlist-t > .vlist-r > .vlist > span {
+  font-size: 0.6em !important;
 }
 
 /* Math display on mobile */
