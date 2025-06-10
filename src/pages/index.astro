@@ -3,6 +3,7 @@ import Layout from "../layouts/Layout.astro";
 import PaperCardMD from "../components/PaperCardMD.astro";
 import { getCollection, type CollectionEntry } from "astro:content";
 import { sortPapersByDate, calculatePaperStats } from "../utils/paper";
+import { preparePapersForSearch } from "../utils/search";
 
 type Paper = CollectionEntry<"papers">;
 
@@ -14,6 +15,9 @@ const sortedPapers = sortPapersByDate(papers);
 
 // 統計情報を計算
 const stats = calculatePaperStats(papers);
+
+// 検索用データを準備
+const searchablePapers = preparePapersForSearch(papers);
 ---
 
 <Layout title="論文メモ">
@@ -40,15 +44,26 @@ const stats = calculatePaperStats(papers);
       <input
         type="text"
         id="search"
-        placeholder="論文を検索..."
+        placeholder="論文タイトルや内容を検索..."
         class="search-input"
       />
+      <div class="search-suggestion" id="searchSuggestion">
+        タイトル、要約、メモ内容から検索できます
+      </div>
     </div>
     <div class="filter-container">
       <select id="yearFilter" class="filter-select">
         <option value="">全ての年</option>
       </select>
     </div>
+  </div>
+
+  <!-- 検索結果統計 -->
+  <div class="search-stats" id="searchStats" style="display: none;">
+    <span id="searchStatsText"></span>
+    <button class="clear-search" id="clearSearch" style="display: none;"
+      >検索をクリア</button
+    >
   </div>
 
   <section class="papers-list">
@@ -68,8 +83,12 @@ const stats = calculatePaperStats(papers);
             <div
               class="paper-card-wrapper"
               style={`--card-index: ${index}; animation-delay: ${index * 0.1}s`}
+              data-paper-id={paper.id}
               data-title={paper.data.title.toLowerCase()}
               data-year={new Date(paper.data.date).getFullYear()}
+              data-content={
+                paper.body ? paper.body.toLowerCase().substring(0, 1500) : ""
+              }
             >
               <PaperCardMD paper={paper} />
             </div>
@@ -82,111 +101,250 @@ const stats = calculatePaperStats(papers);
   <!-- JavaScriptを直接埋め込み -->
   <script is:inline>
     document.addEventListener("DOMContentLoaded", () => {
-      // 検索機能
-      const searchInput = document.getElementById("search");
-      const yearFilter = document.getElementById("yearFilter");
-      const papersGrid = document.getElementById("papersGrid");
-      const paperCards = document.querySelectorAll(".paper-card-wrapper");
-
-      if (!searchInput || !yearFilter || !papersGrid) return;
-
-      // モバイルでのタッチサポート改善
-      const isMobile = window.innerWidth <= 768;
-
-      if (isMobile) {
-        // モバイルでは検索入力時の遅延を短縮
-        searchInput.setAttribute("autocomplete", "off");
-        searchInput.setAttribute("autocorrect", "off");
-        searchInput.setAttribute("autocapitalize", "off");
-        searchInput.setAttribute("spellcheck", "false");
-
-        // モバイルでの入力体験改善
-        searchInput.addEventListener("focus", () => {
-          searchInput.placeholder = "検索中...";
-          document.body.style.overflow = "hidden";
-        });
-
-        searchInput.addEventListener("blur", () => {
-          searchInput.placeholder = "論文タイトルで検索...";
-          document.body.style.overflow = "auto";
-        });
+      // Fuse.jsが読み込まれるまで待つ
+      function waitForFuse() {
+        if (typeof Fuse === "undefined") {
+          console.log("Waiting for Fuse.js to load...");
+          setTimeout(waitForFuse, 100);
+          return;
+        }
+        initializeSearch();
       }
 
-      // 年フィルターの選択肢を動的に生成
-      const years = [
-        ...new Set(
-          Array.from(paperCards).map((card) => card.getAttribute("data-year"))
-        ),
-      ].sort((a, b) => b - a);
+      function initializeSearch() {
+        // DOM要素の取得
+        const searchInput = document.getElementById("search");
+        const yearFilter = document.getElementById("yearFilter");
+        const papersGrid = document.getElementById("papersGrid");
+        const paperCards = document.querySelectorAll(".paper-card-wrapper");
+        const searchStats = document.getElementById("searchStats");
+        const searchStatsText = document.getElementById("searchStatsText");
+        const clearSearch = document.getElementById("clearSearch");
+        const searchSuggestion = document.getElementById("searchSuggestion");
 
-      years.forEach((year) => {
-        if (year) {
-          const option = document.createElement("option");
-          option.value = year;
-          option.textContent = year + "年";
-          yearFilter.appendChild(option);
+        if (!searchInput || !yearFilter || !papersGrid) {
+          console.error("Required DOM elements not found");
+          return;
         }
-      });
 
-      // デバウンス機能付きフィルター関数
-      let filterTimeout;
-      function filterPapers() {
-        if (filterTimeout) clearTimeout(filterTimeout);
+        console.log("Initializing search with", paperCards.length, "papers");
 
-        const delay = isMobile ? 150 : 50; // モバイルでは少し長めの遅延
+        // モバイル判定
+        const isMobile = window.innerWidth <= 768;
 
-        filterTimeout = setTimeout(() => {
-          const searchTerm = (searchInput.value || "").toLowerCase();
-          const selectedYear = yearFilter.value;
+        // 検索用データの準備
+        const searchablePapers = Array.from(paperCards).map((card, index) => {
+          const title = card.getAttribute("data-title") || "";
+          const content = card.getAttribute("data-content") || "";
+          console.log(
+            `Paper ${index}: title="${title.substring(0, 50)}...", content="${content.substring(0, 100)}..."`
+          );
 
-          paperCards.forEach((card) => {
-            const title = card.getAttribute("data-title") || "";
-            const year = card.getAttribute("data-year") || "";
+          return {
+            index: index,
+            element: card,
+            title: title,
+            year: card.getAttribute("data-year") || "",
+            content: content,
+            id: card.getAttribute("data-paper-id") || "",
+          };
+        });
 
-            const matchesSearch = !searchTerm || title.includes(searchTerm);
-            const matchesYear = !selectedYear || year === selectedYear;
+        // Fuse.js設定
+        const fuseOptions = {
+          keys: [
+            { name: "title", weight: 0.7 },
+            { name: "content", weight: 0.3 },
+          ],
+          threshold: 0.4, // 0.3から0.4に緩和（より多くの結果を許可）
+          distance: 200, // 100から200に増加（より遠い位置のマッチも許可）
+          minMatchCharLength: 1, // 2から1に減少（1文字のマッチも許可）
+          includeScore: true,
+          includeMatches: true,
+          ignoreLocation: true, // falseからtrueに変更（位置を無視）
+        };
 
-            const cardElement = card;
-            if (matchesSearch && matchesYear) {
-              cardElement.style.display = "block";
-              cardElement.style.animation = "fadeInUp 0.3s ease forwards";
-            } else {
-              cardElement.style.display = "none";
+        console.log("Creating Fuse instance with options:", fuseOptions);
+        const fuse = new Fuse(searchablePapers, fuseOptions);
+        console.log("Fuse instance created successfully");
+
+        // 年フィルターの選択肢を動的に生成
+        const years = [
+          ...new Set(searchablePapers.map((paper) => paper.year)),
+        ].sort((a, b) => b - a);
+        years.forEach((year) => {
+          if (year) {
+            const option = document.createElement("option");
+            option.value = year;
+            option.textContent = year + "年";
+            yearFilter.appendChild(option);
+          }
+        });
+
+        // モバイル対応
+        if (isMobile) {
+          searchInput.setAttribute("autocomplete", "off");
+          searchInput.setAttribute("autocorrect", "off");
+          searchInput.setAttribute("autocapitalize", "off");
+          searchInput.setAttribute("spellcheck", "false");
+
+          searchInput.addEventListener("focus", () => {
+            searchSuggestion.style.display = "none";
+            setTimeout(() => {
+              searchInput.scrollIntoView({
+                behavior: "smooth",
+                block: "center",
+              });
+            }, 300);
+          });
+
+          searchInput.addEventListener("blur", () => {
+            if (!searchInput.value) {
+              searchSuggestion.style.display = "block";
             }
           });
-        }, delay);
-      }
+        }
 
-      searchInput.addEventListener("input", filterPapers);
-      yearFilter.addEventListener("change", filterPapers);
+        // 検索とフィルタリング機能
+        let searchTimeout;
+        function performSearch() {
+          if (searchTimeout) clearTimeout(searchTimeout);
 
-      // ページロード時のアニメーション
-      paperCards.forEach((card, index) => {
-        setTimeout(
-          () => {
-            card.classList.add("animate-in");
-          },
-          index * (isMobile ? 50 : 100)
-        ); // モバイルでは少し速く
-      });
+          const delay = isMobile ? 150 : 50;
 
-      // カード要素にスタガーアニメーション遅延を適用
-      paperCards.forEach((card, index) => {
-        card.style.animationDelay = `${index * (isMobile ? 0.03 : 0.05)}s`;
-      });
+          searchTimeout = setTimeout(() => {
+            const query = searchInput.value.trim();
+            const selectedYear = yearFilter.value;
 
-      // モバイルでのスクロール改善
-      if (isMobile) {
-        // 検索フィールドがフォーカスされた時のスクロール調整
-        searchInput.addEventListener("focus", () => {
-          setTimeout(() => {
-            searchInput.scrollIntoView({
-              behavior: "smooth",
-              block: "center",
+            console.log("Performing search:", { query, selectedYear });
+
+            let filteredPapers = searchablePapers;
+
+            // Fuse.js検索
+            if (query) {
+              try {
+                const searchResults = fuse.search(query);
+                console.log(
+                  "Search results:",
+                  searchResults.length,
+                  "matches found"
+                );
+                filteredPapers = searchResults.map((result) => result.item);
+              } catch (error) {
+                console.error("Search error:", error);
+                // フォールバック：シンプルな文字列検索（大文字小文字を区別しない）
+                const lowerQuery = query.toLowerCase();
+                filteredPapers = searchablePapers.filter(
+                  (paper) =>
+                    paper.title.toLowerCase().includes(lowerQuery) ||
+                    paper.content.toLowerCase().includes(lowerQuery)
+                );
+                console.log(
+                  "Fallback search found:",
+                  filteredPapers.length,
+                  "matches"
+                );
+              }
+            }
+
+            // 年フィルタリング
+            if (selectedYear) {
+              filteredPapers = filteredPapers.filter(
+                (paper) => paper.year === selectedYear
+              );
+            }
+
+            console.log("Final filtered results:", filteredPapers.length);
+
+            // 結果の表示・非表示
+            const visibleIndices = new Set(
+              filteredPapers.map((paper) => paper.index)
+            );
+
+            paperCards.forEach((card, index) => {
+              if (visibleIndices.has(index)) {
+                card.style.display = "block";
+                card.style.animation = "fadeInUp 0.3s ease forwards";
+              } else {
+                card.style.display = "none";
+              }
             });
-          }, 300); // キーボードが表示されるまで少し待つ
+
+            // 検索統計の更新
+            updateSearchStats(
+              query,
+              selectedYear,
+              searchablePapers.length,
+              filteredPapers.length
+            );
+
+            // 検索候補の非表示
+            if (query) {
+              searchSuggestion.style.display = "none";
+            } else if (!isMobile || document.activeElement !== searchInput) {
+              searchSuggestion.style.display = "block";
+            }
+          }, delay);
+        }
+
+        // 検索統計の更新
+        function updateSearchStats(query, year, total, filtered) {
+          if (query || year) {
+            searchStats.style.display = "block";
+            clearSearch.style.display = "inline-block";
+
+            let statsText = `${filtered}件 / ${total}件を表示`;
+            if (query && year) {
+              statsText = `"${query}" かつ ${year}年の論文: ${filtered}件`;
+            } else if (query) {
+              statsText = `"${query}" の検索結果: ${filtered}件`;
+            } else if (year) {
+              statsText = `${year}年の論文: ${filtered}件`;
+            }
+
+            searchStatsText.textContent = statsText;
+          } else {
+            searchStats.style.display = "none";
+            clearSearch.style.display = "none";
+          }
+        }
+
+        // 検索クリア機能
+        function clearSearchAndFilters() {
+          searchInput.value = "";
+          yearFilter.value = "";
+          searchStats.style.display = "none";
+          clearSearch.style.display = "none";
+          searchSuggestion.style.display = "block";
+
+          paperCards.forEach((card) => {
+            card.style.display = "block";
+            card.style.animation = "fadeInUp 0.3s ease forwards";
+          });
+        }
+
+        // イベントリスナー
+        searchInput.addEventListener("input", performSearch);
+        yearFilter.addEventListener("change", performSearch);
+        clearSearch.addEventListener("click", clearSearchAndFilters);
+
+        // ページロード時のアニメーション
+        paperCards.forEach((card, index) => {
+          setTimeout(
+            () => {
+              card.classList.add("animate-in");
+            },
+            index * (isMobile ? 50 : 100)
+          );
+
+          card.style.animationDelay = `${index * (isMobile ? 0.03 : 0.05)}s`;
         });
+
+        console.log("Search initialization complete");
       }
+
+      // Fuse.jsの読み込みを待つ
+      waitForFuse();
     });
   </script>
 </Layout>
@@ -410,6 +568,57 @@ const stats = calculatePaperStats(papers);
     color: #aaaaaa;
   }
 
+  /* 検索候補とヘルプテキスト */
+  .search-suggestion {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: rgba(17, 17, 17, 0.95);
+    color: #888888;
+    font-size: 0.8rem;
+    padding: 0.5rem 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-top: none;
+    border-radius: 0 0 8px 8px;
+    z-index: 10;
+    transition: all 0.3s ease;
+  }
+
+  /* 検索統計表示 */
+  .search-stats {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    padding: 0.75rem 1.5rem;
+    background: linear-gradient(135deg, #111111 0%, #0a0a0a 100%);
+    border: 1px solid rgba(74, 158, 255, 0.2);
+    border-radius: 8px;
+    color: #cccccc;
+    font-size: 0.9rem;
+    font-family: "Plus Jakarta Sans", sans-serif;
+  }
+
+  .clear-search {
+    background: transparent;
+    color: #4a9eff;
+    border: 1px solid #4a9eff;
+    padding: 0.4rem 0.8rem;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: "Plus Jakarta Sans", sans-serif;
+  }
+
+  .clear-search:hover {
+    background: #4a9eff;
+    color: #000000;
+    transform: translateY(-1px);
+  }
+
   .papers-grid {
     display: grid;
     grid-template-columns: repeat(
@@ -586,6 +795,24 @@ const stats = calculatePaperStats(papers);
       width: 100%;
     }
 
+    .search-suggestion {
+      font-size: 0.75rem;
+      padding: 0.4rem 0.8rem;
+    }
+
+    .search-stats {
+      flex-direction: column;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+      padding: 0.6rem 1rem;
+      font-size: 0.8rem;
+    }
+
+    .clear-search {
+      padding: 0.3rem 0.6rem;
+      font-size: 0.75rem;
+    }
+
     .search-input,
     .filter-select {
       width: 100%;
@@ -681,18 +908,39 @@ const stats = calculatePaperStats(papers);
       margin-bottom: 1.5rem;
     }
 
+    .search-suggestion {
+      font-size: 0.7rem;
+      padding: 0.35rem 0.7rem;
+    }
+
+    .search-stats {
+      padding: 0.5rem 0.8rem;
+      font-size: 0.75rem;
+      margin-bottom: 0.875rem;
+    }
+
+    .clear-search {
+      padding: 0.25rem 0.5rem;
+      font-size: 0.7rem;
+    }
+
     .search-input,
     .filter-select {
-      padding: 0.75rem 0.875rem;
-      font-size: 0.85rem;
-      min-height: 42px;
+      padding: 0.875rem 1rem;
+      font-size: 0.9rem;
+      min-height: 44px;
+      box-sizing: border-box;
     }
 
     .papers-grid {
-      padding: 0 0.375rem;
-      gap: 0.875rem;
+      grid-template-columns: 1fr;
+      gap: 1rem;
+      padding: 0.5rem 0.5rem 0 0.5rem; /* 改善: 上部パディング追加 */
       position: relative;
       z-index: 1;
+      max-width: 100%; /* 改善: 最大幅を制限 */
+      margin-left: auto; /* 改善: センタリング */
+      margin-right: auto; /* 改善: センタリング */
     }
 
     .paper-card-wrapper {
@@ -762,6 +1010,23 @@ const stats = calculatePaperStats(papers);
       padding: 0 0.25rem;
       gap: 0.625rem;
       margin-bottom: 1.25rem;
+    }
+
+    .search-suggestion {
+      font-size: 0.65rem;
+      padding: 0.3rem 0.6rem;
+    }
+
+    .search-stats {
+      padding: 0.4rem 0.6rem;
+      font-size: 0.7rem;
+      margin-bottom: 0.75rem;
+      text-align: center;
+    }
+
+    .clear-search {
+      padding: 0.2rem 0.4rem;
+      font-size: 0.65rem;
     }
 
     .search-input,
