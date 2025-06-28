@@ -1,0 +1,103 @@
+<!DOCTYPE html><html lang="ja" data-astro-cid-sckkx6r4> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><meta name="generator" content="Astro v5.9.0"><meta name="theme-color" content="#000000"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="論文メモ"><title>Text-to-LoRA: Instant Transformer Adaption (2025) - 論文メモ</title><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200;300;400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet"><!-- KaTeX CSS --><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous"><!-- Fuse.js for fuzzy search --><script type="module" src="/_astro/Layout.astro_astro_type_script_index_0_lang.ByU1W3Pc.js"></script><link rel="stylesheet" href="/src/styles/responsive-override.css"><link rel="stylesheet" href="/_astro/index.CDIRhWn9.css">
+<link rel="stylesheet" href="/_astro/_slug_.p_gobQro.css"></head> <body data-astro-cid-sckkx6r4> <a href="#main-content" class="skip-link" data-astro-cid-sckkx6r4>メインコンテンツへスキップ</a> <header class="header" data-astro-cid-sckkx6r4> <div class="container" data-astro-cid-sckkx6r4> <h1 data-astro-cid-sckkx6r4><a href="/" data-astro-cid-sckkx6r4>神林 論文読み履歴</a></h1> <nav class="nav" data-astro-cid-sckkx6r4> <a href="/" class="nav-link" data-astro-cid-sckkx6r4>ホーム</a> </nav> </div> </header> <main class="main" id="main-content" data-astro-cid-sckkx6r4> <div class="container" data-astro-cid-sckkx6r4>  <div class="paper-detail" data-astro-cid-tvrprqhi> <!-- パンくずリスト --> <nav class="breadcrumb" data-astro-cid-tvrprqhi> <a href="/" class="breadcrumb-link" data-astro-cid-tvrprqhi>ホーム</a> <span class="breadcrumb-separator" data-astro-cid-tvrprqhi>›</span> <span class="breadcrumb-current" data-astro-cid-tvrprqhi>論文詳細</span> </nav> <div class="navigation" data-astro-cid-tvrprqhi> <a href="/" class="back-link" data-astro-cid-tvrprqhi>← 論文一覧に戻る</a> </div> <article class="paper-article" data-astro-cid-tvrprqhi> <header class="paper-header" data-astro-cid-tvrprqhi> <h1 data-astro-cid-tvrprqhi>Text-to-LoRA: Instant Transformer Adaption (2025)</h1> <div class="paper-meta" data-astro-cid-tvrprqhi> <div class="read-date" data-astro-cid-tvrprqhi>
+読了日: 2025/6/19 </div> </div> </header> <div class="paper-content" data-astro-cid-tvrprqhi> <h2 id="arxiv">arXiv</h2>
+<p><a href="https://arxiv.org/abs/2506.06105">https://arxiv.org/abs/2506.06105</a></p>
+<h2 id="著者">著者</h2>
+<p><a href="https://arxiv.org/search/cs?searchtype=author&#x26;query=Charakorn,+R">Rujikorn Charakorn</a>, <a href="https://arxiv.org/search/cs?searchtype=author&#x26;query=Cetin,+E">Edoardo Cetin</a>, <a href="https://arxiv.org/search/cs?searchtype=author&#x26;query=Tang,+Y">Yujin Tang</a>, <a href="https://arxiv.org/search/cs?searchtype=author&#x26;query=Lange,+R+T">Robert Tjarko Lange</a></p>
+<h2 id="要約">要約</h2>
+<ul>
+<li>基盤モデルは汎用的でタスク固有の適応が必要
+<ul>
+<li>従来はデータセットを使ってファインチューニングしていた</li>
+<li>時間とお金がかかるしハイパラ設定に依存</li>
+</ul>
+</li>
+<li>Text-to-LoRA(T2L)
+<ul>
+<li>自然言語によるタスクの説明から単一の前向き計算だけでLoRAアダプタを生成</li>
+</ul>
+</li>
+<li>事前学習済みのLoRAアダプタでT2Lを訓練
+<ul>
+<li>固有アダプタと同等の性能</li>
+<li>全く未知のタスクにもゼロショットで一般化</li>
+</ul>
+</li>
+<li>基盤モデルのタスク適応を民主化する第一歩</li>
+</ul>
+<h2 id="用語">用語</h2>
+<h3 id="lora">LoRA</h3>
+<ul>
+<li>重み分割したやつ</li>
+</ul>
+<h3 id="hypernetworks">Hypernetworks</h3>
+<ul>
+<li>別のニューラルネットワークのパラメータを生成するネットワーク</li>
+</ul>
+<span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><msub><mi>W</mi><mi>l</mi></msub><mo>=</mo><msub><mi>h</mi><mi>θ</mi></msub><mo stretchy="false">(</mo><msub><mi>ϕ</mi><mi>l</mi></msub><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">W_l = h_\theta (\phi_l)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.13889em;">W</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:-0.1389em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.01968em;">l</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathnormal">h</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.02778em;">θ</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal">ϕ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.01968em;">l</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span></span>
+<ul>
+<li><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>θ</mi></mrow><annotation encoding="application/x-tex">\theta</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">θ</span></span></span></span>: Hypernetworkのパラメータ</li>
+<li><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>ϕ</mi><mi>l</mi></msub></mrow><annotation encoding="application/x-tex">\phi_l</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord"><span class="mord mathnormal">ϕ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.01968em;">l</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>: 生成したい層<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>l</mi></mrow><annotation encoding="application/x-tex">l</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord mathnormal" style="margin-right:0.01968em;">l</span></span></span></span>に関する記述(どの層の重みを生成するかの指示ベクトルてきな)</li>
+<li><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>W</mi><mi>l</mi></msub></mrow><annotation encoding="application/x-tex">W_l</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.13889em;">W</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:-0.1389em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.01968em;">l</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>: ベースネットの第<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>l</mi></mrow><annotation encoding="application/x-tex">l</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord mathnormal" style="margin-right:0.01968em;">l</span></span></span></span>層の重み</li>
+</ul>
+<h2 id="t2lアーキテクチャ">T2Lアーキテクチャ</h2>
+<span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi mathvariant="normal">Δ</mi><msubsup><mi>W</mi><mrow><mi>m</mi><mo separator="true">,</mo><mi>l</mi></mrow><mrow><mo stretchy="false">(</mo><mi>i</mi><mo stretchy="false">)</mo></mrow></msubsup><mtext>  </mtext><mo>=</mo><mtext>  </mtext><msub><mi>h</mi><mi>θ</mi></msub><mtext> ⁣</mtext><mo fence="true" stretchy="true" minsize="1.2em" maxsize="1.2em">(</mo><mi mathvariant="normal">concat</mi><mo>⁡</mo><mo fence="true" stretchy="true" minsize="1.2em" maxsize="1.2em">[</mo><mi>f</mi><mo stretchy="false">(</mo><msub><mi>z</mi><mi>i</mi></msub><mo stretchy="false">)</mo><mo separator="true">,</mo><mtext> </mtext><mi>E</mi><mo stretchy="false">[</mo><mi>m</mi><mo stretchy="false">]</mo><mo separator="true">,</mo><mtext> </mtext><mi>E</mi><mo stretchy="false">[</mo><mi>l</mi><mo stretchy="false">]</mo><mo fence="true" stretchy="true" minsize="1.2em" maxsize="1.2em">]</mo><mo fence="true" stretchy="true" minsize="1.2em" maxsize="1.2em">)</mo></mrow><annotation encoding="application/x-tex">\Delta W_{m,l}^{(i)} \;=\; h_{\theta}\!\bigl(\operatorname{concat}\bigl[f(z_{i}),\,E[m],\,E[l]\bigr]\bigr)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.4822em;vertical-align:-0.4374em;"></span><span class="mord">Δ</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.13889em;">W</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.0448em;"><span style="top:-2.3987em;margin-left:-0.1389em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">m</span><span class="mpunct mtight">,</span><span class="mord mathnormal mtight" style="margin-right:0.01968em;">l</span></span></span></span><span style="top:-3.2198em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mopen mtight">(</span><span class="mord mathnormal mtight">i</span><span class="mclose mtight">)</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.4374em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1.2em;vertical-align:-0.35em;"></span><span class="mord"><span class="mord mathnormal">h</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.02778em;">θ</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:-0.1667em;"></span><span class="mopen"><span class="delimsizing size1">(</span></span><span class="mop"><span class="mord mathrm">concat</span></span><span class="mopen"><span class="delimsizing size1">[</span></span><span class="mord mathnormal" style="margin-right:0.10764em;">f</span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.04398em;">z</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:-0.044em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">i</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">)</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.05764em;">E</span><span class="mopen">[</span><span class="mord mathnormal">m</span><span class="mclose">]</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.05764em;">E</span><span class="mopen">[</span><span class="mord mathnormal" style="margin-right:0.01968em;">l</span><span class="mclose">]</span><span class="mclose"><span class="delimsizing size1">]</span></span><span class="mclose"><span class="delimsizing size1">)</span></span></span></span></span></span>
+<ul>
+<li><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mo stretchy="false">(</mo><msub><mi>z</mi><mi>i</mi></msub><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">f(z_i)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.10764em;">f</span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.04398em;">z</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:-0.044em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span>: タスク記述, <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>E</mi><mo stretchy="false">[</mo><mi>m</mi><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">E[m]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.05764em;">E</span><span class="mopen">[</span><span class="mord mathnormal">m</span><span class="mclose">]</span></span></span></span>: モジュール埋め込み, <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>E</mi><mo stretchy="false">[</mo><mi>l</mi><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">E[l]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.05764em;">E</span><span class="mopen">[</span><span class="mord mathnormal" style="margin-right:0.01968em;">l</span><span class="mclose">]</span></span></span></span>: 層埋め込み</li>
+</ul>
+<h2 id="ざっくり学習について">ざっくり学習について</h2>
+<h3 id="lora再構成学習">LoRA再構成学習</h3>
+<ul>
+<li>正解LoRAと同じようなものを生成するようにL1誤差で学習</li>
+<li>圧縮できて軽くて速い</li>
+<li>ゼロショットには弱い</li>
+</ul>
+<h3 id="下流タスクで直接sft">下流タスクで直接SFT</h3>
+<ul>
+<li>入力→LoRA生成→タスク解く→ロス計算→学習</li>
+<li>重いけど未知タスクにも強い</li>
+</ul>
+<h2 id="感想">感想</h2>
+<ul>
+<li>論文の表を見る限りだと個別タスクごとのLoRAとほんとに同じ性能がでていてびっくり。未来を感じる。</li>
+<li>各ベンチマークの詳細を調べてないからなんとも言えないかも(時間がない)</li>
+<li>今度ベンチマークまとめ的な記事を作ってみようかなとも思ったり</li>
+<li>ゼロショット性能はちょっと弱いらしい</li>
+<li>Accepted at ICML 2025←ガチじゃん</li>
+</ul> </div> </article> <div class="actions" data-astro-cid-tvrprqhi> <a href="/" class="btn btn-primary" data-astro-cid-tvrprqhi>一覧に戻る</a> </div> </div>  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      // スムーズスクロール効果
+      const links = document.querySelectorAll('a[href^="#"]');
+      links.forEach((link) => {
+        link.addEventListener("click", (e) => {
+          const href = link.getAttribute("href");
+          if (href && href !== "#") {
+            const target = document.querySelector(href);
+            if (target) {
+              e.preventDefault();
+              target.scrollIntoView({
+                behavior: "smooth",
+                block: "start",
+              });
+            }
+          }
+        });
+      });
+
+      // 読書進捗インジケーター
+      const progressBar = document.createElement("div");
+      progressBar.className = "reading-progress";
+      document.body.appendChild(progressBar);
+
+      function updateProgress() {
+        const scrollTop = window.pageYOffset;
+        const docHeight =
+          document.documentElement.scrollHeight - window.innerHeight;
+        const progress = (scrollTop / docHeight) * 100;
+        progressBar.style.width = progress + "%";
+      }
+
+      window.addEventListener("scroll", updateProgress);
+      updateProgress();
+    });
+  </script>  </div> </main> <footer class="footer" data-astro-cid-sckkx6r4> <div class="container" data-astro-cid-sckkx6r4> <p data-astro-cid-sckkx6r4>&copy; 2025 神林 論文読み履歴</p> </div> </footer> </body></html> 

@@ -1,0 +1,106 @@
+<!DOCTYPE html><html lang="ja" data-astro-cid-sckkx6r4> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><meta name="generator" content="Astro v5.9.0"><meta name="theme-color" content="#000000"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="論文メモ"><title>The Illusion of Thinking:  Understanding the Strengths and Limitations of Reasoning Models  via the Lens of Problem Complexity (2025) - 論文メモ</title><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200;300;400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet"><!-- KaTeX CSS --><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous"><!-- Fuse.js for fuzzy search --><script type="module" src="/_astro/Layout.astro_astro_type_script_index_0_lang.ByU1W3Pc.js"></script><link rel="stylesheet" href="/src/styles/responsive-override.css"><link rel="stylesheet" href="/_astro/index.CDIRhWn9.css">
+<link rel="stylesheet" href="/_astro/_slug_.p_gobQro.css"></head> <body data-astro-cid-sckkx6r4> <a href="#main-content" class="skip-link" data-astro-cid-sckkx6r4>メインコンテンツへスキップ</a> <header class="header" data-astro-cid-sckkx6r4> <div class="container" data-astro-cid-sckkx6r4> <h1 data-astro-cid-sckkx6r4><a href="/" data-astro-cid-sckkx6r4>神林 論文読み履歴</a></h1> <nav class="nav" data-astro-cid-sckkx6r4> <a href="/" class="nav-link" data-astro-cid-sckkx6r4>ホーム</a> </nav> </div> </header> <main class="main" id="main-content" data-astro-cid-sckkx6r4> <div class="container" data-astro-cid-sckkx6r4>  <div class="paper-detail" data-astro-cid-tvrprqhi> <!-- パンくずリスト --> <nav class="breadcrumb" data-astro-cid-tvrprqhi> <a href="/" class="breadcrumb-link" data-astro-cid-tvrprqhi>ホーム</a> <span class="breadcrumb-separator" data-astro-cid-tvrprqhi>›</span> <span class="breadcrumb-current" data-astro-cid-tvrprqhi>論文詳細</span> </nav> <div class="navigation" data-astro-cid-tvrprqhi> <a href="/" class="back-link" data-astro-cid-tvrprqhi>← 論文一覧に戻る</a> </div> <article class="paper-article" data-astro-cid-tvrprqhi> <header class="paper-header" data-astro-cid-tvrprqhi> <h1 data-astro-cid-tvrprqhi>The Illusion of Thinking:  Understanding the Strengths and Limitations of Reasoning Models  via the Lens of Problem Complexity (2025)</h1> <div class="paper-meta" data-astro-cid-tvrprqhi> <div class="read-date" data-astro-cid-tvrprqhi>
+読了日: 2025/6/10 </div> </div> </header> <div class="paper-content" data-astro-cid-tvrprqhi> <h2 id="論文ページ">論文ページ</h2>
+<p><a href="https://ml-site.cdn-apple.com/papers/the-illusion-of-thinking.pdf">https://ml-site.cdn-apple.com/papers/the-illusion-of-thinking.pdf</a></p>
+<h2 id="著者">著者</h2>
+<p>Parshin Shojaee, Iman Mirzadeh,  Keivan Alizadeh, Maxwell Horton, Samy Bengio, Mehrdad Farajtabar</p>
+<h2 id="要約">要約</h2>
+<ul>
+<li>リーズニングモデル(LRM)が問題が複雑になるとどのような挙動を示すか
+<ul>
+<li>低複雑度: 標準的なLLMがLRMを上回る</li>
+<li>中複雑度: LRMが優位に立つ</li>
+<li>高複雑度: 両方のモデルが機能しなくなる(Accuracyがほぼゼロ)</li>
+</ul>
+</li>
+<li>LRMは単純な問題には考えすぎるし、複雑な問題は完全に放棄する</li>
+</ul>
+<h2 id="問題の複雑さをどう制御するか">問題の複雑さをどう制御するか</h2>
+<ul>
+<li>4つのパズル
+<ul>
+<li>Tower of Hanoi</li>
+<li>Checker Jumping</li>
+<li>River Crossing</li>
+<li>Blocks World</li>
+</ul>
+</li>
+<li>問題のサイズ<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi></mrow><annotation encoding="application/x-tex">N</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.10903em;">N</span></span></span></span>を変更して制御</li>
+</ul>
+<h2 id="タスクの複雑さによる挙動">タスクの複雑さによる挙動</h2>
+<h3 id="低複雑度">低複雑度</h3>
+<ul>
+<li>リーズニングじゃない方が性能もいいしトークン消費も少ない</li>
+</ul>
+<h3 id="中複雑度">中複雑度</h3>
+<ul>
+<li>LRMが優位に</li>
+</ul>
+<h3 id="高複雑度">高複雑度</h3>
+<ul>
+<li>ある複雑度の閾値を超えると両モデルで正解率がゼロに</li>
+<li>性能の崩壊</li>
+</ul>
+<h2 id="複雑なタスクにおけるlrmの思考放棄">複雑なタスクにおけるLRMの思考放棄</h2>
+<ul>
+<li>問題が複雑になるとより多くのトークンを思考に費やすようになる</li>
+<li>性能が崩壊する臨界点に近づくと、逆に思考に費やすトークンが減少
+<ul>
+<li>まだトークン上限に達しそうになくてもしこうするのをやめちゃう</li>
+<li>LRMの推論能力に根本的な限界</li>
+</ul>
+</li>
+</ul>
+<h2 id="真の推論能力を持っているのか">真の推論能力を持っているのか</h2>
+<ul>
+<li>Tower of Hanoiにおいて、解法となるアルゴリズムをプロンプトで与えても、臨界点(正解率がゼロになる複雑度)がほぼ変化しなかった。</li>
+<li>モデルが論理的なアルゴリズムを忠実に実行するのに限界がある</li>
+</ul>
+<h2 id="パズル間での推論能力の差">パズル間での推論能力の差</h2>
+<ul>
+<li>Tower of Hanoiでは31手必要でも解ける</li>
+<li>River Crossingは11手でも解けない</li>
+<li>学習データにハノイがいっぱいあってそこでみた解法をトレースしてるだけでは？</li>
+</ul>
+<h2 id="感想">感想</h2>
+<ul>
+<li>リーズニングモデルの現在の枠組みでの限界を感じた</li>
+<li>人間の思考が及ばないところまで考えてほしいのに途中で放棄されてしまうと、シンギュラリティ的なものが期待できなくなってしまいそう</li>
+<li>サボり癖まで学習してるとかだったらむしろ面白いかも</li>
+</ul> </div> </article> <div class="actions" data-astro-cid-tvrprqhi> <a href="/" class="btn btn-primary" data-astro-cid-tvrprqhi>一覧に戻る</a> </div> </div>  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      // スムーズスクロール効果
+      const links = document.querySelectorAll('a[href^="#"]');
+      links.forEach((link) => {
+        link.addEventListener("click", (e) => {
+          const href = link.getAttribute("href");
+          if (href && href !== "#") {
+            const target = document.querySelector(href);
+            if (target) {
+              e.preventDefault();
+              target.scrollIntoView({
+                behavior: "smooth",
+                block: "start",
+              });
+            }
+          }
+        });
+      });
+
+      // 読書進捗インジケーター
+      const progressBar = document.createElement("div");
+      progressBar.className = "reading-progress";
+      document.body.appendChild(progressBar);
+
+      function updateProgress() {
+        const scrollTop = window.pageYOffset;
+        const docHeight =
+          document.documentElement.scrollHeight - window.innerHeight;
+        const progress = (scrollTop / docHeight) * 100;
+        progressBar.style.width = progress + "%";
+      }
+
+      window.addEventListener("scroll", updateProgress);
+      updateProgress();
+    });
+  </script>  </div> </main> <footer class="footer" data-astro-cid-sckkx6r4> <div class="container" data-astro-cid-sckkx6r4> <p data-astro-cid-sckkx6r4>&copy; 2025 神林 論文読み履歴</p> </div> </footer> </body></html> 

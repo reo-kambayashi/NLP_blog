@@ -1,0 +1,106 @@
+<!DOCTYPE html><html lang="ja" data-astro-cid-sckkx6r4> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><meta name="generator" content="Astro v5.9.0"><meta name="theme-color" content="#000000"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="論文メモ"><title>Interpretability of Language Models via Task Spaces - 論文メモ</title><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200;300;400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet"><!-- KaTeX CSS --><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous"><!-- Fuse.js for fuzzy search --><script type="module" src="/_astro/Layout.astro_astro_type_script_index_0_lang.ByU1W3Pc.js"></script><link rel="stylesheet" href="/src/styles/responsive-override.css"><link rel="stylesheet" href="/_astro/index.CDIRhWn9.css">
+<link rel="stylesheet" href="/_astro/_slug_.p_gobQro.css"></head> <body data-astro-cid-sckkx6r4> <a href="#main-content" class="skip-link" data-astro-cid-sckkx6r4>メインコンテンツへスキップ</a> <header class="header" data-astro-cid-sckkx6r4> <div class="container" data-astro-cid-sckkx6r4> <h1 data-astro-cid-sckkx6r4><a href="/" data-astro-cid-sckkx6r4>神林 論文読み履歴</a></h1> <nav class="nav" data-astro-cid-sckkx6r4> <a href="/" class="nav-link" data-astro-cid-sckkx6r4>ホーム</a> </nav> </div> </header> <main class="main" id="main-content" data-astro-cid-sckkx6r4> <div class="container" data-astro-cid-sckkx6r4>  <div class="paper-detail" data-astro-cid-tvrprqhi> <!-- パンくずリスト --> <nav class="breadcrumb" data-astro-cid-tvrprqhi> <a href="/" class="breadcrumb-link" data-astro-cid-tvrprqhi>ホーム</a> <span class="breadcrumb-separator" data-astro-cid-tvrprqhi>›</span> <span class="breadcrumb-current" data-astro-cid-tvrprqhi>論文詳細</span> </nav> <div class="navigation" data-astro-cid-tvrprqhi> <a href="/" class="back-link" data-astro-cid-tvrprqhi>← 論文一覧に戻る</a> </div> <article class="paper-article" data-astro-cid-tvrprqhi> <header class="paper-header" data-astro-cid-tvrprqhi> <h1 data-astro-cid-tvrprqhi>Interpretability of Language Models via Task Spaces</h1> <div class="paper-meta" data-astro-cid-tvrprqhi> <div class="read-date" data-astro-cid-tvrprqhi>
+読了日: 2025/6/20 </div> </div> </header> <div class="paper-content" data-astro-cid-tvrprqhi> <h2 id="arxiv">arXiv</h2>
+<p><a href="https://arxiv.org/abs/2406.06441">https://arxiv.org/abs/2406.06441</a></p>
+<h2 id="著者">著者</h2>
+<p><a href="https://arxiv.org/search/cs?searchtype=author&#x26;query=Weber,+L">Lucas Weber</a>, <a href="https://arxiv.org/search/cs?searchtype=author&#x26;query=Jumelet,+J">Jaap Jumelet</a>, <a href="https://arxiv.org/search/cs?searchtype=author&#x26;query=Bruni,+E">Elia Bruni</a>, <a href="https://arxiv.org/search/cs?searchtype=author&#x26;query=Hupkes,+D">Dieuwke Hupkes</a></p>
+<h2 id="要約">要約</h2>
+<ul>
+<li>入出力のベンチマークじゃない方法でモデルの解釈をしたい</li>
+<li>linguistic task spaces (言語タスク空間)の提案
+<ul>
+<li>LMが内部的にどのように言語現象を理解・関連付けているかを空間的に表現したもの</li>
+<li>Transfer-based similarity probing, Gradient-based similarity probingで構築</li>
+<li>各タスクがどの程度似ているかを測定して、タスク間の類似性空間みたいなものをつくる</li>
+</ul>
+</li>
+<li>FTGD (Fine-Tuning via Gradient Difference)
+<ul>
+<li>特定の言語現象のみを選択的にFine Tuningする方法の提案</li>
+<li>文法的例文と非文法的例文のペアから、勾配差分(Gradient Difference)を用いて差が顕著なパラメータのみを抽出してモデルを更新</li>
+</ul>
+</li>
+<li>モデルサイズが大きくなるとより抽象的な言語構造の一般化能力が向上
+<ul>
+<li>関連するタスク間でのパラメータ共有が増加</li>
+</ul>
+</li>
+</ul>
+<h2 id="ftgd">FTGD</h2>
+<ul>
+<li>minimal pairをつかう
+<ul>
+<li>John did not see anything. (文法的)</li>
+<li>John did see anything. (非文法的)</li>
+</ul>
+</li>
+<li>この2つの勾配の差はその言語タスクによる学習のみを取り出したと言える</li>
+<li>さらに勾配差分が大きい部分のみを使うことで効率をよくしつつ情報量を保持</li>
+</ul>
+<h2 id="similarity-probing">Similarity Probing</h2>
+<ul>
+<li>ある言語タスクが他のタスクにどう影響するかを測りたい</li>
+<li>Transfer Probing
+<ul>
+<li>タスクAでFTGDした時のタスクBの性能変化を見る</li>
+</ul>
+</li>
+<li>Gradient Probing
+<ul>
+<li>タスクAとタスクBの勾配のサブスペースを比較</li>
+<li>ざっくりどのぐらいパラメータの共有があるかという感じ</li>
+</ul>
+</li>
+</ul>
+<h2 id="結果">結果</h2>
+<h3 id="ftgdは全勾配のfine-tuningと同じぐらいの精度">FTGDは全勾配のfine-tuningと同じぐらいの精度</h3>
+<ul>
+<li>各タスクの精度は保ったまま、Perplexityの増加を抑制</li>
+<li>目的タスクの改善のみが行えていそう</li>
+</ul>
+<h3 id="タスク空間は語彙ではなく言語構造でクラスタ化">タスク空間は語彙ではなく言語構造でクラスタ化</h3>
+<ul>
+<li>より抽象的な言語概念を共有パラメータとしてる説</li>
+<li>モデル規模が大きいほどより抽象概念を一般化</li>
+</ul>
+<h2 id="感想">感想</h2>
+<ul>
+<li>単純に語彙が似てるからではなく、文法的な現象に着目しているのは興味深い</li>
+<li>言語分野のタスクのみに着目していたので、汎用的なタスク空間みたいなのをつくれたらおもしろそう</li>
+</ul> </div> </article> <div class="actions" data-astro-cid-tvrprqhi> <a href="/" class="btn btn-primary" data-astro-cid-tvrprqhi>一覧に戻る</a> </div> </div>  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      // スムーズスクロール効果
+      const links = document.querySelectorAll('a[href^="#"]');
+      links.forEach((link) => {
+        link.addEventListener("click", (e) => {
+          const href = link.getAttribute("href");
+          if (href && href !== "#") {
+            const target = document.querySelector(href);
+            if (target) {
+              e.preventDefault();
+              target.scrollIntoView({
+                behavior: "smooth",
+                block: "start",
+              });
+            }
+          }
+        });
+      });
+
+      // 読書進捗インジケーター
+      const progressBar = document.createElement("div");
+      progressBar.className = "reading-progress";
+      document.body.appendChild(progressBar);
+
+      function updateProgress() {
+        const scrollTop = window.pageYOffset;
+        const docHeight =
+          document.documentElement.scrollHeight - window.innerHeight;
+        const progress = (scrollTop / docHeight) * 100;
+        progressBar.style.width = progress + "%";
+      }
+
+      window.addEventListener("scroll", updateProgress);
+      updateProgress();
+    });
+  </script>  </div> </main> <footer class="footer" data-astro-cid-sckkx6r4> <div class="container" data-astro-cid-sckkx6r4> <p data-astro-cid-sckkx6r4>&copy; 2025 神林 論文読み履歴</p> </div> </footer> </body></html> 

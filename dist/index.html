@@ -1,116 +1,610 @@
-<!DOCTYPE html><html lang="ja" data-astro-cid-sckkx6r4> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><meta name="generator" content="Astro v5.9.0"><meta name="theme-color" content="#000000"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="論文メモ"><title>論文メモ</title><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200;300;400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous"><link rel="stylesheet" href="/src/styles/responsive-override.css"><link rel="stylesheet" href="/_astro/index.D2cFvYsA.css">
-<link rel="stylesheet" href="/_astro/index.C-6Pom8Z.css"></head> <body data-astro-cid-sckkx6r4> <a href="#main-content" class="skip-link" data-astro-cid-sckkx6r4>メインコンテンツへスキップ</a> <header class="header" data-astro-cid-sckkx6r4> <div class="container" data-astro-cid-sckkx6r4> <h1 data-astro-cid-sckkx6r4><a href="/" data-astro-cid-sckkx6r4>神林 論文読み履歴</a></h1> <nav class="nav" data-astro-cid-sckkx6r4> <a href="/" class="nav-link" data-astro-cid-sckkx6r4>ホーム</a> </nav> </div> </header> <main class="main" id="main-content" data-astro-cid-sckkx6r4> <div class="container" data-astro-cid-sckkx6r4>  <div class="hero" data-astro-cid-j7pv25f6> <h1 data-astro-cid-j7pv25f6>Papers</h1> <p class="subtitle" data-astro-cid-j7pv25f6>3 papers collected</p> <!-- 統計情報 --> <div class="stats" data-astro-cid-j7pv25f6> <div class="stat-item" data-astro-cid-j7pv25f6> <span class="stat-number" data-astro-cid-j7pv25f6>3</span> <span class="stat-label" data-astro-cid-j7pv25f6>今年</span> </div> <div class="stat-item" data-astro-cid-j7pv25f6> <span class="stat-number" data-astro-cid-j7pv25f6>3</span> <span class="stat-label" data-astro-cid-j7pv25f6>今月</span> </div> </div> </div>  <div class="controls" data-astro-cid-j7pv25f6> <div class="search-container" data-astro-cid-j7pv25f6> <input type="text" id="search" placeholder="論文を検索..." class="search-input" data-astro-cid-j7pv25f6> </div> <div class="filter-container" data-astro-cid-j7pv25f6> <select id="yearFilter" class="filter-select" data-astro-cid-j7pv25f6> <option value="" data-astro-cid-j7pv25f6>全ての年</option> </select> </div> </div> <section class="papers-list" data-astro-cid-j7pv25f6> <div class="papers-grid" id="papersGrid" data-astro-cid-j7pv25f6> <div class="paper-card-wrapper" style="--card-index: 0; animation-delay: 0s" data-title="sudden drops in the loss: syntax acquisition, phase transitions, and simplicity bias in mlms (2024)" data-year="2025" data-astro-cid-j7pv25f6> <article class="paper-card" data-astro-cid-dunnixmy> <div class="paper-header" data-astro-cid-dunnixmy> <h2 class="paper-title" data-astro-cid-dunnixmy> <a href="/papers/sudden-drops-in-the-loss-_-syntax-acquisition-phase-transitions-and-simplicity-bias-in-mlms-2024" data-astro-cid-dunnixmy>Sudden Drops in the Loss: Syntax Acquisition, Phase Transitions, and Simplicity Bias in MLMs (2024)</a> </h2> <div class="paper-meta" data-astro-cid-dunnixmy> <span class="read-date" data-astro-cid-dunnixmy>読了: 2025/6/8</span> </div> </div> <div class="paper-footer" data-astro-cid-dunnixmy> <div class="read-more" data-astro-cid-dunnixmy> <a href="/papers/sudden-drops-in-the-loss-_-syntax-acquisition-phase-transitions-and-simplicity-bias-in-mlms-2024" class="read-more-link" data-astro-cid-dunnixmy>
+<!DOCTYPE html><html lang="ja" data-astro-cid-sckkx6r4> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><meta name="generator" content="Astro v5.9.0"><meta name="theme-color" content="#000000"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="論文メモ"><title>論文メモ</title><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200;300;400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet"><!-- KaTeX CSS --><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous"><!-- Fuse.js for fuzzy search --><script type="module" src="/_astro/Layout.astro_astro_type_script_index_0_lang.ByU1W3Pc.js"></script><link rel="stylesheet" href="/src/styles/responsive-override.css"><link rel="stylesheet" href="/_astro/index.CDIRhWn9.css">
+<link rel="stylesheet" href="/_astro/index.C7UJSNTV.css"></head> <body data-astro-cid-sckkx6r4> <a href="#main-content" class="skip-link" data-astro-cid-sckkx6r4>メインコンテンツへスキップ</a> <header class="header" data-astro-cid-sckkx6r4> <div class="container" data-astro-cid-sckkx6r4> <h1 data-astro-cid-sckkx6r4><a href="/" data-astro-cid-sckkx6r4>神林 論文読み履歴</a></h1> <nav class="nav" data-astro-cid-sckkx6r4> <a href="/" class="nav-link" data-astro-cid-sckkx6r4>ホーム</a> </nav> </div> </header> <main class="main" id="main-content" data-astro-cid-sckkx6r4> <div class="container" data-astro-cid-sckkx6r4>  <div class="hero" data-astro-cid-j7pv25f6> <h1 data-astro-cid-j7pv25f6>Papers</h1> <p class="subtitle" data-astro-cid-j7pv25f6>7 papers collected</p> <!-- 統計情報 --> <div class="stats" data-astro-cid-j7pv25f6> <div class="stat-item" data-astro-cid-j7pv25f6> <span class="stat-number" data-astro-cid-j7pv25f6>7</span> <span class="stat-label" data-astro-cid-j7pv25f6>今年</span> </div> <div class="stat-item" data-astro-cid-j7pv25f6> <span class="stat-number" data-astro-cid-j7pv25f6>7</span> <span class="stat-label" data-astro-cid-j7pv25f6>今月</span> </div> </div> </div>  <div class="controls" data-astro-cid-j7pv25f6> <div class="search-container" data-astro-cid-j7pv25f6> <input type="text" id="search" placeholder="論文タイトルや内容を検索..." class="search-input" data-astro-cid-j7pv25f6> <div class="search-suggestion" id="searchSuggestion" data-astro-cid-j7pv25f6>
+タイトル、要約、メモ内容から検索できます
+</div> </div> <div class="filter-container" data-astro-cid-j7pv25f6> <select id="yearFilter" class="filter-select" data-astro-cid-j7pv25f6> <option value="" data-astro-cid-j7pv25f6>全ての年</option> </select> </div> </div>  <div class="search-stats" id="searchStats" style="display: none;" data-astro-cid-j7pv25f6> <span id="searchStatsText" data-astro-cid-j7pv25f6></span> <button class="clear-search" id="clearSearch" style="display: none;" data-astro-cid-j7pv25f6>検索をクリア</button> </div> <section class="papers-list" data-astro-cid-j7pv25f6> <div class="papers-grid" id="papersGrid" data-astro-cid-j7pv25f6> <div class="paper-card-wrapper" style="--card-index: 0; animation-delay: 0s" data-paper-id="Do Music Generation Models Encode Music Theory.md" data-title="do music generation models encode music theory?" data-year="2025" data-content="## arxiv
+https://arxiv.org/abs/2410.00872
+
+## 著者
+[megan wei](https://arxiv.org/search/cs?searchtype=author&#38;query=wei,+m), [michael freeman](https://arxiv.org/search/cs?searchtype=author&#38;query=freeman,+m), [chris donahue](https://arxiv.org/search/cs?searchtype=author&#38;query=donahue,+c), [chen sun](https://arxiv.org/search/cs?searchtype=author&#38;query=sun,+c)
+
+##  ざっくり
+- 音楽生成モデルが音楽理論をエンコードしてるのかを、概念ごと(コード、テンポ、スケールとか)にデータセットを用意して確認しよう
+	- エンコードしている = probe modelが内部表現から音楽理論の概念をデコードできる
+- syntheory
+	- データセット
+	- tempo(テンポ), time signature(拍子), notes(音符？音階？), intervals(インターバル), scales(スケール), chords(コード), chord progressions(コード進行)の7つそれぞれ
+- 結果
+	- 人手の特徴量よりprobe modelのスコアが高い
+	- エンコードできてるっぽい
+
+## models &#38; features
+### jukebox
+- 音楽生成モデル
+- vq-vaeモデルとtransformer decoder で構成
+- 音声波形を離散的なコードに符号化して、decoderがコード化された音声を出力
+### musicgen
+- 音楽生成モデル
+- 事前学習済みの畳み込みオートエンコーダー(encodec)、事前学習済みt5テキストエンコーダー(未使用)、音響トランスフォーマーデコーダーからなる
+- musicgen audio codec
+	- encodec部分
+	- 音声を再構築する役割
+- musicgen decoder lm(s,m,l)
+	- 音響トランスフォーマーデコーダー部分
+
+### features
+- mel spectrogram
+- mfcc
+- constant-q chromagram
+- aggregate hand-crafted (上の三つ合わせたもの)
+
+## probe model
+- 線形と2-layerのmlp(512 hidden, relu)
+- 目的関数
+	- tempo: mse回帰, 指標 $r^2$
+	- others: cross-entropy, 指標 accuracy
+- データは70/15/15でスプリット
+- probeの精度でその層のベクトルにそれだけ音楽的概念が表れているかを測る
+
+## syntheory
+- 完全合成かつ著作権フリー
+- 音楽理論の7概念を1つずつ切り出し、概念の混ざりを解消
+### リズム系
+- tempo
+- time signature
+- クリック音とリバーブ差分
+### 調性系
+- notes
+- intervals
+- scales
+- chords
+- chord progressions
+- すべて4拍子, bpm120、ピッチ関連のみ変化
+
+### 結果
+" data-astro-cid-j7pv25f6> <article class="paper-card" data-astro-cid-dunnixmy> <div class="paper-header" data-astro-cid-dunnixmy> <h2 class="paper-title" data-astro-cid-dunnixmy> <a href="/papers/do-music-generation-models-encode-music-theory" data-astro-cid-dunnixmy>Do Music Generation Models Encode Music Theory?</a> </h2> <div class="paper-meta" data-astro-cid-dunnixmy> <span class="read-date" data-astro-cid-dunnixmy>読了: 2025/6/28</span> </div> </div> <div class="paper-footer" data-astro-cid-dunnixmy> <div class="read-more" data-astro-cid-dunnixmy> <a href="/papers/do-music-generation-models-encode-music-theory" class="read-more-link" data-astro-cid-dunnixmy>
 詳細を見る →
-</a> </div> </div> </article>  </div><div class="paper-card-wrapper" style="--card-index: 1; animation-delay: 0.1s" data-title="the llama 3 herd of models (2024)" data-year="2025" data-astro-cid-j7pv25f6> <article class="paper-card" data-astro-cid-dunnixmy> <div class="paper-header" data-astro-cid-dunnixmy> <h2 class="paper-title" data-astro-cid-dunnixmy> <a href="/papers/the-llama-3-herd-of-models2024" data-astro-cid-dunnixmy>The Llama 3 Herd of Models (2024)</a> </h2> <div class="paper-meta" data-astro-cid-dunnixmy> <span class="read-date" data-astro-cid-dunnixmy>読了: 2025/6/7</span> </div> </div> <div class="paper-footer" data-astro-cid-dunnixmy> <div class="read-more" data-astro-cid-dunnixmy> <a href="/papers/the-llama-3-herd-of-models2024" class="read-more-link" data-astro-cid-dunnixmy>
+</a> </div> </div> </article>  </div><div class="paper-card-wrapper" style="--card-index: 1; animation-delay: 0.1s" data-paper-id="Interpretability of Language Models via Task Spaces.md" data-title="interpretability of language models via task spaces" data-year="2025" data-content="## arxiv
+https://arxiv.org/abs/2406.06441
+
+## 著者
+[lucas weber](https://arxiv.org/search/cs?searchtype=author&#38;query=weber,+l), [jaap jumelet](https://arxiv.org/search/cs?searchtype=author&#38;query=jumelet,+j), [elia bruni](https://arxiv.org/search/cs?searchtype=author&#38;query=bruni,+e), [dieuwke hupkes](https://arxiv.org/search/cs?searchtype=author&#38;query=hupkes,+d)
+
+## 要約
+- 入出力のベンチマークじゃない方法でモデルの解釈をしたい
+- linguistic task spaces (言語タスク空間)の提案
+	- lmが内部的にどのように言語現象を理解・関連付けているかを空間的に表現したもの
+	- transfer-based similarity probing, gradient-based similarity probingで構築
+	- 各タスクがどの程度似ているかを測定して、タスク間の類似性空間みたいなものをつくる
+- ftgd (fine-tuning via gradient difference)
+	- 特定の言語現象のみを選択的にfine tuningする方法の提案
+	- 文法的例文と非文法的例文のペアから、勾配差分(gradient difference)を用いて差が顕著なパラメータのみを抽出してモデルを更新
+- モデルサイズが大きくなるとより抽象的な言語構造の一般化能力が向上
+	- 関連するタスク間でのパラメータ共有が増加
+
+## ftgd
+- minimal pairをつかう
+	- john did not see anything. (文法的)
+	- john did see anything. (非文法的)
+- この2つの勾配の差はその言語タスクによる学習のみを取り出したと言える
+- さらに勾配差分が大きい部分のみを使うことで効率をよくしつつ情報量を保持
+
+## similarity probing
+- ある言語タスクが他のタスクにどう影響するかを測りたい
+- transfer probing
+	- タスクaでftgdした時のタスクbの性能変化を見る
+- gradient probing
+	- タスクaとタスクbの勾配のサブスペースを比較
+	- ざっくりどのぐらいパラメータの共有があるかという感じ
+
+## 結果
+### ftgdは全勾配のfine-tuningと同じぐらいの精度
+- 各タスクの精度は保ったまま、perplexityの増加を抑制
+- 目的タスクの改善のみが行えていそう
+### タスク空間は語彙ではなく言語構造でクラスタ化
+-  より抽象的な言語概念を共有パラメータとしてる説
+- モデル規模が大きいほどより抽象概念を一般化
+
+## 感想
+- 単純に語彙が似てるからではなく、文法的な現象に着目しているのは興味深い
+- 言語分野のタスクのみに着目していたので、汎用的なタスク空間みたいなのをつくれたらおもしろそう" data-astro-cid-j7pv25f6> <article class="paper-card" data-astro-cid-dunnixmy> <div class="paper-header" data-astro-cid-dunnixmy> <h2 class="paper-title" data-astro-cid-dunnixmy> <a href="/papers/interpretability-of-language-models-via-task-spaces" data-astro-cid-dunnixmy>Interpretability of Language Models via Task Spaces</a> </h2> <div class="paper-meta" data-astro-cid-dunnixmy> <span class="read-date" data-astro-cid-dunnixmy>読了: 2025/6/20</span> </div> </div> <div class="paper-footer" data-astro-cid-dunnixmy> <div class="read-more" data-astro-cid-dunnixmy> <a href="/papers/interpretability-of-language-models-via-task-spaces" class="read-more-link" data-astro-cid-dunnixmy>
 詳細を見る →
-</a> </div> </div> </article>  </div><div class="paper-card-wrapper" style="--card-index: 2; animation-delay: 0.2s" data-title="large language models are human-level prompt engineers (2023)" data-year="2025" data-astro-cid-j7pv25f6> <article class="paper-card" data-astro-cid-dunnixmy> <div class="paper-header" data-astro-cid-dunnixmy> <h2 class="paper-title" data-astro-cid-dunnixmy> <a href="/papers/large-language-models-are-human-level-prompt-engineers2023" data-astro-cid-dunnixmy>Large Language Models Are Human-Level Prompt Engineers (2023)</a> </h2> <div class="paper-meta" data-astro-cid-dunnixmy> <span class="read-date" data-astro-cid-dunnixmy>読了: 2025/6/6</span> </div> </div> <div class="paper-footer" data-astro-cid-dunnixmy> <div class="read-more" data-astro-cid-dunnixmy> <a href="/papers/large-language-models-are-human-level-prompt-engineers2023" class="read-more-link" data-astro-cid-dunnixmy>
+</a> </div> </div> </article>  </div><div class="paper-card-wrapper" style="--card-index: 2; animation-delay: 0.2s" data-paper-id="Text-to-LoRA Instant Transformer Adaption.md" data-title="text-to-lora: instant transformer adaption (2025)" data-year="2025" data-content="## arxiv
+https://arxiv.org/abs/2506.06105
+
+## 著者
+[rujikorn charakorn](https://arxiv.org/search/cs?searchtype=author&#38;query=charakorn,+r), [edoardo cetin](https://arxiv.org/search/cs?searchtype=author&#38;query=cetin,+e), [yujin tang](https://arxiv.org/search/cs?searchtype=author&#38;query=tang,+y), [robert tjarko lange](https://arxiv.org/search/cs?searchtype=author&#38;query=lange,+r+t)
+
+## 要約
+- 基盤モデルは汎用的でタスク固有の適応が必要
+	- 従来はデータセットを使ってファインチューニングしていた
+	- 時間とお金がかかるしハイパラ設定に依存
+- text-to-lora(t2l)
+	- 自然言語によるタスクの説明から単一の前向き計算だけでloraアダプタを生成
+- 事前学習済みのloraアダプタでt2lを訓練
+	- 固有アダプタと同等の性能
+	- 全く未知のタスクにもゼロショットで一般化
+- 基盤モデルのタスク適応を民主化する第一歩
+
+## 用語
+### lora
+- 重み分割したやつ
+### hypernetworks
+- 別のニューラルネットワークのパラメータを生成するネットワーク
+$$
+w_l = h_\theta (\phi_l)
+$$
+- $\theta$: hypernetworkのパラメータ
+- $\phi_l$: 生成したい層$l$に関する記述(どの層の重みを生成するかの指示ベクトルてきな)
+- $w_l$: ベースネットの第$l$層の重み
+
+## t2lアーキテクチャ
+$$
+\delta w_{m,l}^{(i)} \;=\; h_{\theta}\!\bigl(\operatorname{concat}\bigl[f(z_{i}),\,e[m],\,e[l]\bigr]\bigr)
+$$
+- $f(z_i)$: タスク記述, $e[m]$: モジュール埋め込み, $e[l]$: 層埋め込み
+
+## ざっくり学習について
+### lora再構成学習
+- 正解loraと同じようなものを生成するようにl1誤差で学習
+- 圧縮できて軽くて速い
+- ゼロショットには弱い
+
+### 下流タスクで直接sft
+- 入力→lora生成→タスク解く→ロス計算→学習
+- 重いけど未知タスクにも強い
+
+## 感想
+- 論文の表を見る限りだと個別タスクごとのloraとほんとに同じ性能がでていてびっくり。未来を感じる。
+- 各ベンチマークの詳細を調べてないからなんとも言えないかも(時間がない)
+- 今度ベンチマークまとめ的な記事を作ってみようかなとも思ったり
+- ゼロショット性能はちょっと弱いらしい
+- accepted at icml 2025←ガチじゃん" data-astro-cid-j7pv25f6> <article class="paper-card" data-astro-cid-dunnixmy> <div class="paper-header" data-astro-cid-dunnixmy> <h2 class="paper-title" data-astro-cid-dunnixmy> <a href="/papers/text-to-lora-instant-transformer-adaption" data-astro-cid-dunnixmy>Text-to-LoRA: Instant Transformer Adaption (2025)</a> </h2> <div class="paper-meta" data-astro-cid-dunnixmy> <span class="read-date" data-astro-cid-dunnixmy>読了: 2025/6/19</span> </div> </div> <div class="paper-footer" data-astro-cid-dunnixmy> <div class="read-more" data-astro-cid-dunnixmy> <a href="/papers/text-to-lora-instant-transformer-adaption" class="read-more-link" data-astro-cid-dunnixmy>
+詳細を見る →
+</a> </div> </div> </article>  </div><div class="paper-card-wrapper" style="--card-index: 3; animation-delay: 0.30000000000000004s" data-paper-id="The Illusion of Thinking_  Understanding the Strengths and Limitations of Reasoning Models  via the Lens of Problem Complexity.md" data-title="the illusion of thinking:  understanding the strengths and limitations of reasoning models  via the lens of problem complexity (2025)" data-year="2025" data-content="## 論文ページ
+https://ml-site.cdn-apple.com/papers/the-illusion-of-thinking.pdf
+
+## 著者
+parshin shojaee, iman mirzadeh,  keivan alizadeh, maxwell horton, samy bengio, mehrdad farajtabar
+
+## 要約
+- リーズニングモデル(lrm)が問題が複雑になるとどのような挙動を示すか
+	- 低複雑度: 標準的なllmがlrmを上回る
+	- 中複雑度: lrmが優位に立つ
+	- 高複雑度: 両方のモデルが機能しなくなる(accuracyがほぼゼロ)
+- lrmは単純な問題には考えすぎるし、複雑な問題は完全に放棄する
+
+## 問題の複雑さをどう制御するか
+- 4つのパズル
+	- tower of hanoi
+	- checker jumping
+	- river crossing
+	- blocks world
+- 問題のサイズ$n$を変更して制御
+
+## タスクの複雑さによる挙動
+### 低複雑度
+- リーズニングじゃない方が性能もいいしトークン消費も少ない
+### 中複雑度
+- lrmが優位に
+### 高複雑度
+- ある複雑度の閾値を超えると両モデルで正解率がゼロに
+- 性能の崩壊
+
+## 複雑なタスクにおけるlrmの思考放棄
+- 問題が複雑になるとより多くのトークンを思考に費やすようになる
+- 性能が崩壊する臨界点に近づくと、逆に思考に費やすトークンが減少
+	- まだトークン上限に達しそうになくてもしこうするのをやめちゃう
+	- lrmの推論能力に根本的な限界
+
+## 真の推論能力を持っているのか
+- tower of hanoiにおいて、解法となるアルゴリズムをプロンプトで与えても、臨界点(正解率がゼロになる複雑度)がほぼ変化しなかった。
+- モデルが論理的なアルゴリズムを忠実に実行するのに限界がある
+
+## パズル間での推論能力の差
+- tower of hanoiでは31手必要でも解ける
+- river crossingは11手でも解けない
+- 学習データにハノイがいっぱいあってそこでみた解法をトレースしてるだけでは？
+
+## 感想
+- リーズニングモデルの現在の枠組みでの限界を感じた
+- 人間の思考が及ばないところまで考えてほしいのに途中で放棄されてしまうと、シンギュラリティ的なものが期待できなくなってしまいそう
+- サボり癖まで学習してるとかだったらむしろ面白いかも" data-astro-cid-j7pv25f6> <article class="paper-card" data-astro-cid-dunnixmy> <div class="paper-header" data-astro-cid-dunnixmy> <h2 class="paper-title" data-astro-cid-dunnixmy> <a href="/papers/the-illusion-of-thinking_--understanding-the-strengths-and-limitations-of-reasoning-models--via-the-lens-of-problem-complexity" data-astro-cid-dunnixmy>The Illusion of Thinking:  Understanding the Strengths and Limitations of Reasoning Models  via the Lens of Problem Complexity (2025)</a> </h2> <div class="paper-meta" data-astro-cid-dunnixmy> <span class="read-date" data-astro-cid-dunnixmy>読了: 2025/6/10</span> </div> </div> <div class="paper-footer" data-astro-cid-dunnixmy> <div class="read-more" data-astro-cid-dunnixmy> <a href="/papers/the-illusion-of-thinking_--understanding-the-strengths-and-limitations-of-reasoning-models--via-the-lens-of-problem-complexity" class="read-more-link" data-astro-cid-dunnixmy>
+詳細を見る →
+</a> </div> </div> </article>  </div><div class="paper-card-wrapper" style="--card-index: 4; animation-delay: 0.4s" data-paper-id="Sudden Drops in the Loss _ Syntax Acquisition, Phase Transitions, and Simplicity Bias in MLMs (2024).md" data-title="sudden drops in the loss: syntax acquisition, phase transitions, and simplicity bias in mlms (2024)" data-year="2025" data-content="## arxiv
+https://arxiv.org/abs/2309.07311
+
+## 著者
+[angelica chen](https://openreview.net/profile?id=~angelica_chen1), [ravid shwartz-ziv](https://openreview.net/profile?id=~ravid_shwartz-ziv2), [kyunghyun cho](https://openreview.net/profile?id=~kyunghyun_cho1), [matthew l leavitt](https://openreview.net/profile?id=~matthew_l_leavitt1), [naomi saphra](https://openreview.net/profile?id=~naomi_saphra1)
+
+## 要約
+- bertとかのmlmの学習過程で、短い期間でsasを獲得する傾向がある
+- sasを獲得すると損失が急激に低下し、言語能力の獲得を促進
+- sasは訓練中に操作可能
+	- 抑制すると複雑な言語能力の出現が妨げられる
+	- 初期段階で一時的に抑制するとモデルの品質向上、収束の加速が見られた
+
+## 用語とか
+### mlm (masked language model)
+- 文章中の一部の単語を隠して、その隠された単語を予測させるタスクを通じて言語を学習するモデル
+- bertなど
+- 文の前後両方の文脈を同時に考慮できる
+### sas(syntactic attention structure)
+- モデルが特定の構文的な依存関係に注目したアテンションヘッドを形成する傾向
+- mlmの学習時に明示的な帰納バイアスなしに自然発生
+- sasの発現を制御→mlmの内部構造の特性と外的な能力の関係を観察
+![sasの概念図](/images/スクリーンショット%202025-06-08%2021.04.25.png)
+
+### uas(unlabeld attatchment score)
+- sasの定量化
+- 言語モデルが構文解析の結果と同じように単語にアテンションを当てられているか
+- 構文解析の結果と比較して予測が成功した割合を計算
+### 相転移
+- 非連続的な過程
+- 知識の発見はスケーリング則に従わず唐突な変化を見せる
+
+## sasを調整する手法
+$$
+l(x) = l_{mlm}(x) + \lambda \sum^{|x|}_{i=1} \sum_{x_{j} \in d(x_i)} \gamma(x_i, x_j)
+$$
+- 構文性スコア$\gamma(x_i, x_j)$を用いた正則化項を$\lambda$でスケーリング
+	- $\lambda < 0$: sasを促進
+	- $\lambda > 0$: sasを抑制
+- $\gamma(x_i, x_j)$: 構文的に関係のある単語$i,j$間の最大アテンションの重み
+
+## sasを初期段階で抑制するとモデル品質が向上する理由
+- 代替戦略の獲得
+	- ざっくりsasじゃない戦略のこと
+	- 長距離の文脈を利用する戦略
+- sasをよりよく学ぶための踏み台的な
+
+## 結論
+### 単純性バイアスとの関係
+- モデルは学習初期でsasのような解釈しやすく単純な回を好む傾向があり
+- これに固執すると長期的な性能向上を妨げる可能性
+### 学習の臨界点
+- フェーズ遷" data-astro-cid-j7pv25f6> <article class="paper-card" data-astro-cid-dunnixmy> <div class="paper-header" data-astro-cid-dunnixmy> <h2 class="paper-title" data-astro-cid-dunnixmy> <a href="/papers/sudden-drops-in-the-loss-_-syntax-acquisition-phase-transitions-and-simplicity-bias-in-mlms-2024" data-astro-cid-dunnixmy>Sudden Drops in the Loss: Syntax Acquisition, Phase Transitions, and Simplicity Bias in MLMs (2024)</a> </h2> <div class="paper-meta" data-astro-cid-dunnixmy> <span class="read-date" data-astro-cid-dunnixmy>読了: 2025/6/8</span> </div> </div> <div class="paper-footer" data-astro-cid-dunnixmy> <div class="read-more" data-astro-cid-dunnixmy> <a href="/papers/sudden-drops-in-the-loss-_-syntax-acquisition-phase-transitions-and-simplicity-bias-in-mlms-2024" class="read-more-link" data-astro-cid-dunnixmy>
+詳細を見る →
+</a> </div> </div> </article>  </div><div class="paper-card-wrapper" style="--card-index: 5; animation-delay: 0.5s" data-paper-id="The Llama 3 Herd of Models(2024).md" data-title="the llama 3 herd of models (2024)" data-year="2025" data-content="## arxiv
+https://arxiv.org/abs/2407.21783
+
+## 要約
+- llama-3に関する研究開発
+- 15.6tトークンで学習された8b,70b,405bのdense transformer
+- 128kトークンのコンテクストウィンドウ
+- **dpo！！！**
+- 4oとかclaude3.5とかに匹敵するレベル
+- llama-2 70bとllama-3 8bが同じぐらいの性能
+
+## 学習方法
+1. 教師なし学習により、大量のテキストコーパスから学習
+2. 現在のモデルでプリファレンスデータ（出力を人手で比較評価したやつ）を作成し、報酬モデリングを実施
+3. 現在のモデル＋報酬モデルsft用のデータを作成し、ベースモデルをチューニング
+4. プリファレンスデータをllmにマッチさせるようにdpoでベストモデルを更新
+
+## 開発における3つの主要要素
+### データ
+- 事前、事後両方の学習でのデータの質と量が向上
+- データミックスは、一般知識50％、数学的推論25％、コード17％、多言語トークン8％
+- 安全性のためのデータフィルタリング
+### スケール
+- llama 2の最大verより約50倍の計算量でモデルを訓練
+### 複雑性の管理
+- 標準のdense transformerのアーキテクチャを採用
+- moeは複雑だから避けて安定性重視
+	- moeってなんですかの人はこちら
+	- https://www.ibm.com/jp-ja/think/topics/mixture-of-experts
+
+## llama 2からの変更点
+### ppo → dpo
+- ここで出てきますねdpo
+### データ量
+- 1.8兆tokens → 15兆tokens
+### モデルアーキテクチャの微変更
+- grouped query attention(gqa)の採用
+	- gqaのgemini解説: https://g.co/gemini/share/5a3c1c47f73d
+	- 推論速度向上
+	- デコード中のキャッシュサイズ削減
+- トークンボキャブラリの拡張
+	- tiktokenトークナイザの100k+非英語言語用の28kトークン
+	- 英語データの圧縮率が3.17文字/token から3.94文字/token に向上
+		- 同じ計算量でいっぱい読める
+	- ropeベースの周波数ハイパラが増加
+		- ropeは位置情報を位置の加算じゃなくて回転するやつ
+		- 500,000に増加(何が嬉しいのかよくわからなかった)
+
+## 感想
+- もうdpoしか頭に入ってこなかった
+- ropeのところの話があんまり理解できなかった
+- やっぱりllamaは安全性にすごい気を使っていそう
+
+## 著者(多すぎ)
+[aaron grattafiori](https://arxiv.org/search/cs?searchtype=author&#38;query=grattafiori,+a), [abhimanyu dubey](https://arxiv.org/search/cs?searchtype=author&#38;query=dubey,+a), [abhinav jauhri](https://arxiv.org/search/cs?searchtype=author&#38;query=jauhri,+a), [abhinav pandey](https://arxiv.org/search/cs?s" data-astro-cid-j7pv25f6> <article class="paper-card" data-astro-cid-dunnixmy> <div class="paper-header" data-astro-cid-dunnixmy> <h2 class="paper-title" data-astro-cid-dunnixmy> <a href="/papers/the-llama-3-herd-of-models2024" data-astro-cid-dunnixmy>The Llama 3 Herd of Models (2024)</a> </h2> <div class="paper-meta" data-astro-cid-dunnixmy> <span class="read-date" data-astro-cid-dunnixmy>読了: 2025/6/7</span> </div> </div> <div class="paper-footer" data-astro-cid-dunnixmy> <div class="read-more" data-astro-cid-dunnixmy> <a href="/papers/the-llama-3-herd-of-models2024" class="read-more-link" data-astro-cid-dunnixmy>
+詳細を見る →
+</a> </div> </div> </article>  </div><div class="paper-card-wrapper" style="--card-index: 6; animation-delay: 0.6000000000000001s" data-paper-id="Large Language Models Are Human-Level Prompt Engineers(2023).md" data-title="large language models are human-level prompt engineers (2023)" data-year="2025" data-content="## 著者
+[yongchao zhou](https://arxiv.org/search/cs?searchtype=author&#38;query=zhou,+y), [andrei ioan muresanu](https://arxiv.org/search/cs?searchtype=author&#38;query=muresanu,+a+i), [ziwen han](https://arxiv.org/search/cs?searchtype=author&#38;query=han,+z), [keiran paster](https://arxiv.org/search/cs?searchtype=author&#38;query=paster,+k), [silviu pitis](https://arxiv.org/search/cs?searchtype=author&#38;query=pitis,+s), [harris chan](https://arxiv.org/search/cs?searchtype=author&#38;query=chan,+h), [jimmy ba](https://arxiv.org/search/cs?searchtype=author&#38;query=ba,+j)
+
+## arxivリンク
+https://arxiv.org/abs/2211.01910
+
+## 要約
+- プロンプトエンジニアリングを自動化する「automatic prompt engineer (ape)」を提案
+-  ざっくり**llmにllmのプロンプトを考えさせる**手法。
+- apeは人間が時間をかけて考えたものと同等かそれ以上の性能を達成
+-  apeのステップ
+	- llmに「こういう入力をしたらこういう出力をする」という例を見せて、指示文の候補をいっぱい作らせる
+	- 候補を試し、その結果をスコアリング
+	- 最も高いスコアの指示を最良のプロンプトとする
+
+## abstract
+- llmは汎用的でいいけど「人間が望むことをさせる」のって難しいよね
+	- →プロンプト大事
+- 幅広いプロンプトを試す必要があるけどどの指示がどのモデルでいいのかわからない
+- llmを自然言語でプログラムが指定されるブラックボックスなコンピュータとみなそう
+### 提案手法(ape)
+ゼロショット学習において24件中24件のinstruction inductionタスクと21件中17件のbig-benchタスクで人間レベルの性能を達成
+
+## apeのアルゴリズム(お気持ちベース)
+### &#34;提案→評価とフィルタリング→選択&#34;のサイクルを自動化
+### 指示候補の提案
+- llmにタスクの入出力例を見せ、タスクの遂行用指示文をいっぱい考えさせる。
+- 順方向生成
+	- 例を先に提示し、最後にこういう指示でしたと続ける
+- 逆方向生成
+	- <ここに指示を挿入>的な感じで穴埋め問題にして、その後に例を提示
+### 評価・フィルタリング
+指示候補を使って、実際に別のllmにタスクを解かせ、その性能をスコア付け
+#### 評価基準
+- **実行精度 (execution accuracy)**: 指示通りにタスクを実行した結果が、想定される正解と一致したかどうかで評価
+- **対数尤度 (log probability)**: どれだけ正解に近い答えを生成できそうかを確率で評価
+#### フィルタリング
+- 少数の訓練データで候補を評価
+- スコアが良かった上位数" data-astro-cid-j7pv25f6> <article class="paper-card" data-astro-cid-dunnixmy> <div class="paper-header" data-astro-cid-dunnixmy> <h2 class="paper-title" data-astro-cid-dunnixmy> <a href="/papers/large-language-models-are-human-level-prompt-engineers2023" data-astro-cid-dunnixmy>Large Language Models Are Human-Level Prompt Engineers (2023)</a> </h2> <div class="paper-meta" data-astro-cid-dunnixmy> <span class="read-date" data-astro-cid-dunnixmy>読了: 2025/6/6</span> </div> </div> <div class="paper-footer" data-astro-cid-dunnixmy> <div class="read-more" data-astro-cid-dunnixmy> <a href="/papers/large-language-models-are-human-level-prompt-engineers2023" class="read-more-link" data-astro-cid-dunnixmy>
 詳細を見る →
 </a> </div> </div> </article>  </div> </div> </section>  <script>
     document.addEventListener("DOMContentLoaded", () => {
-      // 検索機能
-      const searchInput = document.getElementById("search");
-      const yearFilter = document.getElementById("yearFilter");
-      const papersGrid = document.getElementById("papersGrid");
-      const paperCards = document.querySelectorAll(".paper-card-wrapper");
-
-      if (!searchInput || !yearFilter || !papersGrid) return;
-
-      // モバイルでのタッチサポート改善
-      const isMobile = window.innerWidth <= 768;
-
-      if (isMobile) {
-        // モバイルでは検索入力時の遅延を短縮
-        searchInput.setAttribute("autocomplete", "off");
-        searchInput.setAttribute("autocorrect", "off");
-        searchInput.setAttribute("autocapitalize", "off");
-        searchInput.setAttribute("spellcheck", "false");
-
-        // モバイルでの入力体験改善
-        searchInput.addEventListener("focus", () => {
-          searchInput.placeholder = "検索中...";
-          document.body.style.overflow = "hidden";
-        });
-
-        searchInput.addEventListener("blur", () => {
-          searchInput.placeholder = "論文タイトルで検索...";
-          document.body.style.overflow = "auto";
-        });
+      // Fuse.jsが読み込まれるまで待つ
+      function waitForFuse() {
+        if (typeof Fuse === "undefined") {
+          console.log("Waiting for Fuse.js to load...");
+          setTimeout(waitForFuse, 100);
+          return;
+        }
+        initializeSearch();
       }
 
-      // 年フィルターの選択肢を動的に生成
-      const years = [
-        ...new Set(
-          Array.from(paperCards).map((card) => card.getAttribute("data-year"))
-        ),
-      ].sort((a, b) => b - a);
+      function initializeSearch() {
+        // DOM要素の取得
+        const searchInput = document.getElementById("search");
+        const yearFilter = document.getElementById("yearFilter");
+        const papersGrid = document.getElementById("papersGrid");
+        const paperCards = document.querySelectorAll(".paper-card-wrapper");
+        const searchStats = document.getElementById("searchStats");
+        const searchStatsText = document.getElementById("searchStatsText");
+        const clearSearch = document.getElementById("clearSearch");
+        const searchSuggestion = document.getElementById("searchSuggestion");
 
-      years.forEach((year) => {
-        if (year) {
-          const option = document.createElement("option");
-          option.value = year;
-          option.textContent = year + "年";
-          yearFilter.appendChild(option);
+        if (!searchInput || !yearFilter || !papersGrid) {
+          console.error("Required DOM elements not found");
+          return;
         }
-      });
 
-      // デバウンス機能付きフィルター関数
-      let filterTimeout;
-      function filterPapers() {
-        if (filterTimeout) clearTimeout(filterTimeout);
+        console.log("Initializing search with", paperCards.length, "papers");
 
-        const delay = isMobile ? 150 : 50; // モバイルでは少し長めの遅延
+        // モバイル判定
+        const isMobile = window.innerWidth <= 768;
 
-        filterTimeout = setTimeout(() => {
-          const searchTerm = (searchInput.value || "").toLowerCase();
-          const selectedYear = yearFilter.value;
+        // 検索用データの準備
+        const searchablePapers = Array.from(paperCards).map((card, index) => {
+          const title = card.getAttribute("data-title") || "";
+          const content = card.getAttribute("data-content") || "";
+          console.log(
+            `Paper ${index}: title="${title.substring(0, 50)}...", content="${content.substring(0, 100)}..."`
+          );
 
-          paperCards.forEach((card) => {
-            const title = card.getAttribute("data-title") || "";
-            const year = card.getAttribute("data-year") || "";
+          return {
+            index: index,
+            element: card,
+            title: title,
+            year: card.getAttribute("data-year") || "",
+            content: content,
+            id: card.getAttribute("data-paper-id") || "",
+          };
+        });
 
-            const matchesSearch = !searchTerm || title.includes(searchTerm);
-            const matchesYear = !selectedYear || year === selectedYear;
+        // Fuse.js設定
+        const fuseOptions = {
+          keys: [
+            { name: "title", weight: 0.7 },
+            { name: "content", weight: 0.3 },
+          ],
+          threshold: 0.4, // 0.3から0.4に緩和（より多くの結果を許可）
+          distance: 200, // 100から200に増加（より遠い位置のマッチも許可）
+          minMatchCharLength: 1, // 2から1に減少（1文字のマッチも許可）
+          includeScore: true,
+          includeMatches: true,
+          ignoreLocation: true, // falseからtrueに変更（位置を無視）
+        };
 
-            const cardElement = card;
-            if (matchesSearch && matchesYear) {
-              cardElement.style.display = "block";
-              cardElement.style.animation = "fadeInUp 0.3s ease forwards";
-            } else {
-              cardElement.style.display = "none";
+        console.log("Creating Fuse instance with options:", fuseOptions);
+        const fuse = new Fuse(searchablePapers, fuseOptions);
+        console.log("Fuse instance created successfully");
+
+        // 年フィルターの選択肢を動的に生成
+        const years = [
+          ...new Set(searchablePapers.map((paper) => paper.year)),
+        ].sort((a, b) => b - a);
+        years.forEach((year) => {
+          if (year) {
+            const option = document.createElement("option");
+            option.value = year;
+            option.textContent = year + "年";
+            yearFilter.appendChild(option);
+          }
+        });
+
+        // モバイル対応
+        if (isMobile) {
+          searchInput.setAttribute("autocomplete", "off");
+          searchInput.setAttribute("autocorrect", "off");
+          searchInput.setAttribute("autocapitalize", "off");
+          searchInput.setAttribute("spellcheck", "false");
+
+          searchInput.addEventListener("focus", () => {
+            searchSuggestion.style.display = "none";
+            setTimeout(() => {
+              searchInput.scrollIntoView({
+                behavior: "smooth",
+                block: "center",
+              });
+            }, 300);
+          });
+
+          searchInput.addEventListener("blur", () => {
+            if (!searchInput.value) {
+              searchSuggestion.style.display = "block";
             }
           });
-        }, delay);
-      }
+        }
 
-      searchInput.addEventListener("input", filterPapers);
-      yearFilter.addEventListener("change", filterPapers);
+        // 検索とフィルタリング機能
+        let searchTimeout;
+        function performSearch() {
+          if (searchTimeout) clearTimeout(searchTimeout);
 
-      // ページロード時のアニメーション
-      paperCards.forEach((card, index) => {
-        setTimeout(
-          () => {
-            card.classList.add("animate-in");
-          },
-          index * (isMobile ? 50 : 100)
-        ); // モバイルでは少し速く
-      });
+          const delay = isMobile ? 150 : 50;
 
-      // カード要素にスタガーアニメーション遅延を適用
-      paperCards.forEach((card, index) => {
-        card.style.animationDelay = `${index * (isMobile ? 0.03 : 0.05)}s`;
-      });
+          searchTimeout = setTimeout(() => {
+            const query = searchInput.value.trim();
+            const selectedYear = yearFilter.value;
 
-      // モバイルでのスクロール改善
-      if (isMobile) {
-        // 検索フィールドがフォーカスされた時のスクロール調整
-        searchInput.addEventListener("focus", () => {
-          setTimeout(() => {
-            searchInput.scrollIntoView({
-              behavior: "smooth",
-              block: "center",
+            console.log("Performing search:", { query, selectedYear });
+
+            let filteredPapers = searchablePapers;
+
+            // Fuse.js検索
+            if (query) {
+              try {
+                const searchResults = fuse.search(query);
+                console.log(
+                  "Search results:",
+                  searchResults.length,
+                  "matches found"
+                );
+                filteredPapers = searchResults.map((result) => result.item);
+              } catch (error) {
+                console.error("Search error:", error);
+                // フォールバック：シンプルな文字列検索（大文字小文字を区別しない）
+                const lowerQuery = query.toLowerCase();
+                filteredPapers = searchablePapers.filter(
+                  (paper) =>
+                    paper.title.toLowerCase().includes(lowerQuery) ||
+                    paper.content.toLowerCase().includes(lowerQuery)
+                );
+                console.log(
+                  "Fallback search found:",
+                  filteredPapers.length,
+                  "matches"
+                );
+              }
+            }
+
+            // 年フィルタリング
+            if (selectedYear) {
+              filteredPapers = filteredPapers.filter(
+                (paper) => paper.year === selectedYear
+              );
+            }
+
+            console.log("Final filtered results:", filteredPapers.length);
+
+            // 結果の表示・非表示
+            const visibleIndices = new Set(
+              filteredPapers.map((paper) => paper.index)
+            );
+
+            paperCards.forEach((card, index) => {
+              if (visibleIndices.has(index)) {
+                card.style.display = "block";
+                card.style.animation = "fadeInUp 0.3s ease forwards";
+              } else {
+                card.style.display = "none";
+              }
             });
-          }, 300); // キーボードが表示されるまで少し待つ
+
+            // 検索統計の更新
+            updateSearchStats(
+              query,
+              selectedYear,
+              searchablePapers.length,
+              filteredPapers.length
+            );
+
+            // 検索候補の非表示
+            if (query) {
+              searchSuggestion.style.display = "none";
+            } else if (!isMobile || document.activeElement !== searchInput) {
+              searchSuggestion.style.display = "block";
+            }
+          }, delay);
+        }
+
+        // 検索統計の更新
+        function updateSearchStats(query, year, total, filtered) {
+          if (query || year) {
+            searchStats.style.display = "block";
+            clearSearch.style.display = "inline-block";
+
+            let statsText = `${filtered}件 / ${total}件を表示`;
+            if (query && year) {
+              statsText = `"${query}" かつ ${year}年の論文: ${filtered}件`;
+            } else if (query) {
+              statsText = `"${query}" の検索結果: ${filtered}件`;
+            } else if (year) {
+              statsText = `${year}年の論文: ${filtered}件`;
+            }
+
+            searchStatsText.textContent = statsText;
+          } else {
+            searchStats.style.display = "none";
+            clearSearch.style.display = "none";
+          }
+        }
+
+        // 検索クリア機能
+        function clearSearchAndFilters() {
+          searchInput.value = "";
+          yearFilter.value = "";
+          searchStats.style.display = "none";
+          clearSearch.style.display = "none";
+          searchSuggestion.style.display = "block";
+
+          paperCards.forEach((card) => {
+            card.style.display = "block";
+            card.style.animation = "fadeInUp 0.3s ease forwards";
+          });
+        }
+
+        // イベントリスナー
+        searchInput.addEventListener("input", performSearch);
+        yearFilter.addEventListener("change", performSearch);
+        clearSearch.addEventListener("click", clearSearchAndFilters);
+
+        // ページロード時のアニメーション
+        paperCards.forEach((card, index) => {
+          setTimeout(
+            () => {
+              card.classList.add("animate-in");
+            },
+            index * (isMobile ? 50 : 100)
+          );
+
+          card.style.animationDelay = `${index * (isMobile ? 0.03 : 0.05)}s`;
         });
+
+        console.log("Search initialization complete");
       }
+
+      // Fuse.jsの読み込みを待つ
+      waitForFuse();
     });
   </script>  </div> </main> <footer class="footer" data-astro-cid-sckkx6r4> <div class="container" data-astro-cid-sckkx6r4> <p data-astro-cid-sckkx6r4>&copy; 2025 神林 論文読み履歴</p> </div> </footer> </body></html> 

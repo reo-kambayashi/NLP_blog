@@ -1,0 +1,154 @@
+<!DOCTYPE html><html lang="ja" data-astro-cid-sckkx6r4> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><meta name="generator" content="Astro v5.9.0"><meta name="theme-color" content="#000000"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="論文メモ"><title>Do Music Generation Models Encode Music Theory? - 論文メモ</title><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200;300;400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet"><!-- KaTeX CSS --><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous"><!-- Fuse.js for fuzzy search --><script type="module" src="/_astro/Layout.astro_astro_type_script_index_0_lang.ByU1W3Pc.js"></script><link rel="stylesheet" href="/src/styles/responsive-override.css"><link rel="stylesheet" href="/_astro/index.CDIRhWn9.css">
+<link rel="stylesheet" href="/_astro/_slug_.p_gobQro.css"></head> <body data-astro-cid-sckkx6r4> <a href="#main-content" class="skip-link" data-astro-cid-sckkx6r4>メインコンテンツへスキップ</a> <header class="header" data-astro-cid-sckkx6r4> <div class="container" data-astro-cid-sckkx6r4> <h1 data-astro-cid-sckkx6r4><a href="/" data-astro-cid-sckkx6r4>神林 論文読み履歴</a></h1> <nav class="nav" data-astro-cid-sckkx6r4> <a href="/" class="nav-link" data-astro-cid-sckkx6r4>ホーム</a> </nav> </div> </header> <main class="main" id="main-content" data-astro-cid-sckkx6r4> <div class="container" data-astro-cid-sckkx6r4>  <div class="paper-detail" data-astro-cid-tvrprqhi> <!-- パンくずリスト --> <nav class="breadcrumb" data-astro-cid-tvrprqhi> <a href="/" class="breadcrumb-link" data-astro-cid-tvrprqhi>ホーム</a> <span class="breadcrumb-separator" data-astro-cid-tvrprqhi>›</span> <span class="breadcrumb-current" data-astro-cid-tvrprqhi>論文詳細</span> </nav> <div class="navigation" data-astro-cid-tvrprqhi> <a href="/" class="back-link" data-astro-cid-tvrprqhi>← 論文一覧に戻る</a> </div> <article class="paper-article" data-astro-cid-tvrprqhi> <header class="paper-header" data-astro-cid-tvrprqhi> <h1 data-astro-cid-tvrprqhi>Do Music Generation Models Encode Music Theory?</h1> <div class="paper-meta" data-astro-cid-tvrprqhi> <div class="read-date" data-astro-cid-tvrprqhi>
+読了日: 2025/6/28 </div> </div> </header> <div class="paper-content" data-astro-cid-tvrprqhi> <h2 id="arxiv">arXiv</h2>
+<p><a href="https://arxiv.org/abs/2410.00872">https://arxiv.org/abs/2410.00872</a></p>
+<h2 id="著者">著者</h2>
+<p><a href="https://arxiv.org/search/cs?searchtype=author&#x26;query=Wei,+M">Megan Wei</a>, <a href="https://arxiv.org/search/cs?searchtype=author&#x26;query=Freeman,+M">Michael Freeman</a>, <a href="https://arxiv.org/search/cs?searchtype=author&#x26;query=Donahue,+C">Chris Donahue</a>, <a href="https://arxiv.org/search/cs?searchtype=author&#x26;query=Sun,+C">Chen Sun</a></p>
+<h2 id="ざっくり">ざっくり</h2>
+<ul>
+<li>音楽生成モデルが音楽理論をエンコードしてるのかを、概念ごと(コード、テンポ、スケールとか)にデータセットを用意して確認しよう
+<ul>
+<li>エンコードしている = probe modelが内部表現から音楽理論の概念をデコードできる</li>
+</ul>
+</li>
+<li>SynTheory
+<ul>
+<li>データセット</li>
+<li>Tempo(テンポ), Time Signature(拍子), Notes(音符？音階？), Intervals(インターバル), Scales(スケール), Chords(コード), Chord Progressions(コード進行)の7つそれぞれ</li>
+</ul>
+</li>
+<li>結果
+<ul>
+<li>人手の特徴量よりprobe modelのスコアが高い</li>
+<li>エンコードできてるっぽい</li>
+</ul>
+</li>
+</ul>
+<h2 id="models--features">models &#x26; features</h2>
+<h3 id="jukebox">Jukebox</h3>
+<ul>
+<li>音楽生成モデル</li>
+<li>VQ-VAEモデルとTransformer decoder で構成</li>
+<li>音声波形を離散的なコードに符号化して、decoderがコード化された音声を出力</li>
+</ul>
+<h3 id="musicgen">MusicGen</h3>
+<ul>
+<li>音楽生成モデル</li>
+<li>事前学習済みの畳み込みオートエンコーダー(EnCodec)、事前学習済みT5テキストエンコーダー(未使用)、音響トランスフォーマーデコーダーからなる</li>
+<li>MusicGen Audio Codec
+<ul>
+<li>EnCodec部分</li>
+<li>音声を再構築する役割</li>
+</ul>
+</li>
+<li>MusicGen Decoder LM(S,M,L)
+<ul>
+<li>音響トランスフォーマーデコーダー部分</li>
+</ul>
+</li>
+</ul>
+<h3 id="features">Features</h3>
+<ul>
+<li>Mel Spectrogram</li>
+<li>MFCC</li>
+<li>Constant-Q Chromagram</li>
+<li>Aggregate Hand-crafted (上の三つ合わせたもの)</li>
+</ul>
+<h2 id="probe-model">probe model</h2>
+<ul>
+<li>線形と2-layerのMLP(512 hidden, ReLU)</li>
+<li>目的関数
+<ul>
+<li>Tempo: MSE回帰, 指標 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>R</mi><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">R^2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.00773em;">R</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span></span></li>
+<li>Others: Cross-Entropy, 指標 Accuracy</li>
+</ul>
+</li>
+<li>データは70/15/15でスプリット</li>
+<li>probeの精度でその層のベクトルにそれだけ音楽的概念が表れているかを測る</li>
+</ul>
+<h2 id="syntheory">SynTheory</h2>
+<ul>
+<li>完全合成かつ著作権フリー</li>
+<li>音楽理論の7概念を1つずつ切り出し、概念の混ざりを解消</li>
+</ul>
+<h3 id="リズム系">リズム系</h3>
+<ul>
+<li>Tempo</li>
+<li>Time Signature</li>
+<li>クリック音とリバーブ差分</li>
+</ul>
+<h3 id="調性系">調性系</h3>
+<ul>
+<li>Notes</li>
+<li>Intervals</li>
+<li>Scales</li>
+<li>Chords</li>
+<li>Chord Progressions</li>
+<li>すべて4拍子, BPM120、ピッチ関連のみ変化</li>
+</ul>
+<h3 id="結果">結果</h3>
+<p><img src="https://i.gyazo.com/6af93cb5155e7a6bc3778cd320236c75.png" alt="img|500"></p>
+<ul>
+<li>y軸は各概念の評価の平均</li>
+</ul>
+<p><img src="https://i.gyazo.com/6b949f9a565d799c684344cf30a4b78d.png" alt="img"></p>
+<ul>
+<li>各モデル/特徴量の概念ごとのprobe結果(最高スコアの1層を採用)</li>
+<li>Jukebox LMが一番いい
+<ul>
+<li>上のグラフだと最後下がっているのが気になるところ</li>
+</ul>
+</li>
+<li>MusicGenはなぜかサイズが小さい方がAverageが高い
+<ul>
+<li>詳細分析はなかった</li>
+</ul>
+</li>
+</ul>
+<h2 id="結論">結論</h2>
+<ul>
+<li>モデルは音楽理論をエンコードしてるっぽい</li>
+<li>特徴量よりもいい感じにエンコードしてるっぽい</li>
+</ul>
+<h2 id="感想">感想</h2>
+<ul>
+<li>論文に音楽の用語が出てくるだけで興奮できる</li>
+<li>probing scoreの最高スコアの層を採用しているのが、最終的な出力と関係ない感じがして疑問</li>
+<li>音楽関連のベンチマークとかモデルとかにも詳しくなっていきたい</li>
+</ul> </div> </article> <div class="actions" data-astro-cid-tvrprqhi> <a href="/" class="btn btn-primary" data-astro-cid-tvrprqhi>一覧に戻る</a> </div> </div>  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      // スムーズスクロール効果
+      const links = document.querySelectorAll('a[href^="#"]');
+      links.forEach((link) => {
+        link.addEventListener("click", (e) => {
+          const href = link.getAttribute("href");
+          if (href && href !== "#") {
+            const target = document.querySelector(href);
+            if (target) {
+              e.preventDefault();
+              target.scrollIntoView({
+                behavior: "smooth",
+                block: "start",
+              });
+            }
+          }
+        });
+      });
+
+      // 読書進捗インジケーター
+      const progressBar = document.createElement("div");
+      progressBar.className = "reading-progress";
+      document.body.appendChild(progressBar);
+
+      function updateProgress() {
+        const scrollTop = window.pageYOffset;
+        const docHeight =
+          document.documentElement.scrollHeight - window.innerHeight;
+        const progress = (scrollTop / docHeight) * 100;
+        progressBar.style.width = progress + "%";
+      }
+
+      window.addEventListener("scroll", updateProgress);
+      updateProgress();
+    });
+  </script>  </div> </main> <footer class="footer" data-astro-cid-sckkx6r4> <div class="container" data-astro-cid-sckkx6r4> <p data-astro-cid-sckkx6r4>&copy; 2025 神林 論文読み履歴</p> </div> </footer> </body></html> 
